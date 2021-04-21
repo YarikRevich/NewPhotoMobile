@@ -1,63 +1,79 @@
+//External libraries ...
+
 import React, { useEffect, useState } from "react"
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native"
-import { NavigationContainerRef, DrawerActions } from "@react-navigation/native";
+import messagePublisher from "messagepublisher"
 
-const Header = (props: { navigator: React.RefObject<NavigationContainerRef>, ready: boolean }) => {
+//Types ...
 
-    const [openMenu, setOpenMenu] = useState(false);
+import { HeaderType } from "../../types/components/Header"
 
-    useEffect(() => {
-        if (props.ready) {
-            if (openMenu) {
-                props.navigator.current?.dispatch(DrawerActions.openDrawer)
-            } else {
-                props.navigator.current?.dispatch(DrawerActions.closeDrawer)
+//Styles ...
+
+import HeaderStyles from "./../../constants/Header"
+import { ForceUpdater } from "../../Helpers/utils";
+
+const Header = (props: HeaderType) => {
+    const _FORCE_UPDATE = ForceUpdater();
+
+    useEffect((): any => {
+        let mounted = true
+        setTimeout(() => {
+            messagePublisher.cleanUp()
+            if (mounted) {
+                _FORCE_UPDATE()
             }
-        }
+        }, 2000)
+        return () => mounted = false
     })
 
+    const handleMenuButton = () => {
+        props.navigation.toggleDrawer()
+    }
+
+    const messages = messagePublisher.get()
+
+    if (!props.authentification.isAuthed) {
+        return (
+            <View >
+                <View style={messages.length != 0 ? HeaderStyles.message : null}>
+                    {messages.map(el => {
+                        return (
+                            <View style={HeaderStyles.messageContainer}>
+                                <Text style={HeaderStyles.messageText}>{messages}</Text>
+                            </View>
+                        )
+                    })}
+                </View>
+                <View style={HeaderStyles.header}>
+                    <View style={HeaderStyles.titleContainer}>
+                        <Text style={HeaderStyles.title}>{props.title}</Text>
+                    </View>
+                </View>
+            </View>
+        )
+    }
     return (
         <View >
-            <View style={styles.header}>
-                <TouchableOpacity onPress={() => openMenu ? setOpenMenu(false) : setOpenMenu(true)}>
-                    <Image style={styles.menuImage} source={{ uri: "https://img.icons8.com/android/50/000000/menu.png" }} />
+            <View style={messages.length != 0 ? HeaderStyles.message : null}>
+                {messages.map(el => {
+                    return (
+                        <View style={HeaderStyles.messageContainer}>
+                            <Text style={HeaderStyles.messageText}>{messages}</Text>
+                        </View>
+                    )
+                })}
+            </View>
+            <View style={HeaderStyles.header}>
+                <TouchableOpacity onPress={handleMenuButton}>
+                    <Image style={HeaderStyles.menuImage} source={{ uri: "https://img.icons8.com/android/50/000000/menu.png" }} />
                 </TouchableOpacity>
-                <Text style={styles.title}>NewPhotoMobile</Text>
+                <View style={HeaderStyles.titleContainer}>
+                    <Text style={HeaderStyles.title}>{props.title}</Text>
+                </View>
             </View>
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    header: {
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "space-around",
-        height: 80,
-        width: "100%",
-        backgroundColor: "aliceblue",
-    },
-    title: {
-        fontSize: 21,
-        fontWeight: "bold",
-        padding: 40,
-        marginTop: 15,
-    },
-    menuImage: {
-        width: 20,
-        height: 20,
-        marginTop: 20,
-    },
-    navBar: {
-        width: "50%",
-        height: "93%",
-        backgroundColor: "black",
-        zIndex: 2000,
-    },
-    hooks: {
-        color: "white",
-    }
-})
 
 export default Header

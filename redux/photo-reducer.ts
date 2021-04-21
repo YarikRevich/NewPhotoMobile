@@ -1,13 +1,13 @@
-/// <reference path="./../types/photo-reducer.d.ts" path="./../types/state.d.ts" />
-
-import {IPhotoAction} from "./../types/photo-reducer"
-import {PhotoPage, serviceI} from "./../types/state"
+import { IPhotoAction } from "../types/reducers/photo-reducer"
+import { PhotoPage, serviceI } from "../types/state/state"
 
 const initialState: PhotoPage = {
     result: [],
     service: {} as serviceI
 }
 
-const photoReducer = (state = initialState, action: IPhotoAction) => {}
+const photoReducer = (state = initialState, action: IPhotoAction) => { 
+    return state
+}
 
 export default photoReducer

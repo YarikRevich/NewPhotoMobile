@@ -1,9 +1,21 @@
 import React from "react"
-import {Text} from "react-native"
+import { Text, View, FlatList } from "react-native"
 
 const Photos = () => {
-    console.log("i am here")
-    return <Text style={{position: "absolute", fontSize: 100}}>HomePage</Text>
+
+    const list = [
+        { name: "yarik" },
+        { name: "yana" }
+    ]
+
+    return (
+        <View>
+            <FlatList
+                data={list}
+                renderItem={(props) => { return <Text>{props.item.name}</Text> }}
+            />
+        </View>
+    )
 }
 
 export default Photos
