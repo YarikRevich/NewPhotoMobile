@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 
 //Reducer ...
 
-import { createRetrieveToken, createCheckAuth } from "./../redux/auth-reducer"
+import {createCheckAuth } from "./../redux/auth-reducer"
 
 
 //Types ...
@@ -29,9 +29,9 @@ const mapDispatchToProps = (dispatch: Dispatch<IHeaderAction | IAuthAction | any
         checkAuth: (updater: Function) => {
             dispatch(createCheckAuth(updater))
         },
-        retrieveToken: (updater: Function) => {
-            dispatch(createRetrieveToken(updater))
-        }
+        // retrieveToken: (updater: Function) => {
+        //     dispatch(createRetrieveToken(updater))
+        // }
     })
 }
 

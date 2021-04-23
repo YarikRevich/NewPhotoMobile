@@ -4,6 +4,7 @@ import thunk from "redux-thunk"
 import photoPage from "./photo-reducer"
 import header from "./header-reducer"
 import authReducer from "./auth-reducer"
+import accountReducer from "./account-reducer"
 
 const reducers = combineReducers<Reducer>({
     authentification: authReducer,
@@ -11,7 +12,7 @@ const reducers = combineReducers<Reducer>({
     photosPage: photoPage,
     albumsPage: {},
     albumPage: {},
-    accountPage: {},
+    accountPage: accountReducer,
     aboutPage: {},
 })
 

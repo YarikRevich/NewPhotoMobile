@@ -23,11 +23,19 @@ export declare interface PhotoPage{
         thumbnail: string
         tags: string[]
     }[];
-    service: serviceI;
+}
+
+export declare interface AccountPage{
+    result: {
+        firstname: string;
+        secondname: string;
+        storage: number;
+    }
 }
 
 export declare interface State{
     authentification: Authentification;
     photoPage: PhotoPage;
+    accountPage: AccountPage;
     header: Header;
 }

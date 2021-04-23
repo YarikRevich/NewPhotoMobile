@@ -1,0 +1,1 @@
+export const ERROR_NOT_200 = "ERROR-NOT-200"

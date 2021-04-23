@@ -1,7 +1,7 @@
 import { IAuthAction, RETRIEVE_TOKEN, SIGN_IN_SUCCESS, SIGN_IN_ERROR, SIGN_OUT_SUCCESS, SIGN_OUT_ERROR, CHECK_AUTH_SUCCESS, CHECK_AUTH_ERROR } from "./../types/reducers/auth-reducer"
 
+import { setAccountInfo } from "./../Helpers/storage"
 import { checkAuth, retrieveToken, signIn, signOut } from "./../Helpers/auth"
-import { setToken, getToken } from "./../Helpers/storage"
 import { Dispatch } from "react"
 import messagePublusher from "messagepublisher"
 
@@ -25,42 +25,36 @@ const authReducer = (state = initialState, action: IAuthAction) => {
                 if (action.updater) {
                     action.updater(true)
                 }
-            }, 500)
+            }, 5)
             return ({ ...state, isAuthed: true })
         case CHECK_AUTH_ERROR:
             setTimeout(() => {
                 if (action.updater) {
                     action.updater(true)
                 }
-            }, 500)
+            }, 5)
+            messagePublusher.add("Something went wrong!")
             return ({ ...state, isAuthed: false })
-            break
         case SIGN_IN_SUCCESS:
-            state.isAuthed = true
             messagePublusher.add("You logged in!")
-            // state.signIn.message = "You logged in!"
             if (action.updater) {
                 action.updater(true)
             }
-            break
+            return { ...state, isAuthed: true }
         case SIGN_IN_ERROR:
             messagePublusher.add("Something went wrong!")
-            // state.signIn.message = "Something went wrong!"
             if (action.updater) {
                 action.updater(true)
             }
-            break
+            return { ...state }
         case SIGN_OUT_SUCCESS:
-            state.isAuthed = false
             messagePublusher.add("Success!")
-            // state.signOut.message = "Success!"
             if (action.updater) {
                 action.updater(true)
             }
-            break
+            return { ...state, isAuthed: false }
         case SIGN_OUT_ERROR:
             messagePublusher.add("Error happened!")
-            // state.signOut.message = "Error happened!"
             if (action.updater) {
                 action.updater(true)
             }
@@ -69,22 +63,16 @@ const authReducer = (state = initialState, action: IAuthAction) => {
     return state
 }
 
-export const createRetrieveToken = (updater: Function) => {
-    return ({ type: RETRIEVE_TOKEN, updater: updater })
-}
-
 // Check auth creators ...
 
 export const createCheckAuth = (updater: Function) => (dispatch: Dispatch<any>) => {
     return checkAuth()
         .then(ok => {
-            console.log(ok)
             if (ok) {
                 dispatch(checkAuthSuccess(updater))
             } else {
                 dispatch(checkAuthError(updater))
             }
-
         })
 }
 
@@ -123,7 +111,10 @@ export const createSignOut = (updater: Function) => (dispatch: Dispatch<any>) =>
     return signOut()
         .then(ok => {
             if (ok) {
-                dispatch(signOutSuccess(updater))
+                setAccountInfo("")
+                    .then(() => {
+                        dispatch(signOutSuccess(updater))
+                    })
             } else {
                 dispatch(signOutError(updater))
             }

@@ -10,5 +10,3 @@ export declare interface signInI{
     login: string;
     password: string;
 }
-
-export const ERROR_NOT_200 = "ERROR-NOT-200"

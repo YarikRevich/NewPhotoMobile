@@ -1,8 +1,9 @@
 export declare interface IAuthAction{
     type: string;
-    updater?: Function
+    message?: string;
+    updater?: Function;
     token?: string;
-    d?: any
+    d?: any;
 }
 
 export const RETRIEVE_TOKEN = "RETRIEVE-TOKEN"

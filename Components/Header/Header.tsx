@@ -1,7 +1,7 @@
 //External libraries ...
 
 import React, { useEffect, useState } from "react"
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native"
+import { FlatList, Text, View, Image, TouchableOpacity } from "react-native"
 import messagePublisher from "messagepublisher"
 
 //Types ...
@@ -31,19 +31,23 @@ const Header = (props: HeaderType) => {
         props.navigation.toggleDrawer()
     }
 
-    const messages = messagePublisher.get()
+    const messages = messagePublisher.get();
+
+    const getMessages = (): Array<JSX.Element> => {
+        let r = Array<JSX.Element>();
+        messages.map((el, n) => {
+            r.push(<Text key={n} style={HeaderStyles.messageText}>{el}</Text>);
+        })
+        return r
+    }
 
     if (!props.authentification.isAuthed) {
         return (
             <View >
                 <View style={messages.length != 0 ? HeaderStyles.message : null}>
-                    {messages.map(el => {
-                        return (
-                            <View style={HeaderStyles.messageContainer}>
-                                <Text style={HeaderStyles.messageText}>{messages}</Text>
-                            </View>
-                        )
-                    })}
+                    <View style={HeaderStyles.messageContainer}>
+                        {getMessages()}
+                    </View>
                 </View>
                 <View style={HeaderStyles.header}>
                     <View style={HeaderStyles.titleContainer}>
@@ -56,13 +60,9 @@ const Header = (props: HeaderType) => {
     return (
         <View >
             <View style={messages.length != 0 ? HeaderStyles.message : null}>
-                {messages.map(el => {
-                    return (
-                        <View style={HeaderStyles.messageContainer}>
-                            <Text style={HeaderStyles.messageText}>{messages}</Text>
-                        </View>
-                    )
-                })}
+                <View style={HeaderStyles.messageContainer}>
+                    {getMessages()}
+                </View>
             </View>
             <View style={HeaderStyles.header}>
                 <TouchableOpacity onPress={handleMenuButton}>

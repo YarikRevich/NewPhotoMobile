@@ -1,13 +1,9 @@
 import AsyncStorage from "@react-native-community/async-storage"
 
-export const setToken = async(token: string) => {
-    //Sets wanted token for future auth check ...
-
-    return await AsyncStorage.setItem("token", token)
+export const getAccountInfo = (): Promise<string | null> => {
+    return AsyncStorage.getItem("account_info")
 }
 
-export const getToken = async(): Promise<string | null> => {
-    //Get wanted token for auth check ...
-
-    return await AsyncStorage.getItem("token")
+export const setAccountInfo = (i: string): Promise<void> => {
+    return AsyncStorage.setItem("account_info", i)
 }

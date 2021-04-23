@@ -1,7 +1,11 @@
 export declare interface IPhotoAction{
     type: string
+    updater?: Function
+    data?: Function
 }
 
 
-declare const  GET_PHOTOS: string;
+export const GET_PHOTOS_SUCCESS = "GET-PHOTOS-SUCCESS";
+export const GET_PHOTOS_ERROR = "GET-PHOTOS-ERROR"
+
 declare const  DELETE_PHOTOS: string;

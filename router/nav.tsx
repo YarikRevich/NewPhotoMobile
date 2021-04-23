@@ -58,21 +58,24 @@ const DrawerContent = (props: { dContainer: DrawerContentComponentProps<DrawerCo
 
 const AppDrawer = (props: AppDrawerType) => {
     const [redirected, setRedirected] = useState(false);
-    const [authChecked, setAuthChecked] = useState(true);
+    const [authChecked, setAuthChecked] = useState(false);
     const _FORCE_UPDATE_ONCE = ForceUpdaterOnce();
+    
+    let checkerIsRun = false
 
-    setInterval(() => {
-        props.authentification.isAuthed && authChecked ? _FORCE_UPDATE_ONCE(true) : _FORCE_UPDATE_ONCE(false)
-    }, 200)
-
-    //onReady={() => {
-    //     if (!authChecked) {
-    //         props.checkAuth(setAuthChecked)
-    //     }
-    // }} 
+    if (!checkerIsRun) {
+        setInterval(() => {
+            checkerIsRun = true
+            props.authentification.isAuthed && authChecked ? _FORCE_UPDATE_ONCE(true) : _FORCE_UPDATE_ONCE(false)
+        }, 200)
+    }
 
     return (
-        <NavigationContainer >
+        <NavigationContainer onReady={() => {
+            if (!authChecked) {
+                props.checkAuth(setAuthChecked)
+            }
+        }} >
             <drawer.Navigator initialRouteName={"Photos"} drawerContent={(p) => <DrawerContent dContainer={p} checkAuth={props.checkAuth} authentification={props.authentification} redirected={redirected} setRedirected={setRedirected} />}>
                 {props.authentification.isAuthed ? (
                     <>
