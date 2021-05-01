@@ -1,10 +1,10 @@
 import { Dispatch } from "react";
-import { IPhotoAction, GET_PHOTOS_SUCCESS, GET_PHOTOS_ERROR } from "../types/reducers/photo-reducer"
+import { IPhotoAction, GET_PHOTOS_SUCCESS, GET_PHOTOS_ERROR, BACKUP_SUCCESS, BACKUP_ERROR } from "../types/reducers/photo-reducer"
 import { PhotoPage, serviceI } from "../types/state/state"
 
 import messagePublusher from "messagepublisher"
 
-import { getPhotos } from "./../Helpers/photos"
+import { getLocalPhotos } from "./../Helpers/photos"
 
 const initialState: PhotoPage = {
     result: [],
@@ -12,6 +12,25 @@ const initialState: PhotoPage = {
 
 const photoReducer = (state = initialState, action: IPhotoAction) => {
     switch (action.type) {
+        case BACKUP_SUCCESS:
+            setTimeout(() => {
+                if (action.updater) {
+                    action.updater(true)
+                }
+            }, 5);
+            if (action.data) {
+                return { ...state }
+            }
+        case BACKUP_ERROR:
+            setTimeout(() => {
+                if (action.updater) {
+                    action.updater(true)
+                }
+            }, 5);
+            messagePublusher.add("An error happened during the backuping")
+            if (action.data) {
+                return { ...state }
+            }
         case GET_PHOTOS_SUCCESS:
             setTimeout(() => {
                 if (action.updater) {
@@ -34,26 +53,32 @@ const photoReducer = (state = initialState, action: IPhotoAction) => {
     return state
 }
 
+// //Craetes handler to process the query to backup the photos ...
 
-//Craetes handler to process the query to get the photos ...
+export const createBackupPhotos = (updater: Function) => (dispatch: Dispatch<any>) => {
+    // backupPhotos()
+    // .then((resp) => {
+    //     dispatch(createBackupPhotosSuccess(updater))
+    // })
 
-export const createGetPhotos = (updater: Function) => (dispatch: Dispatch<any>) => {
-    return getPhotos()
+}
+
+const createBackupPhotosSuccess = (updater: Function) => {
+    return {type: BACKUP_SUCCESS, updater: updater}
+}
+
+
+//Creates handler to process the query to get the photos ...
+
+export const createGetLocalPhotos = (updater: Function) => (dispatch: Dispatch<any>) => {
+    return getLocalPhotos()
         .then(data => {
-            if (data.service.ok) {
-                dispatch(createGetPhotosSuccess(data.result, updater))
-            } else {
-                dispatch(createGetPhotosError(data.result, updater))
-            }
+            dispatch(createGetPhotosSuccess(data, updater))
         })
 }
 
 const createGetPhotosSuccess = (data: any, updater: Function) => {
     return { type: GET_PHOTOS_SUCCESS, data: data, updater: updater }
-}
-
-const createGetPhotosError = (data: any, updater: Function) => {
-    return { type: GET_PHOTOS_ERROR, data: data, updater: updater }
 }
 
 export default photoReducer

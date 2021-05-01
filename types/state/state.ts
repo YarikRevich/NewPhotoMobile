@@ -20,8 +20,7 @@ export declare interface Header {
 export declare interface PhotoPage{
     result: {
         photo: string
-        thumbnail: string
-        tags: string[]
+        id: string
     }[];
 }
 
@@ -35,7 +34,7 @@ export declare interface AccountPage{
 
 export declare interface State{
     authentification: Authentification;
-    photoPage: PhotoPage;
+    photosPage: PhotoPage;
     accountPage: AccountPage;
     header: Header;
 }

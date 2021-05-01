@@ -10,7 +10,7 @@ import { State } from "./../../../types/state/state"
 
 //Components ...
 
-import Header from "./../../Header/Header"
+import SignUp from "./SignUp"
 
 //Reducer ...
 
@@ -28,4 +28,4 @@ const mapDispatchToProps = (dispatch: Dispatch<IAuthAction | any>) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)

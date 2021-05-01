@@ -1,7 +1,7 @@
 //External libraries ...
 
 import React, { useEffect, useState } from "react";
-import { View, Button, Text } from "react-native"
+import { View, Button, Text, ActivityIndicator } from "react-native"
 import { NavigationContainer, NavigationContainerRef, useRoute } from "@react-navigation/native";
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentOptions } from "@react-navigation/drawer"
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -24,6 +24,10 @@ import { AuthStack } from "./stacks/authStack"
 //Util ...
 
 import { ForceUpdater, ForceUpdaterOnce } from "./../Helpers/utils"
+
+//Styles ...
+
+import ActivityIndStyle from "./../constants/ActivityIndicator"
 
 const drawer = createDrawerNavigator()
 
@@ -59,15 +63,15 @@ const DrawerContent = (props: { dContainer: DrawerContentComponentProps<DrawerCo
 const AppDrawer = (props: AppDrawerType) => {
     const [redirected, setRedirected] = useState(false);
     const [authChecked, setAuthChecked] = useState(false);
+    const [checkerIsRun, setCheckerIsRun] = useState(false)
+
     const _FORCE_UPDATE_ONCE = ForceUpdaterOnce();
-    
-    let checkerIsRun = false
 
     if (!checkerIsRun) {
         setInterval(() => {
-            checkerIsRun = true
+            setCheckerIsRun(true)
             props.authentification.isAuthed && authChecked ? _FORCE_UPDATE_ONCE(true) : _FORCE_UPDATE_ONCE(false)
-        }, 200)
+        }, 5)
     }
 
     return (
@@ -76,19 +80,22 @@ const AppDrawer = (props: AppDrawerType) => {
                 props.checkAuth(setAuthChecked)
             }
         }} >
-            <drawer.Navigator initialRouteName={"Photos"} drawerContent={(p) => <DrawerContent dContainer={p} checkAuth={props.checkAuth} authentification={props.authentification} redirected={redirected} setRedirected={setRedirected} />}>
-                {props.authentification.isAuthed ? (
-                    <>
-                        <drawer.Screen name={"Photos"} component={HomeStack} />
-                        <drawer.Screen name={"About"} component={AboutStack} />
-                        <drawer.Screen options={!props.authentification.isAuthed ? { swipeEnabled: false } : { swipeEnabled: true }} name={"Account"} component={AccountStack} />
-                    </>
-                ) : (
-                    <>
-                        <drawer.Screen options={!props.authentification.isAuthed ? { swipeEnabled: false } : { swipeEnabled: true }} name={"Auth"} component={AuthStack} />
-                    </>
-                )}
-            </drawer.Navigator>
+            {authChecked ?
+                (<drawer.Navigator initialRouteName={"Photos"} drawerContent={(p) => <DrawerContent dContainer={p} checkAuth={props.checkAuth} authentification={props.authentification} redirected={redirected} setRedirected={setRedirected} />}>
+                    {props.authentification.isAuthed ? (
+                        <>
+                            <drawer.Screen name={"Photos"} component={HomeStack} />
+                            <drawer.Screen name={"About"} component={AboutStack} />
+                            <drawer.Screen options={!props.authentification.isAuthed ? { swipeEnabled: false } : { swipeEnabled: true }} name={"Account"} component={AccountStack} />
+                        </>
+                    ) : (
+                        <>
+                            <drawer.Screen options={!props.authentification.isAuthed ? { swipeEnabled: false } : { swipeEnabled: true }} name={"Auth"} component={AuthStack} />
+                        </>
+                    )}
+                </drawer.Navigator>)
+
+                : (<ActivityIndicator style={ActivityIndStyle.Indicator} size="large" color="#000000"/>)}
         </NavigationContainer>
     )
 }

@@ -49,7 +49,7 @@ const Header = (props: HeaderType) => {
                         {getMessages()}
                     </View>
                 </View>
-                <View style={HeaderStyles.header}>
+                <View style={HeaderStyles.headerNotAuthed}>
                     <View style={HeaderStyles.titleContainer}>
                         <Text style={HeaderStyles.title}>{props.title}</Text>
                     </View>
@@ -64,7 +64,7 @@ const Header = (props: HeaderType) => {
                     {getMessages()}
                 </View>
             </View>
-            <View style={HeaderStyles.header}>
+            <View style={HeaderStyles.headerAuthed}>
                 <TouchableOpacity onPress={handleMenuButton}>
                     <Image style={HeaderStyles.menuImage} source={{ uri: "https://img.icons8.com/android/50/000000/menu.png" }} />
                 </TouchableOpacity>

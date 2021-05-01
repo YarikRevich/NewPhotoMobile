@@ -1,6 +1,10 @@
 import { StyleSheet } from "react-native"
 
 export default StyleSheet.create({
+    photos: {
+        alignSelf: "center",
+        marginTop: 20,
+    },
     announcementContainer: {
         width: 300,
         height: 100,

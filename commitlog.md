@@ -15,3 +15,12 @@ COMMIT: 3
 - Improved info message pushing
 
 ```
+
+COMMIT: 4
+
+```
+- Implemented photo loading, backup with photo tagging
+- Implemented pre-loader 
+- Implemented sign up redirect
+- Improved auth check
+```

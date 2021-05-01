@@ -8,4 +8,5 @@ export declare interface IPhotoAction{
 export const GET_PHOTOS_SUCCESS = "GET-PHOTOS-SUCCESS";
 export const GET_PHOTOS_ERROR = "GET-PHOTOS-ERROR"
 
-declare const  DELETE_PHOTOS: string;
+export const BACKUP_SUCCESS = "BACKUP-SUCCESS"
+export const BACKUP_ERROR = "BACKUP-ERROR"

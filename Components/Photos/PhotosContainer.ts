@@ -11,18 +11,21 @@ import { State } from "../../types/state/state"
 //Components ...
 
 import Photos from "./Photos"
-import { createGetPhotos } from "./../../redux/photo-reducer"
+import { createGetLocalPhotos, createBackupPhotos } from "./../../redux/photo-reducer"
 
 const mapStateToProps = (state: State) => {
     return ({
-        photoPage: state.photoPage,
+        photosPage: state.photosPage,
     })
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<IPhotoAction | any>) => {
     return ({
-        getPhotos(updater: Function) {
-            dispatch(createGetPhotos(updater))
+        getLocalPhotos(updater: Function) {
+            dispatch(createGetLocalPhotos(updater))
+        },
+        backupPhotos(updater: Function) {
+            dispatch(createBackupPhotos(updater))
         }
     })
 }

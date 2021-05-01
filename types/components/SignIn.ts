@@ -1,6 +1,6 @@
 export declare interface SignInType {
     readonly navigation: {
-        reset: Function
+        push: Function
     }
 
     signIn(d: any, updater: Function): void

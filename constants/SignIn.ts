@@ -23,7 +23,7 @@ export default StyleSheet.create({
     },
     block: {
         width: 300,
-        height: 350,
+        height: 370,
         borderRadius: 20,
         borderWidth: 2,
         borderColor: "#000000",

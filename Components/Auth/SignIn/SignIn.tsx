@@ -19,7 +19,6 @@ const SignIn = (props: SignInType) => {
 
     const [signin, setSignin] = useState(false);
 
-
     return (
         <TouchableWithoutFeedback onPress={() => {
             Keyboard.dismiss()
@@ -46,6 +45,10 @@ const SignIn = (props: SignInType) => {
                             <View style={SignInStyle.confirmButton}>
                                 <Text style={SignInStyle.confirmButtonText}>Confirm!</Text>
                             </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={() => props.navigation.push("SignUp")} >
+                            <Text style={{fontSize: 16, color: "grey", textAlign: "center", marginTop: 10}}>Not signed up?</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
