@@ -16,17 +16,15 @@ const Banner = () => {
         setTimeout(() => {
             if (mount) _FORCE_UPDATE()
         }, 50)
-        if (!deletingProcess && mount) {
+        if (!deletingProcess) {
             setTimeout(() => {
                 messagePublisher.cleanUp()
-                setDeletingProcess(false)
+                if (mount) setDeletingProcess(false)
             }, 5000)
-            setDeletingProcess(true)
+            if (mount) setDeletingProcess(true)
         }
-        return () => mount = false
+        return () => { mount = false }
     })
-
-
 
     const messages = messagePublisher.get();
 

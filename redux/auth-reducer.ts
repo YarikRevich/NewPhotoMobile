@@ -12,69 +12,37 @@ const initialState = {
 const authReducer = (state = initialState, action: IAuthAction) => {
     switch (action.type) {
         case CHECK_AUTH_SUCCESS:
-            setTimeout(() => {
-                if (action.updater) {
-                    action.updater(true)
-                }
-            }, 5)
             return ({ ...state, isAuthed: true })
         case CHECK_AUTH_ERROR:
             messagePublusher.add("You are not authed!")
-            setTimeout(() => {
-                if (action.updater) {
-                    action.updater(true)
-                }
-            }, 5)
             return ({ ...state, isAuthed: false })
         case SIGN_UP_SUCCESS:
             messagePublusher.add("You signed up!")
-            setTimeout(() => {
-                if (action.updater) {
-                    action.updater({ ok: true, checked: true })
-                }
-            }, 5)
-
-            return { ...state }
+            if (action.updater) {
+                action.updater({ ok: true, checked: true })
+            }
+            break
         case SIGN_UP_ERROR:
             messagePublusher.add("User with such login already exists!")
-            setTimeout(() => {
-                if (action.updater) {
-                    action.updater({ ok: false, checked: true })
-                }
-            }, 5)
-            return { ...state }
+            if (action.updater) {
+                action.updater({ ok: false, checked: true })
+            }
+            break
         case SIGN_IN_SUCCESS:
             messagePublusher.add("You logged in!")
-            setTimeout(() => {
-                if (action.updater) {
-                    action.updater(true)
-                }
-            }, 5)
+            if (action.updater){
+                action.updater(true)
+            }
             return { ...state, isAuthed: true }
         case SIGN_IN_ERROR:
             messagePublusher.add("User with such credentials does not exist")
-            setTimeout(() => {
-                if (action.updater) {
-                    action.updater(true)
-                }
-            }, 5)
-            return { ...state }
+            break
         case SIGN_OUT_SUCCESS:
             messagePublusher.add("Logout is successful!")
-            setTimeout(() => {
-                if (action.updater) {
-                    action.updater(true)
-                }
-            }, 5)
             return { ...state, isAuthed: false }
         case SIGN_OUT_ERROR:
             messagePublusher.add("Logout is not successful!")
-            setTimeout(() => {
-                if (action.updater) {
-                    action.updater(true)
-                }
-            }, 5)
-            return { ...state }
+
     }
     return state
 }
@@ -89,15 +57,16 @@ export const createCheckAuth = (updater: Function) => (dispatch: Dispatch<any>) 
             } else {
                 dispatch(checkAuthError(updater))
             }
+            updater(true)
         })
 }
 
 export const checkAuthSuccess = (updater: Function) => {
-    return ({ type: CHECK_AUTH_SUCCESS, updater: updater })
+    return ({ type: CHECK_AUTH_SUCCESS })
 }
 
 export const checkAuthError = (updater: Function) => {
-    return ({ type: CHECK_AUTH_ERROR, updater: updater })
+    return ({ type: CHECK_AUTH_ERROR })
 }
 
 // Sign up creators ...
@@ -107,9 +76,11 @@ export const createSignUp = (d: { login: string; firstname: string; secondname: 
         .then(ok => {
             if (ok) {
                 dispatch(signUpSuccess(updater))
+
             } else {
                 dispatch(signUpError(updater))
             }
+            updater(true)
         })
 }
 
@@ -129,8 +100,10 @@ export const createSignIn = (d: any, updater: Function) => (dispatch: Dispatch<a
             if (ok) {
                 dispatch(signInSuccess(updater))
             } else {
-                dispatch(signInError(updater))
+                dispatch(signInError())
+                updater(true)
             }
+            
         })
 }
 
@@ -138,8 +111,8 @@ const signInSuccess = (updater: Function) => {
     return ({ type: SIGN_IN_SUCCESS, updater: updater })
 }
 
-const signInError = (updater: Function) => {
-    return ({ type: SIGN_IN_ERROR, updater: updater })
+const signInError = () => {
+    return ({ type: SIGN_IN_ERROR })
 }
 
 // Sign out creators ...
@@ -159,11 +132,11 @@ export const createSignOut = (updater: Function) => (dispatch: Dispatch<any>) =>
 }
 
 export const signOutSuccess = (updater: Function) => {
-    return ({ type: SIGN_OUT_SUCCESS, updater })
+    return ({ type: SIGN_OUT_SUCCESS })
 }
 
 export const signOutError = (updater: Function) => {
-    return ({ type: SIGN_OUT_ERROR, updater })
+    return ({ type: SIGN_OUT_ERROR })
 }
 
 export default authReducer

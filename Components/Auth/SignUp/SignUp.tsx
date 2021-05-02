@@ -25,12 +25,12 @@ const SignUp = (props: SignUpType) => {
     const [signup, setSignup] = useState({ ok: false, checked: false });
 
     useEffect(() => {
-        if (signup.checked && signup.ok) {
+        let mount = true
+        if (signup.checked && signup.ok && mount) {
             props.navigation.goBack()
         }
+        return () => {mount = false}
     })
-
-    console.log("I MA")
 
     return (
         <TouchableWithoutFeedback onPress={() => {

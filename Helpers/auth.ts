@@ -59,6 +59,7 @@ export const signUp = (d: signUpI): Promise<JSON | string> => {
                 return resp.data.ok
             }
             messagePublusher.add("Network error!")
+            return {ok: false}
         })
         .catch((err: Error) => {
             messagePublusher.add(err.message)

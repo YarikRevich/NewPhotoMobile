@@ -40,7 +40,6 @@ export const getLocalPhotos = (): Promise<{ photo: string; id: string }[] | void
                     }
                     return Promise.all(promises)   
                         .then(() => {
-                            console.log(photos.length)
                             photos.sort((a, b) => {
                                 return b.date - a.date
                             })

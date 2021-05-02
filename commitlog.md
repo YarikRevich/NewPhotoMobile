@@ -24,3 +24,11 @@ COMMIT: 4
 - Implemented sign up redirect
 - Improved auth check
 ```
+
+COMMIT: 5
+
+```
+- Implemented sign up page
+- Improved message banners
+- Implemented a detailed view of chosen photo by press
+```

@@ -71,7 +71,7 @@ const AppDrawer = (props: AppDrawerType) => {
         setInterval(() => {
             setCheckerIsRun(true)
             props.authentification.isAuthed && authChecked ? _FORCE_UPDATE_ONCE(true) : _FORCE_UPDATE_ONCE(false)
-        }, 5)
+        }, 15)
     }
 
     return (
