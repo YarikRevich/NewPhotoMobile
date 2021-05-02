@@ -8,14 +8,14 @@ import { API_HOST } from "../constants/credentials"
 
 
 export const retrieveToken = (token: string | null): Promise<string> => {
-    if (!token) new Promise((resolve, reject) => resolve(null))
+    if (!token) new Promise((resolve) => resolve(null))
 
     return axios.get(`${API_HOST}/retrieve_token`)
         .then(resp => {
             if (resp.status === 200) {
                 return resp.headers["set-cookie"][0].split(";")[0].split("sessionid=")[1]
             }
-            return ERROR_NOT_200
+            messagePublusher.add("Network error!")
         })
         .catch((err: Error) => {
             messagePublusher.add(err.message)
@@ -28,7 +28,7 @@ export const checkAuth = (): Promise<boolean | string> => {
             if (resp.status === 200) {
                 return resp.data.ok
             }
-            return ERROR_NOT_200
+            messagePublusher.add("Network error!")
         })
         .catch((err: Error) => {
             messagePublusher.add(err.message)
@@ -44,7 +44,7 @@ export const signIn = (d: signInI): Promise<boolean | string> => {
             if (resp.status === 200) {
                 return resp.data.ok
             }
-            return ERROR_NOT_200
+            messagePublusher.add("Network error!")
         })
         .catch((err: Error) => {
             messagePublusher.add(err.message)
@@ -52,16 +52,18 @@ export const signIn = (d: signInI): Promise<boolean | string> => {
 
 }
 
-export const signUp = async (d: signUpI): Promise<number | string> => {
-    const r = await axios.get(`${API_HOST}/sign_in`, {
-        params: {
-            ...d
-        }
-    })
-    if (r.status === 200) {
-        const data = JSON.parse(r.data)
-    }
-    return ERROR_NOT_200
+export const signUp = (d: signUpI): Promise<JSON | string> => {
+    return axios.post(`${API_HOST}/sign_up`, d)
+        .then(resp => {
+            if (resp.status === 200) {
+                return resp.data.ok
+            }
+            messagePublusher.add("Network error!")
+        })
+        .catch((err: Error) => {
+            messagePublusher.add(err.message)
+        })
+
 }
 
 export const signOut = (): Promise<boolean | string> => {
@@ -70,7 +72,7 @@ export const signOut = (): Promise<boolean | string> => {
             if (resp.status === 200) {
                 return resp.data.ok
             }
-            return ERROR_NOT_200
+            messagePublusher.add("Network error!")
         })
         .catch((err: Error) => {
             messagePublusher.add(err.message)

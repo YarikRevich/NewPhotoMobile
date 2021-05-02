@@ -9,7 +9,7 @@ export const getAccountInfo_ = () => {
             if (resp.status === 200) {
                 return resp.data
             }
-            return ERROR_NOT_200
+            messagePublusher.add("Network error!")
         })
         .catch((err: Error) => {
             messagePublusher.add(err.message)

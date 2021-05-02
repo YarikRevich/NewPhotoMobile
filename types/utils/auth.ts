@@ -1,9 +1,9 @@
 export declare interface signUpI {
     login: string
-    password: string;
-    password1: string;
     firstname: string;
     secondname: string;
+    password1: string;
+    password2: string;
 }
 
 export declare interface signInI{

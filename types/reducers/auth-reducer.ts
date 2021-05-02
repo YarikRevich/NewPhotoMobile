@@ -16,6 +16,10 @@ export const CHECK_AUTH_ERROR = "CHECK-AUTH-ERROR"
 export const SIGN_IN_SUCCESS = "SIGN_IN_SUCCESS"
 export const SIGN_IN_ERROR = "SIGN_IN_ERROR"
 
+//Sign up actions ...
+export const SIGN_UP_SUCCESS = "SIGN_UP_SUCCESS"
+export const SIGN_UP_ERROR = "SIGN_UP_ERROR"
+
 //Sign out actions ...
 export const SIGN_OUT_SUCCESS = "SIGN-OUT-SUCCESS"
 export const SIGN_OUT_ERROR = "SIGN-OUT-ERROR"

@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 
 //Types ...
 
-import { IHeaderAction } from "../../types/reducers/header-reducer"
-import { State } from "../../types/state/state"
+import { IHeaderAction } from "../../../types/reducers/header-reducer"
+import { State } from "../../../types/state/state"
 
 //Components ...
 

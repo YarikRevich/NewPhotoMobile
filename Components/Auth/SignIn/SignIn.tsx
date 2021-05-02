@@ -8,7 +8,8 @@ import { SignInType } from "./../../../types/components/SignIn"
 
 //Constants ...
 
-import SignInStyle from "./../../../constants/SignIn"
+// import SignInStyle from "./../../../constants/SignIn"
+import FormsStyle from "./../../../constants/Forms"
 
 
 const SignIn = (props: SignInType) => {
@@ -23,27 +24,24 @@ const SignIn = (props: SignInType) => {
         <TouchableWithoutFeedback onPress={() => {
             Keyboard.dismiss()
         }}>
-            <View style={SignInStyle.account} >
-                <View style={SignInStyle.block}>
-                    <View style={SignInStyle.title}>
-                        <Text style={SignInStyle.titleText}>Sign in</Text>
-                    </View>
-                    <View style={SignInStyle.form}>
-                        <View style={SignInStyle.input}>
-                            <Text style={SignInStyle.text}>Login: </Text>
+            <View style={FormsStyle.body} >
+                <View style={FormsStyle.block}>
+                    <View style={FormsStyle.form}>
+                        <View style={FormsStyle.input}>
+                            <Text style={FormsStyle.inputLabel}>Login: </Text>
                             <TextInput onChangeText={(v) => {
                                 setLogin(v)
-                            }} autoCapitalize='none' textContentType="username" style={SignInStyle.inputText} placeholder="eg. Yaroslav"></TextInput>
+                            }} autoCapitalize='none' textContentType="username" style={FormsStyle.inputText} placeholder="eg. Yaroslav"></TextInput>
                         </View>
-                        <View style={SignInStyle.input}>
-                            <Text style={SignInStyle.text}>Password: </Text>
+                        <View style={FormsStyle.input}>
+                            <Text style={FormsStyle.inputLabel}>Password: </Text>
                             <TextInput onChangeText={(v) => {
                                 setPassword(v)
-                            }} autoCapitalize='none' secureTextEntry={true} textContentType="newPassword" style={SignInStyle.inputText} placeholder="eg. abc123"></TextInput>
+                            }} autoCapitalize='none' secureTextEntry={true} textContentType="newPassword" style={FormsStyle.inputText} placeholder="eg. abc123"></TextInput>
                         </View>
-                        <TouchableOpacity activeOpacity={1} style={press ? SignInStyle.touchableOpacityPress : null} onPressOut={() => setPress(false)} onPressIn={() => setPress(true)} onPress={() => props.signIn({ login: login, password: password }, setSignin.bind(this))} >
-                            <View style={SignInStyle.confirmButton}>
-                                <Text style={SignInStyle.confirmButtonText}>Confirm!</Text>
+                        <TouchableOpacity activeOpacity={1} style={press ? FormsStyle.buttonPress : null} onPressOut={() => setPress(false)} onPressIn={() => setPress(true)} onPress={() => props.signIn({ login: login, password: password }, setSignin.bind(this))} >
+                            <View style={FormsStyle.button}>
+                                <Text style={FormsStyle.buttonText}>Confirm!</Text>
                             </View>
                         </TouchableOpacity>
 

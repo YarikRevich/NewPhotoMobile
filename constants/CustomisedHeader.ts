@@ -25,8 +25,12 @@ const messageHeaderBannerStyle = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        alignContent: "center",
+        paddingTop: 20,
+        paddingBottom: 20,
+        paddingLeft: 5,
+        paddingRight: 5,
         width: 300,
-        minHeight: 70,
         borderWidth: 1,
         borderColor: "black",
         borderRadius: 20,
@@ -52,7 +56,7 @@ const messageHeaderBannerStyle = StyleSheet.create({
  * @todo Creates the header types styles, namely: notAuhed and Authed ones
  */
 const headerTypesStyles = StyleSheet.create({
-    headerNotAuthed: {
+    headerDrawerNotAuthed: {
         display: "flex",
         alignItems: "center",
         flexDirection: "row",
@@ -61,7 +65,7 @@ const headerTypesStyles = StyleSheet.create({
         minWidth: "100%",
         backgroundColor: "aliceblue",
     },
-    headerAuthed: {
+    headerDrawerAuthed: {
         display: "flex",
         alignItems: "center",
         flexDirection: "row",
@@ -70,6 +74,15 @@ const headerTypesStyles = StyleSheet.create({
         width: 400,
         backgroundColor: "aliceblue",
     },
+    headerStack: {
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-around",
+        height: 20,
+        width: 200,
+        backgroundColor: "aliceblue",
+    }
 })
 
 /**

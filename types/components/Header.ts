@@ -5,6 +5,7 @@ export declare interface HeaderType {
     readonly navigation: {
         toggleDrawer: Function
     }
+    readonly type: "drawer" | "stack"
     readonly title: string;
     readonly authentification: Authentification
 }
