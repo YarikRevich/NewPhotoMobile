@@ -1,7 +1,9 @@
+import { SignUpData } from "./../../types/reducers/auth-reducer"
+
 export declare interface SignUpType {
     readonly navigation: {
         goBack: Function
     }
 
-    signUp(d: {login: string; firstname: string; secondname: string; password1: string; password2: string}, updater: Function): void
+    signUp(d: SignUpData, updater: Function): void
 }

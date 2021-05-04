@@ -31,4 +31,5 @@ COMMIT: 5
 - Implemented sign up page
 - Improved message banners
 - Implemented a detailed view of chosen photo by press
+- Implemented backup system and ui visibility of backuping
 ```

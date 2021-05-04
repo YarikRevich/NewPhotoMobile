@@ -4,4 +4,5 @@ export declare interface PhotosType {
     photosPage: PhotoPage
     getLocalPhotos(updater: Function): void
     backupPhotos(updater: Function): void
+    getPhotosNum(updater: Function): void
 }

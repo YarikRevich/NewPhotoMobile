@@ -29,7 +29,7 @@ const SignUp = (props: SignUpType) => {
         if (signup.checked && signup.ok && mount) {
             props.navigation.goBack()
         }
-        return () => {mount = false}
+        return () => { mount = false }
     })
 
     return (
@@ -70,7 +70,7 @@ const SignUp = (props: SignUpType) => {
                                     setPassword2(v)
                                 }} autoCapitalize='none' secureTextEntry={true} textContentType="newPassword" style={FormsStyle.inputText} placeholder="eg. abc123"></TextInput>
                             </View>
-                            <TouchableOpacity activeOpacity={1} style={press ? FormsStyle.buttonPress : null} onPressOut={() => setPress(false)} onPressIn={() => setPress(true)} onPress={() => props.signUp({ login: login, firstname: firstname, secondname: secondname, password1: password1, password2: password2 }, setSignup)} >
+                            <TouchableOpacity activeOpacity={1} style={press ? FormsStyle.buttonPress : null} onPressOut={() => setPress(false)} onPressIn={() => setPress(true)} onPress={() => props.signUp({ data: { login: login, firstname: firstname, secondname: secondname, password1: password1, password2: password2 } }, setSignup)} >
                                 <View style={FormsStyle.button}>
                                     <Text style={FormsStyle.buttonText}>Confirm!</Text>
                                 </View>

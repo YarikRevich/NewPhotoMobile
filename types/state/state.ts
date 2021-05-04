@@ -19,9 +19,10 @@ export declare interface Header {
 
 export declare interface PhotoPage{
     result: {
-        photo: string
+        file: string
         id: string
     }[];
+    photosNum: number
 }
 
 export declare interface AccountPage{

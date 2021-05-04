@@ -1,12 +1,16 @@
 export declare interface signUpI {
-    login: string
-    firstname: string;
-    secondname: string;
-    password1: string;
-    password2: string;
+    data: {
+        login: string
+        firstname: string;
+        secondname: string;
+        password1: string;
+        password2: string;
+    }
 }
 
 export declare interface signInI{
-    login: string;
-    password: string;
+    data: {
+        login: string;
+        password: string;
+    }
 }

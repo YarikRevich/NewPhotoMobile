@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 //Types ...
 
-import { IAuthAction } from "./../../../types/reducers/auth-reducer"
+import { IAuthAction, SignInData } from "./../../../types/reducers/auth-reducer"
 import { State } from "./../../../types/state/state"
 
 //Components ...
@@ -24,7 +24,7 @@ const mapStateToProps = (state: State) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<IAuthAction | any>) => {
     return {
-        signIn: (d: { login: string, password: string }, updater: Function) => {
+        signIn: (d: SignInData, updater: Function) => {
             dispatch(createSignIn(d, updater))
         },
     }

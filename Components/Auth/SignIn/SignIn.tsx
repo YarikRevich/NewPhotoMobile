@@ -19,7 +19,7 @@ const SignIn = (props: SignInType) => {
     const [press, setPress] = useState(false)
 
     const [signin, setSignin] = useState(false);
-    
+
     return (
         <TouchableWithoutFeedback onPress={() => {
             Keyboard.dismiss()
@@ -39,7 +39,7 @@ const SignIn = (props: SignInType) => {
                                 setPassword(v)
                             }} autoCapitalize='none' secureTextEntry={true} textContentType="newPassword" style={FormsStyle.inputText} placeholder="eg. abc123"></TextInput>
                         </View>
-                        <TouchableOpacity activeOpacity={1} style={press ? FormsStyle.buttonPress : null} onPressOut={() => setPress(false)} onPressIn={() => setPress(true)} onPress={() => props.signIn({ login: login, password: password }, setSignin)} >
+                        <TouchableOpacity activeOpacity={1} style={press ? FormsStyle.buttonPress : null} onPressOut={() => setPress(false)} onPressIn={() => setPress(true)} onPress={() => props.signIn({ data: {login: login, password: password }}, setSignin)} >
                             <View style={FormsStyle.button}>
                                 <Text style={FormsStyle.buttonText}>Confirm!</Text>
                             </View>

@@ -23,3 +23,6 @@ export const SIGN_UP_ERROR = "SIGN_UP_ERROR"
 //Sign out actions ...
 export const SIGN_OUT_SUCCESS = "SIGN-OUT-SUCCESS"
 export const SIGN_OUT_ERROR = "SIGN-OUT-ERROR"
+
+export type SignUpData = { data: {login: string; firstname: string; secondname: string; password1: string; password2: string }}
+export type SignInData = { data: {login: string; password: string}}

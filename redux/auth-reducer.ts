@@ -1,4 +1,4 @@
-import { IAuthAction, RETRIEVE_TOKEN, SIGN_IN_SUCCESS, SIGN_IN_ERROR, SIGN_UP_SUCCESS, SIGN_UP_ERROR, SIGN_OUT_SUCCESS, SIGN_OUT_ERROR, CHECK_AUTH_SUCCESS, CHECK_AUTH_ERROR } from "./../types/reducers/auth-reducer"
+import { IAuthAction, RETRIEVE_TOKEN, SIGN_IN_SUCCESS, SIGN_IN_ERROR, SIGN_UP_SUCCESS, SIGN_UP_ERROR, SIGN_OUT_SUCCESS, SIGN_OUT_ERROR, CHECK_AUTH_SUCCESS, CHECK_AUTH_ERROR, SignUpData, SignInData } from "./../types/reducers/auth-reducer"
 
 import { setAccountInfo } from "./../Helpers/storage"
 import { checkAuth, retrieveToken, signIn, signOut, signUp } from "./../Helpers/auth"
@@ -30,9 +30,6 @@ const authReducer = (state = initialState, action: IAuthAction) => {
             break
         case SIGN_IN_SUCCESS:
             messagePublusher.add("You logged in!")
-            if (action.updater){
-                action.updater(true)
-            }
             return { ...state, isAuthed: true }
         case SIGN_IN_ERROR:
             messagePublusher.add("User with such credentials does not exist")
@@ -71,7 +68,7 @@ export const checkAuthError = (updater: Function) => {
 
 // Sign up creators ...
 
-export const createSignUp = (d: { login: string; firstname: string; secondname: string; password1: string; password2: string }, updater: Function) => (dispatch: Dispatch<any>) => {
+export const createSignUp = (d: SignUpData, updater: Function) => (dispatch: Dispatch<any>) => {
     return signUp(d)
         .then(ok => {
             if (ok) {
@@ -94,16 +91,14 @@ const signUpError = (updater: Function) => {
 
 //Sign in creators ...
 
-export const createSignIn = (d: any, updater: Function) => (dispatch: Dispatch<any>) => {
-    return signIn({ ...d })
+export const createSignIn = (d: SignInData, updater: Function) => (dispatch: Dispatch<any>) => {
+    return signIn(d)
         .then(ok => {
             if (ok) {
                 dispatch(signInSuccess(updater))
             } else {
-                dispatch(signInError())
-                updater(true)
+                dispatch(signInError())     
             }
-            
         })
 }
 

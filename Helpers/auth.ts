@@ -26,7 +26,7 @@ export const checkAuth = (): Promise<boolean | string> => {
     return axios.get(`${API_HOST}/check_auth`)
         .then(resp => {
             if (resp.status === 200) {
-                return resp.data.ok
+                return resp.data.service.ok
             }
             messagePublusher.add("Network error!")
         })
@@ -42,7 +42,7 @@ export const signIn = (d: signInI): Promise<boolean | string> => {
     })
         .then(resp => {
             if (resp.status === 200) {
-                return resp.data.ok
+                return resp.data.service.ok
             }
             messagePublusher.add("Network error!")
         })
@@ -56,10 +56,10 @@ export const signUp = (d: signUpI): Promise<JSON | string> => {
     return axios.post(`${API_HOST}/sign_up`, d)
         .then(resp => {
             if (resp.status === 200) {
-                return resp.data.ok
+                return resp.data.service.ok
             }
             messagePublusher.add("Network error!")
-            return {ok: false}
+            return { ok: false }
         })
         .catch((err: Error) => {
             messagePublusher.add(err.message)
@@ -71,7 +71,7 @@ export const signOut = (): Promise<boolean | string> => {
     return axios.get(`${API_HOST}/sign_out`)
         .then(resp => {
             if (resp.status === 200) {
-                return resp.data.ok
+                return resp.data.service.ok
             }
             messagePublusher.add("Network error!")
         })

@@ -1,7 +1,9 @@
+import { SignInData } from "../reducers/auth-reducer";
+
 export declare interface SignInType {
     readonly navigation: {
         push: Function
     }
 
-    signIn(d: any, updater: Function): void
+    signIn(d: SignInData, updater: Function): void
 }

@@ -95,7 +95,7 @@ const AppDrawer = (props: AppDrawerType) => {
                     )}
                 </drawer.Navigator>)
 
-                : (<ActivityIndicator style={ActivityIndStyle.Indicator} size="large" color="#000000"/>)}
+                : (<ActivityIndicator style={ActivityIndStyle.AuthIndicator} size="large" color="#000000" />)}
         </NavigationContainer>
     )
 }
