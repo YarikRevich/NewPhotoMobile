@@ -11,7 +11,7 @@ import { State } from "../../types/state/state"
 //Components ...
 
 import Photos from "./Photos"
-import { createGetLocalPhotos, createBackupPhotos, createGetPhotosNum } from "./../../redux/photo-reducer"
+import { createGetLocalPhotos, createBackupPhotos, createCheckForNewPhotos, createTurnOffReset, createStartAnimation, createStopAnimation, createTurnOnListening } from "./../../redux/photo-reducer"
 
 /**
  * 
@@ -31,27 +31,56 @@ const mapStateToProps = (state: State) => {
  */
 const mapDispatchToProps = (dispatch: Dispatch<IPhotoAction | any>) => {
     return ({
+
         /**
          * 
          * @param updater Hook for the futher updation
          */
-        getLocalPhotos(updater: Function) {
-            dispatch(createGetLocalPhotos(updater))
+        getLocalPhotos() {
+            dispatch(createGetLocalPhotos())
         },
+
         /**
          * 
          * @param updater Hook for the futher updation
          */
-        backupPhotos(updater: Function) {
-            dispatch(createBackupPhotos(updater))
+        backupPhotos() {
+            dispatch(createBackupPhotos())
         },
+
         /**
          * 
          * @param updater Hook for the futher updation
          */
-        getPhotosNum(updater: Function) {
-            dispatch(createGetPhotosNum(updater))
+        checkForNewPhotos() {
+            dispatch(createCheckForNewPhotos())
+        },
+
+        /**
+         * @todo Starts animation process
+         */
+        startAnimation() {
+            dispatch(createStartAnimation())
+        },
+
+        /**
+         * @todo Stops animation process
+         */
+        stopAnimation() {
+            dispatch(createStopAnimation())
+        },
+
+        /**
+        * @todo Turnoff process
+        */
+        turnOffReset() {
+            dispatch(createTurnOffReset())
+        },
+
+        turnOnListening(){
+            dispatch(createTurnOnListening())
         }
+
     })
 }
 

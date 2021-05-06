@@ -7,7 +7,14 @@ export declare interface IHomeStack {
     navigation: {
         toggleDrawer: Function
     }
-    route: RouteProp<any, "params">
+}
+
+// AlbumsStack ...
+
+export declare interface IAlbumsStack {
+    navigation: {
+        toggleDrawer: Function
+    }
 }
 
 // AboutStack ...
@@ -16,7 +23,6 @@ export declare interface IAboutStack {
     navigation: {
         toggleDrawer: Function
     }
-    route: RouteProp<any, "params">
 }
 
 // AccountStack ...
@@ -26,7 +32,6 @@ export declare interface IAcountStack {
     navigation: {
         toggleDrawer: Function
     }
-    route: RouteProp<any, "params">
 }
 
 // AuthStack ...

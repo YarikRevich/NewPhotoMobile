@@ -28,6 +28,7 @@ import { ForceUpdater, ForceUpdaterOnce } from "./../Helpers/utils"
 //Styles ...
 
 import ActivityIndStyle from "./../constants/ActivityIndicator"
+import { AlbumsStack } from "./stacks/albumsStack";
 
 const drawer = createDrawerNavigator()
 
@@ -35,6 +36,10 @@ const DrawerContent = (props: { dContainer: DrawerContentComponentProps<DrawerCo
 
     const handlePhotoPress = () => {
         props.dContainer.navigation.navigate("Home")
+    }
+
+    const handleAlbumsPress = () => {
+        props.dContainer.navigation.navigate("Albums")
     }
 
     const handleAboutPress = () => {
@@ -49,6 +54,9 @@ const DrawerContent = (props: { dContainer: DrawerContentComponentProps<DrawerCo
         <View style={NavStyle.buttonContainer}>
             <TouchableOpacity style={NavStyle.button} onPress={handlePhotoPress}>
                 <Text style={NavStyle.buttonFont}>Home</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={NavStyle.button} onPress={handleAlbumsPress}>
+                <Text style={NavStyle.buttonFont}>Albums</Text>
             </TouchableOpacity>
             <TouchableOpacity style={NavStyle.button} onPress={handleAboutPress}>
                 <Text style={NavStyle.buttonFont}>About</Text>
@@ -85,8 +93,9 @@ const AppDrawer = (props: AppDrawerType) => {
                     {props.authentification.isAuthed ? (
                         <>
                             <drawer.Screen name={"Photos"} component={HomeStack} />
+                            <drawer.Screen name={"Albums"} component={AlbumsStack} />
                             <drawer.Screen name={"About"} component={AboutStack} />
-                            <drawer.Screen options={!props.authentification.isAuthed ? { swipeEnabled: false } : { swipeEnabled: true }} name={"Account"} component={AccountStack} />
+                            <drawer.Screen options={{ swipeEnabled: props.authentification.isAuthed }} name={"Account"} component={AccountStack} />
                         </>
                     ) : (
                         <>
