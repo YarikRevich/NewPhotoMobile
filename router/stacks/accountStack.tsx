@@ -1,6 +1,7 @@
 //ExternalLibraries ...
 
 import React from "react";
+import { DrawerContentOptions} from "@react-navigation/drawer"
 import { createStackNavigator } from "@react-navigation/stack"
 
 //Components ...
@@ -9,17 +10,9 @@ import AccountContiner from "../../Components/Account/AccountContainer"
 import HeaderContainer from "../../Components/CustomisedHeader/Header/HeaderContainer"
 import Banner from "./../../Components/CustomisedHeader/Banner/Banner"
 
-//Types ...
-
-import { IAcountStack } from "../../types/stacks/nav-stacks"
-
-
-
-
 const Stack = createStackNavigator()
 
-
-export const AccountStack = (props: IAcountStack) => {
+export const AccountStack = (props: Stack) => {
 
     return (
         <Stack.Navigator initialRouteName={"Account"}>

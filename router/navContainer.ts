@@ -1,18 +1,16 @@
+/// <reference path="./../types/reducers.ts" />
+
+
 //External libraries ...
 
-import React, { Dispatch } from "react";
+import { Dispatch } from "react";
 import { connect } from "react-redux"
 
 //Reducer ...
 
-import {createCheckAuth } from "./../redux/auth-reducer"
+import { createCheckAuth } from "./../redux/auth-reducer"
 
-
-//Types ...
-
-import { State } from "../types/state/state"
-import { IHeaderAction } from "../types/reducers/header-reducer"
-import { IAuthAction } from "../types/reducers/auth-reducer"
+import { HeaderReducer, AuthReducer } from "./../types/reducers"
 
 //Style ...
 
@@ -24,14 +22,11 @@ const mapStateToProps = (state: State) => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<IHeaderAction | IAuthAction | any>) => {
+const mapDispatchToProps = (dispatch: Dispatch<HeaderReducer.IHeaderAction | AuthReducer.IAuthAction | any>) => {
     return ({
-        checkAuth: (updater: Function) => {
-            dispatch(createCheckAuth(updater))
+        checkAuth: () => {
+            dispatch(createCheckAuth())
         },
-        // retrieveToken: (updater: Function) => {
-        //     dispatch(createRetrieveToken(updater))
-        // }
     })
 }
 

@@ -1,16 +1,13 @@
-import axios from "axios";
-import { Image } from "react-native"
+import configuredAxios from "./common"
 import * as MediaLib from "expo-media-library"
 import * as FileSystem from "expo-file-system"
 
 import { getPhotoTag, setPhotoTagSaved } from "./storage"
-import { API_HOST } from "../constants/credentials"
 import messagePublusher from "messagepublisher"
 import { getImageSize } from "./utils";
-import { LocalPhotos } from "../types/utils/photo";
 
 export const getPhotos = (): Promise<any> => {
-    return axios.get(`${API_HOST}/photos`, { headers: { "Fetch": "true" } })
+    return configuredAxios.get("/photos")
         .then(resp => {
             if (resp.status === 200) {
                 return { ...resp.data }
@@ -22,13 +19,13 @@ export const getPhotos = (): Promise<any> => {
         })
 }
 
-export const getLocalPhotos = (): Promise<LocalPhotos[] | void> => {
+export const getLocalPhotos = (): Promise<SentData.LocalPhotos | void> => {
     return MediaLib.requestPermissionsAsync()
         .then(() => {
             return MediaLib.getAssetsAsync({ mediaType: "photo" })
                 .then((resp) => {
                     let promises: Promise<void>[] = [];
-                    let photos: LocalPhotos[] = [];
+                    let photos: SentData.LocalPhotos = [];
                     for (let a of resp.assets) {
                         promises.push(
                             MediaLib.getAssetInfoAsync(a)
@@ -70,9 +67,9 @@ export const getPhotosNum = (): Promise<number | null> => {
         })
 }
 
-export const getPhotosToBackup = (localPhotos: LocalPhotos[]): Promise<LocalPhotos[]> => {
+export const getPhotosToBackup = (localPhotos: SentData.LocalPhotos): Promise<SentData.LocalPhotos> => {
     let promises: Promise<void>[] = [];
-    let photosToBackup: LocalPhotos[] = []
+    let photosToBackup: SentData.LocalPhotos = []
     for (let p of localPhotos) {
         promises.push(getPhotoTag(p.id)
             .then(r => {
@@ -87,8 +84,8 @@ export const getPhotosToBackup = (localPhotos: LocalPhotos[]): Promise<LocalPhot
 
 }
 
-export const backupLocalPhotos = (p: LocalPhotos[]): Promise<any> => {
-    return axios.post(`${API_HOST}/photos`, { data: p }, { headers: { "Fetch": "true" } })
+export const backupLocalPhotos = (p: SentData.LocalPhotos): Promise<any> => {
+    return configuredAxios.post("/photos", { data: p })
         .then(resp => {
             if (resp.status === 200) {
                 return resp.data.service.ok

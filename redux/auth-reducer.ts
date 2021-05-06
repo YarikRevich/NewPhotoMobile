@@ -1,137 +1,134 @@
-import { IAuthAction, RETRIEVE_TOKEN, SIGN_IN_SUCCESS, SIGN_IN_ERROR, SIGN_UP_SUCCESS, SIGN_UP_ERROR, SIGN_OUT_SUCCESS, SIGN_OUT_ERROR, CHECK_AUTH_SUCCESS, CHECK_AUTH_ERROR, SignUpData, SignInData } from "./../types/reducers/auth-reducer"
+/// <reference path="./../types/reducers.ts" />
 
 import { setAccountInfo } from "./../Helpers/storage"
-import { checkAuth, retrieveToken, signIn, signOut, signUp } from "./../Helpers/auth"
+import { checkAuth, signIn, signOut, signUp } from "./../Helpers/auth"
 import { Dispatch } from "react"
 import messagePublusher from "messagepublisher"
 
+import { AuthReducer } from "./../types/reducers"
+
 const initialState = {
     isAuthed: false,
+    isChecking: false
 }
 
-const authReducer = (state = initialState, action: IAuthAction) => {
+const authReducer = (state = initialState, action: AuthReducer.IAuthAction) => {
     switch (action.type) {
-        case CHECK_AUTH_SUCCESS:
-            return ({ ...state, isAuthed: true })
-        case CHECK_AUTH_ERROR:
+        case AuthReducer.TOOGLE_CHECKING:
+            return { ...state, isChecking: state.isChecking ? false : true }
+        case AuthReducer.CHECK_AUTH_SUCCESS:
+            return { ...state, isAuthed: true }
+        case AuthReducer.CHECK_AUTH_ERROR:
             messagePublusher.add("You are not authed!")
-            return ({ ...state, isAuthed: false })
-        case SIGN_UP_SUCCESS:
+            return { ...state, isAuthed: false }
+        case AuthReducer.SIGN_UP_SUCCESS:
             messagePublusher.add("You signed up!")
-            if (action.updater) {
-                action.updater({ ok: true, checked: true })
-            }
-            break
-        case SIGN_UP_ERROR:
+            return { ...state }
+        case AuthReducer.SIGN_UP_ERROR:
             messagePublusher.add("User with such login already exists!")
-            if (action.updater) {
-                action.updater({ ok: false, checked: true })
-            }
-            break
-        case SIGN_IN_SUCCESS:
+            return { ...state }
+        case AuthReducer.SIGN_IN_SUCCESS:
             messagePublusher.add("You logged in!")
             return { ...state, isAuthed: true }
-        case SIGN_IN_ERROR:
+        case AuthReducer.SIGN_IN_ERROR:
             messagePublusher.add("User with such credentials does not exist")
-            break
-        case SIGN_OUT_SUCCESS:
+            return { ...state }
+        case AuthReducer.SIGN_OUT_SUCCESS:
             messagePublusher.add("Logout is successful!")
             return { ...state, isAuthed: false }
-        case SIGN_OUT_ERROR:
+        case AuthReducer.SIGN_OUT_ERROR:
             messagePublusher.add("Logout is not successful!")
-
+            return { ...state }
     }
     return state
 }
 
+const createToogleChecking = (): AuthReducer.IAuthAction => {
+    return { type: AuthReducer.TOOGLE_CHECKING }
+}
+
 // Check auth creators ...
 
-export const createCheckAuth = (updater: Function) => (dispatch: Dispatch<any>) => {
-    return checkAuth()
+export const createCheckAuth = () => (dispatch: Dispatch<any>) => {
+    dispatch(createToogleChecking())
+    checkAuth()
         .then(ok => {
             if (ok) {
-                dispatch(checkAuthSuccess(updater))
+                dispatch(checkAuthSuccess())
             } else {
-                dispatch(checkAuthError(updater))
+                dispatch(checkAuthError())
             }
-            updater(true)
+            dispatch(createToogleChecking())
         })
 }
 
-export const checkAuthSuccess = (updater: Function) => {
-    return ({ type: CHECK_AUTH_SUCCESS })
+export const checkAuthSuccess = () => {
+    return ({ type: AuthReducer.CHECK_AUTH_SUCCESS })
 }
 
-export const checkAuthError = (updater: Function) => {
-    return ({ type: CHECK_AUTH_ERROR })
+export const checkAuthError = () => {
+    return ({ type: AuthReducer.CHECK_AUTH_ERROR })
 }
 
-// Sign up creators ...
-
-export const createSignUp = (d: SignUpData, updater: Function) => (dispatch: Dispatch<any>) => {
+export const createSignUp = (d: SentData.SignUp) => (dispatch: Dispatch<any>) => {
     return signUp(d)
         .then(ok => {
             if (ok) {
-                dispatch(signUpSuccess(updater))
+                dispatch(signUpSuccess())
 
             } else {
-                dispatch(signUpError(updater))
+                dispatch(signUpError())
             }
-            updater(true)
         })
 }
 
-const signUpSuccess = (updater: Function) => {
-    return ({ type: SIGN_UP_SUCCESS, updater: updater })
+const signUpSuccess = () => {
+    return ({ type: AuthReducer.SIGN_UP_SUCCESS })
 }
 
-const signUpError = (updater: Function) => {
-    return ({ type: SIGN_UP_ERROR, updater: updater })
+const signUpError = () => {
+    return ({ type: AuthReducer.SIGN_UP_ERROR })
 }
 
-//Sign in creators ...
-
-export const createSignIn = (d: SignInData, updater: Function) => (dispatch: Dispatch<any>) => {
+export const createSignIn = (d: SentData.SignIn) => (dispatch: Dispatch<any>) => {
     return signIn(d)
         .then(ok => {
             if (ok) {
-                dispatch(signInSuccess(updater))
+                dispatch(signInSuccess())
             } else {
-                dispatch(signInError())     
+                dispatch(signInError())
             }
         })
 }
 
-const signInSuccess = (updater: Function) => {
-    return ({ type: SIGN_IN_SUCCESS, updater: updater })
+const signInSuccess = () => {
+    return ({ type: AuthReducer.SIGN_IN_SUCCESS })
 }
 
 const signInError = () => {
-    return ({ type: SIGN_IN_ERROR })
+    return ({ type: AuthReducer.SIGN_IN_ERROR })
 }
 
-// Sign out creators ...
-
-export const createSignOut = (updater: Function) => (dispatch: Dispatch<any>) => {
+export const createSignOut = () => (dispatch: Dispatch<any>) => {
     return signOut()
         .then(ok => {
             if (ok) {
                 setAccountInfo("")
                     .then(() => {
-                        dispatch(signOutSuccess(updater))
+                        dispatch(signOutSuccess())
                     })
             } else {
-                dispatch(signOutError(updater))
+                dispatch(signOutError())
             }
         })
 }
 
-export const signOutSuccess = (updater: Function) => {
-    return ({ type: SIGN_OUT_SUCCESS })
+export const signOutSuccess = () => {
+    return ({ type: AuthReducer.SIGN_OUT_SUCCESS })
 }
 
-export const signOutError = (updater: Function) => {
-    return ({ type: SIGN_OUT_ERROR })
+export const signOutError = () => {
+    return ({ type: AuthReducer.SIGN_OUT_ERROR })
 }
 
 export default authReducer

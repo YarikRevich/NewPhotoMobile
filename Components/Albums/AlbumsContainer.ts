@@ -1,20 +1,27 @@
-import { Dispatch } from "react";
-import { State } from "../../types/state/state";
-import { connect } from "react-redux"
-import { createTest } from "../../redux/albums-reducer";
-import { IAlbumsPage } from "./../../types/reducers/albums-reducer"
-import Albums from "./Albums"
+/// <reference path="./../../types/reducers.ts" />
 
-const mapStateToProps = (state: State) => {
+import { Dispatch } from "react";
+import { connect } from "react-redux"
+
+import type { ParamListBase } from "@react-navigation/native"
+import type { StackScreenProps } from "@react-navigation/stack"
+
+import Albums from "./Albums"
+import { createGetAlbums } from "../../redux/albums-reducer";
+
+import type { AlbumsReducer } from "./../../types/reducers"
+
+const mapStateToProps = (state: State, navigator: StackScreenProps<ParamListBase>) => {
     return {
-        albumsPage: state.albumsPage
+        albumsPage: state.albumsPage,
+        navigator: navigator,
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<IAlbumsPage>) => {
+const mapDispatchToProps = (dispatch: Dispatch<AlbumsReducer.IAlbumsAction | any>) => {
     return {
-        test: () => {
-            dispatch(createTest());
+        getAlbums: () => {
+            dispatch(createGetAlbums())
         }
     }
 }

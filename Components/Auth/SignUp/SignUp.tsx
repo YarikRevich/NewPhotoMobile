@@ -1,18 +1,18 @@
+/// <reference path="../../../types/components.ts" />
+
 import React, { useEffect, useState } from "react"
 import { Text, TouchableWithoutFeedback, View, TextInput, TouchableOpacity, Keyboard } from "react-native"
 
-import Banner from "./../../CustomisedHeader/Banner/Banner"
 
-//Types ...
-
-import { SignUpType } from "./../../../types/components/SignUp"
+import { Components } from "../../../types/components"
 
 //Styles ...
 
 import FormsStyle from "./../../../constants/Forms"
 import { ScrollView } from "react-native-gesture-handler"
 
-const SignUp = (props: SignUpType) => {
+
+const SignUp = (props: Components.SignUpType) => {
 
     const [login, setLogin] = useState("");
     const [firstname, setFirstname] = useState("");

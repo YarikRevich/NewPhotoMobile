@@ -1,18 +1,12 @@
-//External libraries ...
-
-import React, { useEffect, useState } from "react"
-import { FlatList, Text, View, Image, TouchableOpacity } from "react-native"
-import messagePublisher from "messagepublisher"
-
-//Types ...
-
-import { HeaderType } from "../../../types/components/Header"
+import React from "react"
+import { Text, View, Image, TouchableOpacity } from "react-native"
 
 //Styles ...
 
 import HeaderStyles from "../../../constants/CustomisedHeader"
+import { Components } from "../../../types/components"
 
-const Header = (props: HeaderType) => {
+const Header = (props: Components.HeaderType) => {
 
     const handleMenuButton = () => {
         props.navigation.toggleDrawer()
@@ -21,7 +15,7 @@ const Header = (props: HeaderType) => {
     return (
         <View >
             <View style={props.type == "drawer" ? (props.authentification.isAuthed ? HeaderStyles.headerDrawerAuthed : HeaderStyles.headerDrawerNotAuthed) : HeaderStyles.headerStack}>
-                {props.authentification.isAuthed ?
+                {props.type == "drawer" && props.authentification.isAuthed ?
                     (<TouchableOpacity onPress={handleMenuButton}>
                         <Image style={HeaderStyles.menuImage} source={{ uri: "https://img.icons8.com/android/50/000000/menu.png" }} />
                     </TouchableOpacity>)

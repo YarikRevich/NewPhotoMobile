@@ -2,17 +2,16 @@ import { createStore, combineReducers, Reducer, applyMiddleware } from "redux"
 import thunk from "redux-thunk"
 
 import photoPage from "./photo-reducer"
-import header from "./header-reducer"
 import authReducer from "./auth-reducer"
 import accountReducer from "./account-reducer"
 import albumsPage from "./albums-reducer";
+import equalAlbumPage from "./equalalbum-reducer";
 
 const reducers = combineReducers<Reducer>({
     authentification: authReducer,
-    header: header,
     photosPage: photoPage,
     albumsPage: albumsPage,
-    albumPage: {},
+    equalAlbumPage: equalAlbumPage,
     accountPage: accountReducer,
     aboutPage: {},
 })

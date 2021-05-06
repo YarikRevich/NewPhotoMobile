@@ -1,14 +1,5 @@
-//External libraries
-
-import { Dispatch } from "react";
 import { connect } from "react-redux";
 
-//Types ...
-
-import { IHeaderAction } from "../../../types/reducers/header-reducer"
-import { State } from "../../../types/state/state"
-
-//Components ...
 
 import Header from "./Header"
 
@@ -19,8 +10,4 @@ const mapStateToProps = (state: State) => {
     })
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<IHeaderAction>) => {
-    return {}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default connect(mapStateToProps, {})(Header)

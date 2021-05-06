@@ -1,14 +1,24 @@
-import { State } from "../types/state/state"
-import { IAlbumsPage, TEST } from "../types/reducers/albums-reducer"
+/// <reference path="./../types/reducers.ts" />
+
+import { Dispatch } from "react"
+import { getAlbums } from "../Helpers/albums"
+import messagepublisher from "messagepublisher"
+
+import { AlbumsReducer } from "./../types/reducers"
 
 const initialState = {
-    num: 0
+    result: [] as RecievedData.Albums
 }
 
-const albumsPage = (state = initialState, action: IAlbumsPage) => {
+type initialStateType = typeof initialState
+
+const albumsPage = (state: initialStateType = initialState, action: AlbumsReducer.IAlbumsAction) => {
     switch (action.type) {
-        case TEST:
-            return { ...state, num: state.num += 1 }
+        case AlbumsReducer.GET_ALBUMS_SUCCESS:
+            return { ...state, result: action.data }
+        case AlbumsReducer.GET_ALBUMS_ERROR:
+            messagepublisher.add("Error happened during getting the albums!")
+            return { ...state }
     }
     return state
 }
@@ -16,7 +26,34 @@ const albumsPage = (state = initialState, action: IAlbumsPage) => {
 export default albumsPage
 
 
-export const createTest = () => {
-    console.log("Reducer")
-    return { type: TEST }
+/**
+ * @returns Dispatch for the futher action
+ */
+export const createGetAlbums = () => (dispatch: Dispatch<any>) => {
+    getAlbums()
+        .then((v) => {
+            if (v.ok) {
+                dispatch(createGetAlbumsSuccess(v.data))
+            } else {
+                dispatch(createGetAlbumsError())
+            }
+        })
 }
+
+/**
+ * 
+ * @param data Data for saving
+ * @returns Action
+ */
+const createGetAlbumsSuccess = (data: RecievedData.Albums) => {
+    return { type: AlbumsReducer.GET_ALBUMS_SUCCESS, data: data }
+}
+
+/**
+ * 
+ * @returns Action
+ */
+const createGetAlbumsError = () => {
+    return { type: AlbumsReducer.GET_ALBUMS_ERROR }
+}
+

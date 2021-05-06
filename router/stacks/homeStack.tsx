@@ -9,15 +9,10 @@ import PhotosContainer from "./../../Components/Photos/PhotosContainer"
 import HeaderContainer from "../../Components/CustomisedHeader/Header/HeaderContainer"
 import Banner from "./../../Components/CustomisedHeader/Banner/Banner"
 
-//Types ...
-
-import { IHomeStack } from "../../types/stacks/nav-stacks"
-
-
 const Stack = createStackNavigator()
 
 
-export const HomeStack = (props: IHomeStack) => {
+export const HomeStack = (props: Stack) => {
 
     return (
         <Stack.Navigator initialRouteName={"Home"}>

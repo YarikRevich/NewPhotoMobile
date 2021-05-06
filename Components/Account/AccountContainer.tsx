@@ -1,14 +1,12 @@
+/// <reference path="./../../types/reducers.ts" />
+
 //External libraries
 
 import { Dispatch } from "react";
 import { connect } from "react-redux";
-import { RouteProp } from "@react-navigation/native"
 import { DrawerContentComponentProps, DrawerContentOptions } from "@react-navigation/drawer"
 
-//Types ...
-
-import { IAuthAction } from "../../types/reducers/auth-reducer"
-import { State } from "../../types/state/state"
+import type { AuthReducer } from "./../../types/reducers"
 
 //Components ...
 
@@ -26,10 +24,10 @@ const mapStateToProps = (state: State, navigation: DrawerContentComponentProps<D
     })
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<IAuthAction | any>) => {
+const mapDispatchToProps = (dispatch: Dispatch<AuthReducer.IAuthAction | any>) => {
     return {
         signOut: (updater: Function) => {
-            dispatch(createSignOut(updater))
+            dispatch(createSignOut())
         },
         getAccountInfo: (updater: Function) => {
             dispatch(createGetAccountInfo(updater))

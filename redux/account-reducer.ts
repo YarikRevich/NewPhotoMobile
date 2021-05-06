@@ -1,8 +1,12 @@
+/// <reference path="./../types/reducers.ts" />
+
+
 import { Dispatch } from "react"
 import messagePublusher from "messagepublisher"
 import { getAccountInfo_ } from "./../Helpers/account"
 import { getAccountInfo, setAccountInfo } from "./../Helpers/storage"
-import { IAccountAction, GET_ACCOUNT_INFO_ERROR, GET_ACCOUNT_INFO_SUCCESS } from "./../types/reducers/account-reducer"
+
+import { AccountReducer } from "./../types/reducers"
 
 
 const initialState = {
@@ -13,9 +17,12 @@ const initialState = {
     }
 }
 
-const accountReducer = (state = initialState, action: IAccountAction) => {
+
+type initialStateType = typeof initialState;
+
+const accountReducer = (state: initialStateType = initialState, action: AccountReducer.IAccountAction) => {
     switch (action.type) {
-        case GET_ACCOUNT_INFO_SUCCESS:
+        case AccountReducer.GET_ACCOUNT_INFO_SUCCESS:
             setTimeout(() => {
                 if (action.updater) {
                     action.updater(true)
@@ -25,7 +32,7 @@ const accountReducer = (state = initialState, action: IAccountAction) => {
                 return { result: action.data }
             }
             break
-        case GET_ACCOUNT_INFO_ERROR:
+        case AccountReducer.GET_ACCOUNT_INFO_ERROR:
             setTimeout(() => {
                 if (action.updater) {
                     action.updater(true)
@@ -61,11 +68,11 @@ export const createGetAccountInfo = (updater: Function) => (dispatch: Dispatch<a
 }
 
 const createGetAccountInfoSuccess = (data: any, updater: Function) => {
-    return { type: GET_ACCOUNT_INFO_SUCCESS, data: data, updater: updater }
+    return { type: AccountReducer.GET_ACCOUNT_INFO_SUCCESS, data: data, updater: updater }
 }
 
 const createGetAccountInfoError = (updater: Function) => {
-    return { type: GET_ACCOUNT_INFO_ERROR, updater: updater }
+    return { type: AccountReducer.GET_ACCOUNT_INFO_ERROR, updater: updater }
 }
 
 export default accountReducer

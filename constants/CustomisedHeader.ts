@@ -116,10 +116,24 @@ const headerMenuImageStyles = StyleSheet.create({
 })
 
 
+const stackHeaderStyle = StyleSheet.create({
+    headerStackStyle: { 
+        backgroundColor: "aliceblue", 
+        height: 80 
+    },
+    headerStackTitleStyle: { 
+        fontSize: 20, 
+        fontWeight: "700", 
+        marginTop: 5 
+    }
+})
+
+
 export default StyleSheet.create({
     ...exceptableHeaderStyles,
     ...messageHeaderBannerStyle,
     ...headerTypesStyles,
     ...headerTitleStyles,
     ...headerMenuImageStyles,
+    ...stackHeaderStyle,
 })

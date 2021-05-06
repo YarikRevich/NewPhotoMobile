@@ -9,15 +9,11 @@ import About from "./../../Components/About/About"
 import HeaderContainer from "./../../Components/CustomisedHeader/Header/HeaderContainer"
 import Banner from "./../../Components/CustomisedHeader/Banner/Banner"
 
-//Types ...
-
-import { IAboutStack } from "../../types/stacks/nav-stacks"
-
 
 const Stack = createStackNavigator()
 
 
-export const AboutStack = (props: IAboutStack) => {
+export const AboutStack = (props: Stack) => {
 
     return (
         <Stack.Navigator initialRouteName={"About"}>

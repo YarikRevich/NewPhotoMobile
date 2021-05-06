@@ -1,14 +1,21 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "typeRoots": [
-      "types"
+    "types": [
+      "types/components.ts",
+      "types/reducers.ts",
+      "types/stacks.ts",
+      "types/state.ts",
     ],
+    "declaration": true,
     "jsx": "react-native",
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "moduleResolution": "node",
     "noEmit": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "resolveJsonModule": true,
     "strict": true
   }

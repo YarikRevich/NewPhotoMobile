@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+/// <reference path="../../../types/components.ts" />
+
+import React, { useState } from "react";
 import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text, TextInput } from "react-native"
 
 //Types ...
 
 
-import { SignInType } from "./../../../types/components/SignIn"
+import { Components } from "./../../../types/components"
 
 //Constants ...
-
-// import SignInStyle from "./../../../constants/SignIn"
 import FormsStyle from "./../../../constants/Forms"
 
 
-const SignIn = (props: SignInType) => {
+const SignIn = (props: Components.SignInType) => {
 
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");

@@ -33,3 +33,13 @@ COMMIT: 5
 - Implemented a detailed view of chosen photo by press
 - Implemented backup system and ui visibility of backuping
 ```
+
+COMMIT: 6
+
+```
+- Imroved home page
+- Added album page
+- Added stack redirection
+- Added the oportunity to add albums
+- Added the general model for state changing page
+```

@@ -1,12 +1,11 @@
-//External libraries
+/// <reference path="./../../../types/reducers.ts" path="./../../../types/state.ts" />
+
 
 import { Dispatch } from "react";
 import { connect } from "react-redux";
 
-//Types ...
-
-import { IAuthAction, SignInData } from "./../../../types/reducers/auth-reducer"
-import { State } from "./../../../types/state/state"
+import type { AuthReducer } from "./../../../types/reducers"
+import type {  } from "./../../../types/components"
 
 //Components ...
 
@@ -22,10 +21,10 @@ const mapStateToProps = (state: State) => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<IAuthAction | any>) => {
+const mapDispatchToProps = (dispatch: Dispatch<AuthReducer.IAuthAction | any>) => {
     return {
-        signIn: (d: SignInData, updater: Function) => {
-            dispatch(createSignIn(d, updater))
+        signIn: (d: SentData.SignIn) => {
+            dispatch(createSignIn(d))
         },
     }
 }

@@ -11,16 +11,16 @@ const Banner = () => {
     const _FORCE_UPDATE = ForceUpdater();
     const [deletingProcess, setDeletingProcess] = useState(false);
 
-    useEffect((): any => {
+    useEffect(() => {
         let mount = true
         setTimeout(() => {
             if (mount) _FORCE_UPDATE()
         }, 50)
         if (!deletingProcess) {
             setTimeout(() => {
-                messagePublisher.cleanUp()
+                messagePublisher.cleanUp(2)
                 if (mount) setDeletingProcess(false)
-            }, 5000)
+            }, 100)
             if (mount) setDeletingProcess(true)
         }
         return () => { mount = false }

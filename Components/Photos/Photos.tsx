@@ -1,18 +1,19 @@
+/// <reference path="./../../types/components.ts" />
+
 import React, { useEffect, useState } from "react"
-import { Text, View, FlatList, Image, Dimensions, ActivityIndicator, Animated, Alert, Modal } from "react-native"
+import { Text, View, FlatList, Image, Dimensions, ActivityIndicator, Animated, Alert, Modal, TouchableOpacity } from "react-native"
 
-//Types ...
+import DetailedPhotoView from "./../DetailedPhotoView/DetailedPhotoView"
 
-import { PhotosType } from "./../../types/components/Photos"
+import type { Components } from "./../../types/components"
+
 
 //Styles ...
 
 import PhotosStyle from "./../../constants/Photos"
 import ActivityIndStyle from "./../../constants/ActivityIndicator"
-import { TouchableOpacity } from "react-native-gesture-handler"
-import { ForceUpdater } from "../../Helpers/utils"
 
-const Photos = (props: PhotosType) => {
+const Photos = (props: Components.PhotosType) => {
 
     const [detailed, setDetailed] = useState({ show: false, photo: "" });
     const [newPhotosTrackerStarted, setNewPhotosTrackerStarted] = useState(false);
@@ -86,18 +87,7 @@ const Photos = (props: PhotosType) => {
                 style={{ ...ActivityIndStyle.BackupIndicator, width: backupAnimation }}>
             </Animated.View>
             <Animated.View style={{ marginBottom: (props.photosPage.isAnimating ? gapAnimation : -22) }}></Animated.View>
-            <Modal animationType={"slide"} visible={detailed.show} style={PhotosStyle.detailedPhotoView}>
-                <View style={PhotosStyle.detailedPhotoCover}>
-                    <TouchableOpacity
-                        style={PhotosStyle.detailedPhotoCloseCrossOpacity}
-                        onPress={() => {
-                            setDetailed({ show: false, photo: "" })
-                        }}>
-                        <Image style={PhotosStyle.detailedPhotoCloseCross} source={require("./../../assets/images/closecross.png")} />
-                    </TouchableOpacity>
-                </View>
-                <Image style={PhotosStyle.detailedPhoto} source={{ uri: `data:image/png;image/jpeg;base64,${detailed.photo}` }}></Image>
-            </Modal>
+            <DetailedPhotoView visible={detailed.show} photo={detailed.photo} onPress={() => setDetailed({ show: false, photo: "" })} />
             {props.photosPage.result != undefined ?
                 (<FlatList
                     style={PhotosStyle.photos}

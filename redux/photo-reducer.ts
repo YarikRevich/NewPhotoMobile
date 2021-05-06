@@ -1,25 +1,14 @@
+/// <reference path="../types/reducers.ts" />
+
 import { Dispatch } from "react";
-import {
-    IPhotoAction,
-    GET_LOCAL_PHOTOS_ERROR,
-    GET_LOCAL_PHOTOS_SUCCESS,
-    TOOGLE_FETCHING,
-    TOOGLE_BACKUPING,
-    STOP_ANIMATION,
-    START_ANIMATION,
-    TURNON_RESET,
-    TURNOFF_RESET,
-    TURNON_LISTENING,
-    BACKUP_ERROR,
-    PHOTOS_NUM,
-} from "../types/reducers/photo-reducer"
-import { PhotoPage } from "../types/state/state"
 
 import messagePublusher from "messagepublisher"
 
 import { getLocalPhotos, getPhotosToBackup, backupLocalPhotos, getPhotosNum } from "./../Helpers/photos"
 
-const initialState: PhotoPage = {
+import { PhotoReducer } from "./../types/reducers"
+
+const initialState = {
     result: [],
     isFetching: false,
     isBackuping: false,
@@ -28,37 +17,39 @@ const initialState: PhotoPage = {
     isReset: false,
 }
 
+type initialStateType = typeof initialState
+
 /**
  * 
  * @param state Photo state 
  * @param action Object with the information for the changing of the state
  * @returns Changed Photo state
  */
-const photoReducer = (state = initialState, action: IPhotoAction) => {
+const photoReducer = (state: initialStateType = initialState, action: PhotoReducer.IPhotoAction) => {
     switch (action.type) {
-        case TOOGLE_FETCHING:
+        case PhotoReducer.TOOGLE_FETCHING:
             return { ...state, isFetching: state.isFetching ? false : true }
-        case TOOGLE_BACKUPING:
+        case PhotoReducer.TOOGLE_BACKUPING:
             return { ...state, isBackuping: state.isBackuping ? false : true }
-        case STOP_ANIMATION:
+        case PhotoReducer.STOP_ANIMATION:
             return { ...state, isAnimating: false, isListening: false }
-        case START_ANIMATION:
+        case PhotoReducer.START_ANIMATION:
             return { ...state, isAnimating: true, isListening: true }
-        case TURNON_RESET:
+        case PhotoReducer.TURNON_RESET:
             return { ...state, isReset: true }
-        case TURNOFF_RESET:
+        case PhotoReducer.TURNOFF_RESET:
             return { ...state, isReset: false }
-        case TURNON_LISTENING:
+        case PhotoReducer.TURNON_LISTENING:
             return { ...state, isListening: true }
-        case BACKUP_ERROR:
+        case PhotoReducer.BACKUP_ERROR:
             messagePublusher.add("An error happened during the backuping")
             break
-        case GET_LOCAL_PHOTOS_SUCCESS:
+        case PhotoReducer.GET_LOCAL_PHOTOS_SUCCESS:
             if (action.data) {
                 return { ...state, result: action.data, photosNum: action.data.length }
             }
             return { ...state }
-        case GET_LOCAL_PHOTOS_ERROR:
+        case PhotoReducer.GET_LOCAL_PHOTOS_ERROR:
             messagePublusher.add("Something went wrong!")
     }
     return state
@@ -70,7 +61,7 @@ const photoReducer = (state = initialState, action: IPhotoAction) => {
  * @returns Action
  */
 const createToogleFetching = () => {
-    return { type: TOOGLE_FETCHING }
+    return { type: PhotoReducer.TOOGLE_FETCHING }
 }
 
 /**
@@ -79,7 +70,7 @@ const createToogleFetching = () => {
  * @returns Action
  */
 const createToogleBackuping = () => {
-    return { type: TOOGLE_BACKUPING }
+    return { type: PhotoReducer.TOOGLE_BACKUPING }
 }
 
 /**
@@ -88,7 +79,7 @@ const createToogleBackuping = () => {
  * @returns Action
  */
 export const createStartAnimation = () => {
-    return { type: START_ANIMATION }
+    return { type: PhotoReducer.START_ANIMATION }
 }
 
 /**
@@ -97,7 +88,7 @@ export const createStartAnimation = () => {
  * @returns Action
  */
 export const createStopAnimation = () => {
-    return { type: STOP_ANIMATION }
+    return { type: PhotoReducer.STOP_ANIMATION }
 }
 
 /**
@@ -106,7 +97,7 @@ export const createStopAnimation = () => {
  * @returns Action
  */
 const createTurnOnReset = () => {
-    return { type: TURNON_RESET }
+    return { type: PhotoReducer.TURNON_RESET }
 }
 
 /**
@@ -115,7 +106,7 @@ const createTurnOnReset = () => {
  * @returns Action
  */
 export const createTurnOffReset = () => {
-    return { type: TURNOFF_RESET }
+    return { type: PhotoReducer.TURNOFF_RESET }
 }
 
 /**
@@ -124,12 +115,11 @@ export const createTurnOffReset = () => {
  * @returns Action
  */
 export const createTurnOnListening = () => {
-    return { type: TURNON_LISTENING }
+    return { type: PhotoReducer.TURNON_LISTENING }
 }
 
 /**
  * 
- * @param updater Hook for the updation of the component
  * @returns Dispatch for the futher async call of reducer
  */
 export const createBackupPhotos = () => (dispatch: Dispatch<any>, getState: Function) => {
@@ -153,7 +143,7 @@ export const createBackupPhotos = () => (dispatch: Dispatch<any>, getState: Func
  * @returns Action
  */
 const createBackupPhotosError = () => {
-    return { type: BACKUP_ERROR }
+    return { type: PhotoReducer.BACKUP_ERROR }
 }
 
 /**
@@ -177,7 +167,7 @@ export const createGetLocalPhotos = () => (dispatch: Dispatch<any>) => {
  * @returns Action
  */
 const createGetPhotosSuccess = (data: any) => {
-    return { type: GET_LOCAL_PHOTOS_SUCCESS, data: data }
+    return { type: PhotoReducer.GET_LOCAL_PHOTOS_SUCCESS, data: data }
 }
 
 /**
@@ -196,16 +186,6 @@ export const createCheckForNewPhotos = () => (dispatch: Function, getState: Func
                 }
             }
         })
-}
-
-/**
- * 
- * @param updater Hook for the updation of the component
- * @param photosNum Num of the photos;
- * @returns Action
- */
-const createGetPhotosNumSuccess = (photosNum: number) => {
-    return { type: PHOTOS_NUM, photosNum: photosNum }
 }
 
 export default photoReducer

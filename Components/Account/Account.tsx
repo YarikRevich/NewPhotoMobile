@@ -1,15 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Text, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from "react-native"
-import { TextInput } from "react-native-gesture-handler";
+/// <reference path="./../../types/components.ts" />
 
-import { AccountType } from "./../../types/components/Account"
+import React, { useState } from "react";
+import { Text, View, TouchableOpacity } from "react-native"
+
+import type { Components } from "./../../types/components"
 
 import AccountStyle from "./../../constants/Account"
 
-const Account = (props: AccountType) => {
+const Account = (props: Components.AccountType) => {
 
     const [press, setPress] = useState(false)
-    const [signout, setSignout] = useState(false)
+    const [_, setSignout] = useState(false)
     const [checked, setChecked] = useState(false);
 
     if (!checked) {
@@ -24,11 +25,11 @@ const Account = (props: AccountType) => {
                     <Text style={AccountStyle.accountInfoRowText}>{props.accountPage.result.firstname}</Text>
                 </View>
                 <View style={AccountStyle.accountInfoRow}>
-                <Text style={AccountStyle.accountInfoRowTextPlaceholder}>Secondname: </Text>
+                    <Text style={AccountStyle.accountInfoRowTextPlaceholder}>Secondname: </Text>
                     <Text style={AccountStyle.accountInfoRowText}>{props.accountPage.result.secondname}</Text>
                 </View>
                 <View style={AccountStyle.accountInfoRow}>
-                <Text style={AccountStyle.accountInfoRowTextPlaceholder}>Storage: </Text>
+                    <Text style={AccountStyle.accountInfoRowTextPlaceholder}>Storage: </Text>
                     <Text style={AccountStyle.accountInfoRowText}>{props.accountPage.result.storage} gb</Text>
                 </View>
                 <View>

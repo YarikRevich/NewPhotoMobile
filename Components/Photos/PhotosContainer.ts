@@ -1,17 +1,18 @@
+/// <reference path="./../../types/reducers.ts" />
+
+
 //External libraries
 
 import { Dispatch } from "react";
 import { connect } from "react-redux";
 
-//Types ...
-
-import { IPhotoAction } from "../../types/reducers/photo-reducer"
-import { State } from "../../types/state/state"
 
 //Components ...
 
 import Photos from "./Photos"
 import { createGetLocalPhotos, createBackupPhotos, createCheckForNewPhotos, createTurnOffReset, createStartAnimation, createStopAnimation, createTurnOnListening } from "./../../redux/photo-reducer"
+
+import type { PhotoReducer } from "./../../types/reducers"
 
 /**
  * 
@@ -29,7 +30,7 @@ const mapStateToProps = (state: State) => {
  * @param dispatch Dispatch for the communication with photopage reducers
  * @returns Methods to communicate with reducers
  */
-const mapDispatchToProps = (dispatch: Dispatch<IPhotoAction | any>) => {
+const mapDispatchToProps = (dispatch: Dispatch<PhotoReducer.IPhotoAction | any>) => {
     return ({
 
         /**
@@ -77,7 +78,7 @@ const mapDispatchToProps = (dispatch: Dispatch<IPhotoAction | any>) => {
             dispatch(createTurnOffReset())
         },
 
-        turnOnListening(){
+        turnOnListening() {
             dispatch(createTurnOnListening())
         }
 
