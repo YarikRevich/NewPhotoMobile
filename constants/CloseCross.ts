@@ -5,7 +5,9 @@ export default StyleSheet.create({
         height: 90,
         width: 90,
         marginBottom: -55,
-        alignSelf: "flex-end"
+        alignSelf: "flex-end",
+        position: "relative",
+        zIndex: 1000
     },
     closeCrossPhoto: {
         marginTop: 25,

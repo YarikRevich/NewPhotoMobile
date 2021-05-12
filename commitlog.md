@@ -43,3 +43,10 @@ COMMIT: 6
 - Added the oportunity to add albums
 - Added the general model for state changing page
 ```
+
+COMMIT: 7
+
+```
+- Created custom image browser to choose photos to add
+- Implemented the adding of photos to albums
+```

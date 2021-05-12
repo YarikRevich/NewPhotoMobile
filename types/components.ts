@@ -77,4 +77,25 @@ export namespace Components {
     export interface CloseCrossType {
         onPress: () => void
     }
+
+    export interface AddAlbumType {
+        addAlbum(albumName: string): void
+        onClose: () => void
+        onUpdate: () => void
+    }
+
+    export interface AddPhotosType {
+        albumName: string;
+        addPhotos(albumName: string, data: SentData.LocalPhotos, toDelete: string[]): void
+        onClose: () => void
+        onUpdate: () => void
+    }
+
+    export interface ImageBrowserType {
+        photoPage: StateComponents.PhotoPage
+        equalAlbumPage: StateComponents.EqualAlbumPage
+        visible: boolean
+        onClose: () => void
+        onDone: (data: SentData.LocalPhotos, toDelete: string[]) => void
+    }
 }

@@ -40,6 +40,9 @@ export namespace AlbumsReducer {
 
     export const GET_ALBUMS_SUCCESS = "GET-ALBUMS-SUCCESS"
     export const GET_ALBUMS_ERROR = "GET-ALBUMS-ERROR"
+    export const ADD_ALBUM_SUCCESS = "ADD-ALBUM-SUCCESS";
+    export const ADD_ALBUM_ERROR = "ADD-ALBUM-ERROR";
+    export const CLEAN_ALBUM = "CLEAN-ALBUM"
 }
 
 export namespace EqualAlbumReducer {
@@ -51,6 +54,10 @@ export namespace EqualAlbumReducer {
 
     export const GET_EQUAL_ALBUM_SUCCESS = "GET-EQUAL-ALBUM-SUCCESS"
     export const GET_EQUAL_ALBUM_ERROR = "GET-EQUAL-ALBUM-ERROR"
+    export const ADD_PHOTOS_SUCCESS = "ADD_PHOTOS_SUCCESS";
+    export const ADD_PHOTOS_ERROR = "ADD_PHOTOS_ERROR";
+    export const CLEAN_EQUAL_ALBUM = "CLEAN-EQUAL-ALBUM";
+    export const DELETE_EQUAL_PHOTO = "DELETE-EQUAL-PHOTO";
 }
 
 export namespace HeaderReducer {

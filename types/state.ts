@@ -1,6 +1,6 @@
 declare namespace RecievedData {
     type Photos = { file: string, id: string }[];
-    type Albums = { name: string; latestPhoto: string }[];
+    type Albums = { name: string; latestphoto: string }[];
     type EqualAlbum = { photo: string }[];
 }
 
@@ -49,7 +49,7 @@ declare namespace StateComponents {
     }
 
     interface PhotoPage {
-        result: RecievedData.Photos
+        result: SentData.LocalPhotos
         isFetching: boolean
         isBackuping: boolean
         isAnimating: boolean

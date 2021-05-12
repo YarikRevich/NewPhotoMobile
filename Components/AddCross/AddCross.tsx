@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Animated, TouchableOpacity } from "react-native"
 
 import type { Components } from "./../../types/components"
@@ -8,9 +8,14 @@ import AddCrossStyle from "./../../constants/AddCross"
 const AddCross = (props: Components.AddCrossType) => {
     const rotationAnimation = new Animated.Value(0);
 
+    rotationAnimation.addListener(({ value }) => {
+        if (value == 4) {
+            props.onPress()
+        }
+    })
+
     const runAddPlusAnimation = () => {
         rotationAnimation.setValue(0)
-
         Animated.sequence([
             Animated.timing(rotationAnimation, {
                 toValue: 1,
@@ -34,7 +39,7 @@ const AddCross = (props: Components.AddCrossType) => {
                 duration: 200,
                 useNativeDriver: false,
             }),
-        ]).start(props.onPress)
+        ]).start()
     }
 
     const rotation = rotationAnimation.interpolate({
