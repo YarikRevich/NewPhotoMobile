@@ -11,6 +11,7 @@ import SignInContainer from "./../../Components/Auth/SignIn/SignInContainer";
 import SignUpContainer from "./../../Components/Auth/SignUp/SignUpContainer";
 
 import CustomisedHeaderStyle from "./../../constants/CustomisedHeader"
+import HeaderStyle from "./../../constants/CustomisedHeader"
 
 const Stack = createStackNavigator()
 
@@ -19,6 +20,7 @@ export const AuthStack = (props: Stack) => {
     return (
         <Stack.Navigator initialRouteName={"SignIn"}>
             <Stack.Screen options={{
+                headerStyle: HeaderStyle.header,
                 headerTitle: () => (
                     <>
                         <HeaderContainer navigation={props.navigation} title={"SignIn"} type={"drawer"} />
@@ -32,7 +34,7 @@ export const AuthStack = (props: Stack) => {
                         <HeaderContainer navigation={props.navigation} title={"SignUp"} type={"stack"} />
                         <Banner />
                     </>
-                ), headerStyle: CustomisedHeaderStyle.headerStackStyle, headerTitleStyle: CustomisedHeaderStyle.headerStackTitleStyle 
+                ), headerStyle: [CustomisedHeaderStyle.headerStackStyle, HeaderStyle.header], headerTitleStyle: CustomisedHeaderStyle.headerStackTitleStyle 
             }} name={"SignUp"} component={SignUpContainer} />
         </Stack.Navigator>
     )

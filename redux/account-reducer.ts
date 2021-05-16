@@ -3,8 +3,8 @@
 
 import { Dispatch } from "react"
 import messagePublusher from "messagepublisher"
-import { getAccountInfo_ } from "./../Helpers/account"
-import { getAccountInfo, setAccountInfo } from "./../Helpers/storage"
+import { getAccountInfo, getAvatar, openMediaPicker, setAvatar } from "./../Helpers/account"
+import { getStorageAccountInfo, setStorageAccountInfo } from "./../Helpers/storage"
 
 import { AccountReducer } from "./../types/reducers"
 
@@ -14,7 +14,8 @@ const initialState = {
         firstname: "",
         secondname: "",
         storage: 0,
-    }
+    },
+    avatar: ""
 }
 
 
@@ -22,57 +23,99 @@ type initialStateType = typeof initialState;
 
 const accountReducer = (state: initialStateType = initialState, action: AccountReducer.IAccountAction) => {
     switch (action.type) {
+        case AccountReducer.SET_AVATAR_SUCCESS:
+            messagePublusher.add("A new avatar was set successfully");
+            return { ...state }
+        case AccountReducer.SET_AVATAR_ERROR:
+            messagePublusher.add("An error happened during the setting of a new avatar!")
+            return { ...state }
+        case AccountReducer.GET_AVATAR_SUCCESS:
+            if (action.avatar) return { ...state, avatar: action.avatar }
+            return { ...state }
+        case AccountReducer.GET_AVATAR_ERROR:
+            messagePublusher.add("An error happened during the getting of a new avatar!")
+            return { ...state }
         case AccountReducer.GET_ACCOUNT_INFO_SUCCESS:
-            setTimeout(() => {
-                if (action.updater) {
-                    action.updater(true)
-                }
-            }, 5)
-            if (action.data) {
-                return { result: action.data }
-            }
-            break
+            if (action.data) return { ...state, result: action.data }
+            return { ...state }
         case AccountReducer.GET_ACCOUNT_INFO_ERROR:
-            setTimeout(() => {
-                if (action.updater) {
-                    action.updater(true)
-                }
-            }, 5)
-            messagePublusher.add("Something went wrong!")
-            break
+            messagePublusher.add("An error happened during the getting of account info!")
+            return { ...state }
     }
     return state
 }
 
-//Creates getAccountInfo action ...
-
-export const createGetAccountInfo = (updater: Function) => (dispatch: Dispatch<any>) => {
-    return getAccountInfo()
-        .then((d: string | null) => {
-            if (d === null) {
-                getAccountInfo_()
-                    .then(data => {
-                        if (data.service.ok) {
-                            setAccountInfo(JSON.stringify(data.result))
-                                .then(() => {
-                                    dispatch(createGetAccountInfoSuccess(data.result, updater))
-                                })
+export const createSetAvatar = () => (dispatch: Dispatch<AccountReducer.IAccountAction>) => {
+    return openMediaPicker()
+        .then(r => {
+            if (r) {
+                return setAvatar(r)
+                    .then(ok => {
+                        if (ok) {
+                            dispatch(createSetAvatarSuccess())
                         } else {
-                            dispatch(createGetAccountInfoError(updater))
+                            dispatch(createSetAvatarError())
                         }
                     })
-            } else {
-                dispatch(createGetAccountInfoSuccess(JSON.parse(d), updater))
             }
         })
 }
 
-const createGetAccountInfoSuccess = (data: any, updater: Function) => {
-    return { type: AccountReducer.GET_ACCOUNT_INFO_SUCCESS, data: data, updater: updater }
+const createSetAvatarSuccess = (): AccountReducer.IAccountAction => {
+    return { type: AccountReducer.SET_AVATAR_SUCCESS }
 }
 
-const createGetAccountInfoError = (updater: Function) => {
-    return { type: AccountReducer.GET_ACCOUNT_INFO_ERROR, updater: updater }
+const createSetAvatarError = (): AccountReducer.IAccountAction => {
+    return { type: AccountReducer.SET_AVATAR_ERROR }
+}
+
+export const createGetAvatar = () => (dispatch: Dispatch<AccountReducer.IAccountAction>) => {
+    return getAvatar()
+        .then(v => {
+            if (v && v.ok) {
+                dispatch(createGetAvatarSuccess(v.avatar))
+            } else {
+                dispatch(createGetAvatarError())
+            }
+        })
+}
+
+const createGetAvatarSuccess = (avatar: string): AccountReducer.IAccountAction => {
+    return { type: AccountReducer.GET_AVATAR_SUCCESS, avatar: avatar }
+}
+
+const createGetAvatarError = (): AccountReducer.IAccountAction => {
+    return { type: AccountReducer.GET_AVATAR_ERROR }
+}
+
+
+export const createGetAccountInfo = () => (dispatch: Dispatch<any>) => {
+    return getStorageAccountInfo()
+        .then(d => {
+            if (d === null) {
+                getAccountInfo()
+                    .then(v => {
+                        if (v && v.ok) {
+                            setStorageAccountInfo(JSON.stringify(v.data))
+                                .then(() => {
+                                    dispatch(createGetAccountInfoSuccess(v.data))
+                                })
+                        } else {
+                            dispatch(createGetAccountInfoError())
+                        }
+                    })
+            } else {
+                dispatch(createGetAccountInfoSuccess(JSON.parse(d)))
+            }
+        })
+}
+
+const createGetAccountInfoSuccess = (data: any) => {
+    return { type: AccountReducer.GET_ACCOUNT_INFO_SUCCESS, data: data }
+}
+
+const createGetAccountInfoError = () => {
+    return { type: AccountReducer.GET_ACCOUNT_INFO_ERROR }
 }
 
 export default accountReducer

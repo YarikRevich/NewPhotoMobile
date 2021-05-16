@@ -1,4 +1,4 @@
-import {StyleSheet} from "react-native"
+import {Dimensions, StyleSheet} from "react-native"
 
 export default StyleSheet.create({
     aboutContainer: {
@@ -10,9 +10,9 @@ export default StyleSheet.create({
         justifyContent: "center",
     },
     aboutBox: {
-        width: 300,
-        height: 300,
-        borderRadius: 20,
+        width: Dimensions.get("window").width / 100 * 90,
+        height: Dimensions.get("window").height / 100 * 35,
+        borderRadius: Dimensions.get("window").width / 100 * 10,
         borderWidth: 2,
         borderColor: "#000000",
         backgroundColor: "aliceblue",
@@ -22,10 +22,10 @@ export default StyleSheet.create({
         alignItems: "center"
     },
     textAuthor: {
-        fontSize: 22,
+        fontSize: Dimensions.get("window").width / 100 * 6,
     },
     textReserved: {
-        marginTop: 8,
-        fontSize: 22,
+        marginTop: Dimensions.get("window").height / 100 * 2,
+        fontSize: Dimensions.get("window").width / 100 * 5,
     },
 })

@@ -13,7 +13,7 @@ export const getEqualAlbum = (albumName: string): Promise<{ ok: boolean, data: R
         .catch((err: Error) => messagepublisher.add(err.message))
 }
 
-export const addPhotosToAlbum = (albumName: string, data: SentData.LocalPhotos): Promise<boolean | null> => {
+export const addPhotosToAlbum = (albumName: string, data: SentData.LocalPhotos<SentData.FileInfo>): Promise<boolean | null> => {
     return configuredAxios.put("/albums/detailed", { data: { name: albumName, result: data } })
         .then(resp => {
             if (resp.status === 200) {

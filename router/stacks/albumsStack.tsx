@@ -13,6 +13,7 @@ import HeaderContainer from "../../Components/CustomisedHeader/Header/HeaderCont
 import Banner from "./../../Components/CustomisedHeader/Banner/Banner"
 
 import CustomisedHeaderStyle from "./../../constants/CustomisedHeader"
+import HeaderStyle from "./../../constants/CustomisedHeader"
 
 
 const Stack = createStackNavigator()
@@ -28,9 +29,10 @@ export const AlbumsStack = (props: Stack) => {
     return (
         <Stack.Navigator initialRouteName={"Albums"}>
             <Stack.Screen options={{
+                headerStyle: HeaderStyle.header,
                 headerTitle: () => (
                     <>
-                        <HeaderContainer navigation={props.navigation} title={"Albums"} type={"drawer"} />
+                        <HeaderContainer navigation={props.navigation} title={"Albums"} type={"drawer"} avatar={true} />
                         <Banner />
                     </>
                 )
@@ -42,7 +44,7 @@ export const AlbumsStack = (props: Stack) => {
                         <Banner />
                     </>
                 ),
-                headerStyle: CustomisedHeaderStyle.headerStackStyle, headerTitleStyle: CustomisedHeaderStyle.headerStackTitleStyle 
+               headerStyle: [CustomisedHeaderStyle.headerStackStyle, HeaderStyle.header,], headerTitleStyle: CustomisedHeaderStyle.headerStackTitleStyle
             }} name={"EqualAlbum"} component={EqualAlbumContainer} />
         </Stack.Navigator>
     )

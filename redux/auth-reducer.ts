@@ -1,6 +1,6 @@
 /// <reference path="./../types/reducers.ts" />
 
-import { setAccountInfo } from "./../Helpers/storage"
+import { setStorageAccountInfo } from "./../Helpers/storage"
 import { checkAuth, signIn, signOut, signUp } from "./../Helpers/auth"
 import { Dispatch } from "react"
 import messagePublusher from "messagepublisher"
@@ -113,7 +113,7 @@ export const createSignOut = () => (dispatch: Dispatch<any>) => {
     return signOut()
         .then(ok => {
             if (ok) {
-                setAccountInfo("")
+                setStorageAccountInfo("")
                     .then(() => {
                         dispatch(signOutSuccess())
                     })

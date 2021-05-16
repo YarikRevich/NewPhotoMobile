@@ -3,7 +3,7 @@ import ImageBrowser from "./ImageBrowser";
 
 const mapStateToProps = (state: State) => {
     return {
-        photoPage: state.photosPage,
+        mediaPage: state.mediaPage,
         equalAlbumPage: state.equalAlbumPage,
     }
 }

@@ -1,31 +1,17 @@
 import configuredAxios from "./common"
-import * as MediaLib from "expo-media-library"
-import * as FileSystem from "expo-file-system"
-
-import { getPhotoTag, setPhotoTagSaved } from "./storage"
 import messagePublusher from "messagepublisher"
 import { getImageSize } from "./utils";
+import * as MediaLib from "expo-media-library";
+import * as FileSystem from "expo-file-system"
+import { getMediaTag, setMediaTagSaved } from "./storage";
 
-export const getPhotos = (): Promise<any> => {
-    return configuredAxios.get("/photos")
-        .then(resp => {
-            if (resp.status === 200) {
-                return { ...resp.data }
-            }
-            messagePublusher.add("Network error!")
-        })
-        .catch((err: Error) => {
-            messagePublusher.add(err.message)
-        })
-}
-
-export const getLocalPhotos = (): Promise<SentData.LocalPhotos | void> => {
+export const getLocalMedia = (t: "photo" | "video"): Promise<SentData.LocalPhotos<SentData.FileInfo> | SentData.LocalVideos<SentData.FileInfo>> => {
     return MediaLib.requestPermissionsAsync()
         .then(() => {
-            return MediaLib.getAssetsAsync({ mediaType: "photo" })
+            return MediaLib.getAssetsAsync({ mediaType: t })
                 .then((resp) => {
                     let promises: Promise<void>[] = [];
-                    let photos: SentData.LocalPhotos = [];
+                    let media: SentData.LocalPhotos<SentData.FileInfo> | SentData.LocalVideos<SentData.FileInfo> = [];
                     for (let a of resp.assets) {
                         promises.push(
                             MediaLib.getAssetInfoAsync(a)
@@ -33,13 +19,14 @@ export const getLocalPhotos = (): Promise<SentData.LocalPhotos | void> => {
                                     if (info.localUri) {
                                         return FileSystem.readAsStringAsync(info.localUri, { encoding: "base64" })
                                             .then(file => {
-                                                photos.push(
+                                                media.push(
                                                     {
                                                         file: file,
                                                         id: a.id,
                                                         date: a.creationTime,
                                                         extension: a.filename.split(".")[1].toLowerCase(),
-                                                        size: getImageSize(a.height, a.width)
+                                                        size: getImageSize(a.height, a.width),
+                                                        uri: a.uri
                                                     })
                                             })
                                     }
@@ -48,44 +35,43 @@ export const getLocalPhotos = (): Promise<SentData.LocalPhotos | void> => {
                     }
                     return Promise.all(promises)
                         .then(() => {
-                            photos.sort((a, b) => {
+                            media.sort((a, b) => {
                                 return b.date - a.date
                             })
-                            return photos
+                            return media
                         })
                 })
         })
 }
 
-export const getPhotosNum = (): Promise<number | null> => {
+export const getMediaToBackup = (l: SentData.LocalPhotos<SentData.FileInfo> | SentData.LocalVideos<SentData.FileInfo>): Promise<SentData.LocalPhotos<SentData.FileInfo> | SentData.LocalVideos<SentData.FileInfo>> => {
+    let promises: Promise<void>[] = [];
+    let mediaToBackup: SentData.LocalPhotos<SentData.FileInfo> | SentData.LocalVideos<SentData.FileInfo> = []
+    for (let p of l) {
+        promises.push(getMediaTag(p.id)
+            .then(r => {
+                if (r != "1") {
+                    mediaToBackup.push(p)
+                    setMediaTagSaved(p.id)
+                }
+            }))
+    }
+    return Promise.all(promises)
+        .then(() => mediaToBackup)
+}
+
+export const getMediaNum = (t: "photo" | "video"): Promise<number | null> => {
     return MediaLib.getPermissionsAsync()
         .then(() => {
-            return MediaLib.getAssetsAsync()
+            return MediaLib.getAssetsAsync({ mediaType: t })
                 .then(resp => {
                     return resp.assets.length
                 })
         })
 }
 
-export const getPhotosToBackup = (localPhotos: SentData.LocalPhotos): Promise<SentData.LocalPhotos> => {
-    let promises: Promise<void>[] = [];
-    let photosToBackup: SentData.LocalPhotos = []
-    for (let p of localPhotos) {
-        promises.push(getPhotoTag(p.id)
-            .then(r => {
-                if (r != "1") {
-                    photosToBackup.push(p)
-                    setPhotoTagSaved(p.id)
-                }
-            }))
-    }
-    return Promise.all(promises)
-        .then(() => photosToBackup)
-
-}
-
-export const backupLocalPhotos = (p: SentData.LocalPhotos): Promise<any> => {
-    return configuredAxios.post("/photos", { data: p })
+export const backupLocalMedia = (t: "photos" | "videos", p: SentData.LocalPhotos<SentData.FileInfo> | SentData.LocalVideos<SentData.FileInfo>): Promise<any> => {
+    return configuredAxios.post(`/${t}`, { data: p })
         .then(resp => {
             if (resp.status === 200) {
                 return resp.data.service.ok

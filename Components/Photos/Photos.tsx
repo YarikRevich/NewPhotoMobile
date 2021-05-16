@@ -1,7 +1,7 @@
 /// <reference path="./../../types/components.ts" />
 
 import React, { useEffect, useState } from "react"
-import { Text, View, FlatList, Image, Dimensions, ActivityIndicator, Animated, Alert, Modal, TouchableOpacity } from "react-native"
+import { Text, View, FlatList, Image, Dimensions, ActivityIndicator, Animated, Alert, Switch, TouchableOpacity } from "react-native"
 
 import DetailedPhotoView from "./../DetailedPhotoView/DetailedPhotoView"
 
@@ -14,26 +14,27 @@ import PhotosStyle from "./../../constants/Photos"
 import ActivityIndStyle from "./../../constants/ActivityIndicator"
 
 const Photos = (props: Components.PhotosType) => {
-
     const [detailed, setDetailed] = useState({ show: false, photo: "" });
     const [newPhotosTrackerStarted, setNewPhotosTrackerStarted] = useState(false);
 
     useEffect((() => {
         props.getLocalPhotos()
 
-        props.backupPhotos()
+        props.getLocalVideos()
 
-        if (props.photosPage.isReset) {
+        props.backupMedia()
+
+        if (props.mediaPage) {
             props.turnOffReset()
         }
 
-        if (!props.photosPage.isFetching && !props.photosPage.isBackuping && !newPhotosTrackerStarted) {
+        if (!props.mediaPage.isFetching && !props.mediaPage.isBackuping && !newPhotosTrackerStarted) {
             setInterval(() => {
-                props.checkForNewPhotos()
+                props.checkForNewMedia()
             }, 10000)
             setNewPhotosTrackerStarted(true)
         }
-    }), [props.photosPage.isReset])
+    }), [props.mediaPage.isReset])
 
     const screenWith = Dimensions.get("window").width
     const numColumns = 3
@@ -49,8 +50,8 @@ const Photos = (props: Components.PhotosType) => {
         }
     })
 
-    if (props.photosPage.isAnimating) {
-        if (props.photosPage.isBackuping) {
+    if (props.mediaPage.isAnimating) {
+        if (props.mediaPage.isBackuping) {
             Animated.timing(backupAnimation, {
                 toValue: 200,
                 duration: 2000,
@@ -73,11 +74,11 @@ const Photos = (props: Components.PhotosType) => {
                     duration: 2000,
                     useNativeDriver: false,
                 }),
-            ]).start(() => { })
+            ]).start()
         }
     }
 
-    if (props.photosPage.isFetching) {
+    if (props.mediaPage.isFetching) {
         return <ActivityIndicator style={ActivityIndStyle.PhotoLoadingIndicator} size="large" color="#000000" />
     }
 
@@ -86,24 +87,24 @@ const Photos = (props: Components.PhotosType) => {
             <Animated.View
                 style={{ ...ActivityIndStyle.BackupIndicator, width: backupAnimation }}>
             </Animated.View>
-            <Animated.View style={{ marginBottom: (props.photosPage.isAnimating ? gapAnimation : -22) }}></Animated.View>
+            <Animated.View style={{ marginBottom: (props.mediaPage.isAnimating ? gapAnimation : -22) }}></Animated.View>
             <DetailedPhotoView visible={detailed.show} photo={detailed.photo} onPress={() => setDetailed({ show: false, photo: "" })} />
-            {props.photosPage.result != undefined ?
+            {props.mediaPage.photos.result != undefined ?
                 (<FlatList
                     style={PhotosStyle.photos}
                     numColumns={numColumns}
-                    data={props.photosPage.result}
+                    data={props.mediaPage.photos.result}
                     renderItem={({ item, index }) => (
                         <View>
                             <TouchableOpacity
                                 onPress={() => {
                                     const interval = setInterval(() => {
-                                        if (!props.photosPage.isAnimating) {
+                                        if (!props.mediaPage.isAnimating) {
                                             setDetailed({ show: true, photo: item.file })
                                             clearInterval(interval)
                                         }
                                     }, 10)
-                                    if (props.photosPage.isAnimating) {
+                                    if (props.mediaPage.isAnimating) {
                                         return Alert.alert("Notification", "Wait!")
                                     }
                                 }}>

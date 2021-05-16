@@ -25,10 +25,16 @@ export namespace AccountReducer {
         type: string;
         data?: any;
         updater?: Function;
+        avatar?: string;
     }
 
     export const GET_ACCOUNT_INFO_SUCCESS = "GET-ACCOUNT-INFO-SUCCESS";
     export const GET_ACCOUNT_INFO_ERROR = "GET-ACCOUNT-INFO-ERROR";
+    export const GET_AVATAR_SUCCESS = "GET-AVATAR-SUCCESS";
+    export const GET_AVATAR_ERROR = "GET-AVATAR-ERROR";
+    export const SET_AVATAR_SUCCESS = "SET-AVATAR-SUCCESS";
+    export const SET_AVATAR_ERROR = "SET-AVATAR-ERROR";
+
 }
 
 export namespace AlbumsReducer {
@@ -66,21 +72,20 @@ export namespace HeaderReducer {
     }
 }
 
-export namespace PhotoReducer {
-
-    export interface IPhotoAction {
+export namespace MediaReducer {
+    export interface IMediaAction {
         type: string
-        updater?: Function
-        data?: any
-        photosNum?: number
+        data?: SentData.LocalVideos<SentData.FileInfo> | SentData.LocalPhotos<SentData.FileInfo>
+        // photosNum?: number
     }
 
+    export const TOOGLE_FETCHING = "TOOGLE-FETCHING"
     export const GET_LOCAL_PHOTOS_SUCCESS = "GET-LOCAL-PHOTOS-SUCCESS";
     export const GET_LOCAL_PHOTOS_ERROR = "GET-LOCAL-PHOTOS-ERROR"
-    export const BACKUP_SUCCESS = "BACKUP-SUCCESS"
+    export const GET_LOCAL_VIDEOS_SUCCESS = "GET-VIDEOS-SUCCESS";
+    export const GET_LOCAL_VIDEOS_ERROR = "GET-VIDEOS-ERROR";
     export const BACKUP_ERROR = "BACKUP-ERROR"
     export const PHOTOS_NUM = "PHOTOS-NUM"
-    export const TOOGLE_FETCHING = "TOOGLE-FETCHING"
     export const TOOGLE_BACKUPING = "TOOGLE-BACKUPING"
     export const TURNON_LISTENING = "TURNON-LISTENING"
     export const STOP_ANIMATION = "STOP-ANIMATION"

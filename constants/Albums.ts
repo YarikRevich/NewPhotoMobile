@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 const PhotoListStyle = StyleSheet.create({
     photoList: {
@@ -18,20 +18,22 @@ const ImageStyle = StyleSheet.create({
 const AlbumTitleStyle = StyleSheet.create({
     title: {
         color: "black",
-        fontSize: 15,
+        fontSize: Dimensions.get("window").height / 100 * 2,
         fontWeight: "500",
-        marginLeft: 3,
     },
     titleWraper: {
-        marginTop: 90, 
-        marginLeft: 30,
         backgroundColor: "aliceblue",
-        width: 90,
-        height: 35,
+        width: Dimensions.get("window").width / 100 * 24,
+        height: Dimensions.get("window").height / 100 * 4,
         borderColor: "black",
+        borderRightWidth: 1,
         borderLeftWidth: 1,
-        borderTopWidth: 1,
-        borderTopLeftRadius: 20,
+        borderBottomWidth: 1,
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20,
+
+        
+        alignSelf: "center",
         position: "absolute",
         display: "flex",
         justifyContent: "center",

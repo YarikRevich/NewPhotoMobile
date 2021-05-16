@@ -9,6 +9,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 import AccountContiner from "../../Components/Account/AccountContainer"
 import HeaderContainer from "../../Components/CustomisedHeader/Header/HeaderContainer"
 import Banner from "./../../Components/CustomisedHeader/Banner/Banner"
+import HeaderStyle from "./../../constants/CustomisedHeader"
 
 const Stack = createStackNavigator()
 
@@ -17,9 +18,10 @@ export const AccountStack = (props: Stack) => {
     return (
         <Stack.Navigator initialRouteName={"Account"}>
             <Stack.Screen options={{
+                   headerStyle: HeaderStyle.header,
                 headerTitle: () => (
                     <>
-                        <HeaderContainer navigation={props.navigation} title={"Account"} type={"drawer"} />
+                        <HeaderContainer navigation={props.navigation} title={"Account"} type={"drawer"} avatar={false} />
                         <Banner />
                     </>
                 )

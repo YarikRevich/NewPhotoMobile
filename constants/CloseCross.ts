@@ -1,12 +1,12 @@
-import { StyleSheet } from "react-native"
+import { Dimensions, StyleSheet } from "react-native"
 
 export default StyleSheet.create({
     closeCrossCover: {
-        height: 90,
-        width: 90,
-        marginBottom: -55,
+        height: Dimensions.get("window").height / 100 * 10,
+        width: Dimensions.get("window").height / 100 * 10,
+        marginTop: Dimensions.get("window").height / 100 * 2,
+        marginRight: Dimensions.get("window").height / 100 * 1,
         alignSelf: "flex-end",
-        position: "relative",
         zIndex: 1000
     },
     closeCrossPhoto: {

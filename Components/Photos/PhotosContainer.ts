@@ -10,9 +10,9 @@ import { connect } from "react-redux";
 //Components ...
 
 import Photos from "./Photos"
-import { createGetLocalPhotos, createBackupPhotos, createCheckForNewPhotos, createTurnOffReset, createStartAnimation, createStopAnimation, createTurnOnListening } from "./../../redux/photo-reducer"
+import { createGetLocalPhotos, createGetLocalVideos, createBackupMedia, createCheckForNewMedia, createTurnOffReset, createStartAnimation, createStopAnimation, createTurnOnListening } from "./../../redux/media-reducer"
 
-import type { PhotoReducer } from "./../../types/reducers"
+import type { MediaReducer } from "./../../types/reducers"
 
 /**
  * 
@@ -21,40 +21,48 @@ import type { PhotoReducer } from "./../../types/reducers"
  */
 const mapStateToProps = (state: State) => {
     return ({
-        photosPage: state.photosPage,
+        mediaPage: state.mediaPage,
     })
 }
 
 /**
  * 
- * @param dispatch Dispatch for the communication with photopage reducers
+ * @param dispatch Dispatch for the communication with mediapage reducers
  * @returns Methods to communicate with reducers
  */
-const mapDispatchToProps = (dispatch: Dispatch<PhotoReducer.IPhotoAction | any>) => {
+const mapDispatchToProps = (dispatch: Dispatch<MediaReducer.IMediaAction | any>) => {
     return ({
 
         /**
          * 
-         * @param updater Hook for the futher updation
+         * @todo Gets local photos
          */
         getLocalPhotos() {
             dispatch(createGetLocalPhotos())
         },
 
         /**
+        * 
+        * @todo Gets local videos
+        */
+        getLocalVideos: () => {
+            dispatch(createGetLocalVideos())
+        },
+
+        /**
          * 
-         * @param updater Hook for the futher updation
+         * @todo Backups local photos 
          */
-        backupPhotos() {
-            dispatch(createBackupPhotos())
+        backupMedia() {
+            dispatch(createBackupMedia())
         },
 
         /**
          * 
          * @param updater Hook for the futher updation
          */
-        checkForNewPhotos() {
-            dispatch(createCheckForNewPhotos())
+        checkForNewMedia() {
+            dispatch(createCheckForNewMedia())
         },
 
         /**

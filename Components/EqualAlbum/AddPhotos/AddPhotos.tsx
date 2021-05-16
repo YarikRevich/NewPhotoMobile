@@ -8,7 +8,7 @@ import type { Components } from "./../../../types/components"
 const AddPhotos = (props: Components.AddPhotosType) => {
     const [press, setPress] = useState(false);
     const [openBrowser, setOpenBrowser] = useState(false);
-    const [photos, setPhotos] = useState([[] as SentData.LocalPhotos, [] as string[]]);
+    const [photos, setPhotos] = useState([[] as SentData.LocalPhotos<SentData.FileInfo>, [] as string[]]);
 
     const getPhotosToDelete = (): string[] => {
         if (photos[0].length == 0) return photos[1] as string[]
@@ -30,13 +30,13 @@ const AddPhotos = (props: Components.AddPhotosType) => {
 
         const toDelete = getPhotosToDelete()
 
-        const data = photos[0] as SentData.LocalPhotos
+        const data = photos[0] as SentData.LocalPhotos<SentData.FileInfo>
         props.addPhotos(props.albumName, data, toDelete)
     }
 
     return (
         <View>
-            <ImageBrowserContainer visible={openBrowser} onClose={() => setOpenBrowser(false)} onDone={(data: SentData.LocalPhotos, toDelete: string[]) => setPhotos([data, toDelete])} />
+            <ImageBrowserContainer visible={openBrowser} onClose={() => setOpenBrowser(false)} onDone={(data: SentData.LocalPhotos<SentData.FileInfo>, toDelete: string[]) => setPhotos([data, toDelete])} />
             <View style={{ ...FormStyles.block, marginTop: 170 }} >
                 <TouchableOpacity onPress={() => setOpenBrowser(true)}>
                     <Text style={FormStyles.inputText}>Chose photo</Text>

@@ -28,9 +28,9 @@ const ImageBrowser = (props: Components.ImageBrowserType) => {
     }
 
     const handleDone = () => {
-        let r: SentData.LocalPhotos = [];
+        let r: SentData.LocalPhotos<SentData.FileInfo> = [];
         for (let i of chosenImages) {
-            r.push(props.photoPage.result[i])
+            r.push(props.mediaPage.photos.result[i])
         }
         setTimeout(() => {
             props.onClose()
@@ -63,7 +63,7 @@ const ImageBrowser = (props: Components.ImageBrowserType) => {
             <View>
                 <FlatList
                     numColumns={numColumns}
-                    data={props.photoPage.result}
+                    data={props.mediaPage.photos.result}
                     renderItem={({ item, index }) => {
                         return (
                             <View style={{ width: size, height: size }} key={index}>

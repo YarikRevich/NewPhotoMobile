@@ -6,8 +6,8 @@ export const ForceUpdater = () => {
 }
 
 export const ForceUpdaterOnce = () => {
-    const [updater, setUpdater] = useState(false)
-    return setUpdater
+    const [_, setUpdater] = useState(false)
+    return () => setUpdater(true)
 }
 
 /**

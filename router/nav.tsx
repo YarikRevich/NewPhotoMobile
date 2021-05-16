@@ -31,6 +31,8 @@ import { ForceUpdaterOnce } from "./../Helpers/utils"
 import ActivityIndStyle from "./../constants/ActivityIndicator"
 import { AlbumsStack } from "./stacks/albumsStack";
 
+import { addAuthListener, addAvatarListener } from "./../Helpers/listeners"
+
 const drawer = createDrawerNavigator()
 
 const DrawerContent = (props: { dContainer: DrawerContentComponentProps<DrawerContentOptions>, checkAuth: Function, authentification: { isAuthed: boolean }, redirected: boolean, setRedirected: Function }) => {
@@ -71,16 +73,9 @@ const DrawerContent = (props: { dContainer: DrawerContentComponentProps<DrawerCo
 
 const AppDrawer = (props: Components.AppDrawerType) => {
     const [redirected, setRedirected] = useState(false);
-    const [checkerIsRun, setCheckerIsRun] = useState(false)
+    const authListenerUpdater = ForceUpdaterOnce()
 
-    const _FORCE_UPDATE_ONCE = ForceUpdaterOnce();
-
-    if (!checkerIsRun) {
-        setInterval(() => {
-            props.authentification.isAuthed && !props.authentification.isChecking ? _FORCE_UPDATE_ONCE(true) : _FORCE_UPDATE_ONCE(false)
-        }, 15)
-        setCheckerIsRun(true)
-    }
+    addAuthListener(props.authentification, authListenerUpdater)
 
     useEffect(() => {
         props.checkAuth()
@@ -95,7 +90,7 @@ const AppDrawer = (props: Components.AppDrawerType) => {
                             <drawer.Screen name={"Photos"} component={HomeStack} />
                             <drawer.Screen name={"Albums"} component={AlbumsStack} />
                             <drawer.Screen name={"About"} component={AboutStack} />
-                            <drawer.Screen  name={"Account"} component={AccountStack} />
+                            <drawer.Screen name={"Account"} component={AccountStack} />
                         </>
                     ) :
                         <drawer.Screen options={{ swipeEnabled: props.authentification.isAuthed }} name={"Auth"} component={AuthStack} />

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native"
+import { Dimensions, StyleSheet } from "react-native"
 
 /**
  * @todo Creates styles for form inputs 
@@ -8,21 +8,23 @@ const formInputStyles = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         textAlign: "left",
-        marginTop: 10,
-        paddingBottom: 20,
-        width: 150,
+        marginTop: Dimensions.get("window").height / 100 * 4,
+        paddingBottom: Dimensions.get("window").height / 100 * 4,
+        width: Dimensions.get("window").width / 100 * 60,
     },
     inputLabel: {
-        fontSize: 23
+        fontSize: Dimensions.get("window").height / 100 * 3.3,
+        width: Dimensions.get("window").width / 100 * 40,
+        alignSelf: "flex-start"
     },
     inputText: {
-        marginTop: 5,
+        marginTop: Dimensions.get("window").height / 100 * 1,
         alignSelf: "center",
-        width: 200,
-        padding: 10,
-        fontSize: 26,
+        width: Dimensions.get("window").width / 100 * 67,
+        padding: Dimensions.get("window").height / 100 * 1.5,
+        fontSize: Dimensions.get("window").height / 100 * 4,
         borderWidth: 1.2,
-        borderRadius: 15,
+        borderRadius: Dimensions.get("window").width / 100 * 8,
         borderColor: "grey",
     },
 })
@@ -40,13 +42,13 @@ const formBodyStyles = StyleSheet.create({
         backgroundColor: "white"
     },
     block: {
-        paddingTop: 20,
-        paddingBottom: 20,
-        paddingLeft: 70,
-        paddingRight: 70,
+        paddingTop: Dimensions.get("window").height / 100 * 4,
+        paddingBottom: Dimensions.get("window").height / 100 * 4,
+        paddingLeft: Dimensions.get("window").width / 100 * 15,
+        paddingRight: Dimensions.get("window").width / 100 * 15,
         borderRadius: 20,
         borderWidth: 2,
-        margin: 25,
+        margin: Dimensions.get("window").width / 100 * 14,
         borderColor: "#000000",
         backgroundColor: "aliceblue",
     },
@@ -66,15 +68,15 @@ const formButtonStyles = StyleSheet.create({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        width: 130,
-        height: 50,
-        borderRadius: 20,
+        width: Dimensions.get("window").width / 100 * 35,
+        height: Dimensions.get("window").height / 100 * 7.5,
+        borderRadius: Dimensions.get("window").height / 100 * 10,
         borderWidth: 1.2,
         borderColor: "blue",
         backgroundColor: "aliceblue"
     },
     buttonText: {
-        fontSize: 23,
+        fontSize: Dimensions.get("window").width / 100 * 5,
         fontWeight: "600",
     },
     buttonPress: {

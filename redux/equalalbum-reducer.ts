@@ -64,7 +64,7 @@ const getEqualAlbumError = (): EqualAlbumReducer.IEqualAlbumAction => {
     return { type: EqualAlbumReducer.GET_EQUAL_ALBUM_ERROR }
 }
 
-export const createAddPhotos = (albumName: string, data: SentData.LocalPhotos, toDelete: string[]) => (dispatch: Dispatch<EqualAlbumReducer.IEqualAlbumAction>) => {
+export const createAddPhotos = (albumName: string, data: SentData.LocalPhotos<SentData.FileInfo>, toDelete: string[]) => (dispatch: Dispatch<EqualAlbumReducer.IEqualAlbumAction>) => {
     return addPhotosToAlbum(albumName, data)
         .then(ok => {
             if (ok) {

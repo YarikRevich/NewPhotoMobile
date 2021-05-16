@@ -20,13 +20,16 @@ declare namespace SentData {
             password: string;
         }
     }
-    type LocalPhotos = {
+    type FileInfo = {
         file: string;
         id: string;
         date: number,
         extension: string,
         size: number
-    }[]
+        uri?: string
+    }
+    type LocalPhotos<T> = T[];
+    type LocalVideos<T> = T[]
 }
 
 declare namespace StateComponents {
@@ -37,7 +40,7 @@ declare namespace StateComponents {
     }
 
     interface Header {
-        title: string;
+        avatar: string
     }
 
     interface AccountPage {
@@ -46,15 +49,22 @@ declare namespace StateComponents {
             secondname: string;
             storage: number;
         }
+        avatar: string
     }
 
-    interface PhotoPage {
-        result: SentData.LocalPhotos
+    interface MediaPage {
+        photos: {
+            result: SentData.LocalPhotos<SentData.FileInfo>
+        }
+        videos: {
+            result: SentData.LocalVideos<SentData.FileInfo>
+        }
         isFetching: boolean
         isBackuping: boolean
         isAnimating: boolean
         isListening: boolean
         isReset: boolean
+
     }
 
     interface AlbumsPage {
@@ -68,7 +78,7 @@ declare namespace StateComponents {
 
 declare interface State {
     authentification: StateComponents.Authentification;
-    photosPage: StateComponents.PhotoPage;
+    mediaPage: StateComponents.MediaPage;
     accountPage: StateComponents.AccountPage;
     albumsPage: StateComponents.AlbumsPage;
     equalAlbumPage: StateComponents.EqualAlbumPage;

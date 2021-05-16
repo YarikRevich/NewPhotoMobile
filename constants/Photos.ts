@@ -1,21 +1,20 @@
-import { StyleSheet } from "react-native"
+import { Dimensions, StyleSheet } from "react-native"
 
 export default StyleSheet.create({
     body: {
         height: "100%",
     },
-    photosCover: {
-        zIndex: 3000,
-        position: "absolute",
-        height: "100%",
-        width: "100%",
-        backgroundColor: "rgba(0, 0, 0, 0.4)"
-    },
+    // photosCover: {
+    //     zIndex: 3000,
+    //     position: "absolute",
+    //     height: "100%",
+    //     width: "100%",
+    //     backgroundColor: "rgba(0, 0, 0, 0.4)"
+    // },
     photos: {
         zIndex: 1000,
-        position: "relative",
-        alignSelf: "center",
-        marginTop: 20,
+        // position: "relative",
+        marginTop: Dimensions.get("window").height / 100 * 3,
     },
     announcementContainer: {
         width: 300,

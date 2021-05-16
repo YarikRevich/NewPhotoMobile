@@ -16,3 +16,6 @@ web-build/
 
 commitlog.md
 roadmap.md
+
+yarn-error.log
+yarn.lock

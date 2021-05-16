@@ -18,11 +18,11 @@ const Albums = (props: Components.AlbumsType) => {
     const [openAddPanel, setOpenAddPanel] = useState(false);
     const [reset, setReset] = useState(0);
 
-
-
     useEffect(() => {
         props.getAlbums()
-        
+    }, [reset])
+
+    useEffect(() => {
         props.navigator.navigation.addListener("state", (v) => {
             const data = v.data as any
             if (data.state.index == 0){

@@ -7,25 +7,17 @@ import { ForceUpdater } from "../../../Helpers/utils";
 import HeaderStyles from "../../../constants/CustomisedHeader"
 
 const Banner = () => {
-
-    const _FORCE_UPDATE = ForceUpdater();
-    const [deletingProcess, setDeletingProcess] = useState(false);
+    const _FORCE_UPDATER = ForceUpdater()
 
     useEffect(() => {
         let mount = true
         setTimeout(() => {
-            if (mount) _FORCE_UPDATE()
-        }, 50)
-        if (!deletingProcess) {
-            setTimeout(() => {
-                messagePublisher.cleanUp(2)
-                if (mount) setDeletingProcess(false)
-            }, 100)
-            if (mount) setDeletingProcess(true)
-        }
+            if (mount) _FORCE_UPDATER()
+        }, 3000)
         return () => { mount = false }
     })
 
+    messagePublisher.cleanUp(1)
     const messages = messagePublisher.get();
 
     const getMessages = (): Array<JSX.Element> => {

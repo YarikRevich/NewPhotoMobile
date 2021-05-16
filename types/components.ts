@@ -9,8 +9,10 @@ export namespace Components {
         readonly authentification: StateComponents.Authentification
         readonly accountPage: StateComponents.AccountPage
         signIn(d: any, updater: Function): void
-        signOut(updater: Function): void
-        getAccountInfo(updater: Function): void
+        signOut(): void
+        getAccountInfo(): void
+        setAvatar(): void
+        getAvatar(): void
     }
 
     export interface AlbumsType {
@@ -25,15 +27,33 @@ export namespace Components {
         getEqualAlbum(albumName: string): void
     }
 
-    export interface PhotosType {
-        photosPage: StateComponents.PhotoPage
+    export interface PhotosType{
+        mediaPage: StateComponents.MediaPage
         getLocalPhotos(): void
-        backupPhotos(): void
-        checkForNewPhotos(): void
+        getLocalVideos(): void
+        backupMedia(): void
+        checkForNewMedia(): void
         stopAnimation(): void
         startAnimation(): void
         turnOffReset(): void
         turnOnListening(): void
+
+    }
+
+    export interface VideosType {
+        mediaPage: StateComponents.MediaPage
+    }
+
+    export interface EqualVideoType {
+        item: SentData.FileInfo;
+        size: {
+            width: number
+            height: number
+        };
+        fullSize: {
+            width: number
+            height: number
+        }
     }
 
     export interface SignInType {
@@ -55,13 +75,17 @@ export namespace Components {
             toggleDrawer: Function
         }
         readonly type: "drawer" | "stack"
+        readonly avatar?: boolean
         readonly title: string;
         readonly authentification: StateComponents.Authentification
+        readonly accountPage: StateComponents.AccountPage
+        getAvatar(): void
     }
 
     export interface AppDrawerType {
         authentification: StateComponents.Authentification
         checkAuth(): void
+        getAvatar(): void
     }
 
     export interface DetailedPhotoViewType {
@@ -86,16 +110,19 @@ export namespace Components {
 
     export interface AddPhotosType {
         albumName: string;
-        addPhotos(albumName: string, data: SentData.LocalPhotos, toDelete: string[]): void
+        addPhotos(albumName: string, data: SentData.LocalPhotos<SentData.FileInfo>, toDelete: string[]): void
         onClose: () => void
         onUpdate: () => void
     }
 
     export interface ImageBrowserType {
-        photoPage: StateComponents.PhotoPage
+        mediaPage: StateComponents.MediaPage
         equalAlbumPage: StateComponents.EqualAlbumPage
         visible: boolean
         onClose: () => void
-        onDone: (data: SentData.LocalPhotos, toDelete: string[]) => void
+        onDone: (data: SentData.LocalPhotos<SentData.FileInfo>, toDelete: string[]) => void
     }
+
+
 }
+

@@ -1,5 +1,11 @@
 import { StyleSheet, Dimensions } from "react-native"
 
+const standartHeader = StyleSheet.create({
+    header: {
+        backgroundColor: "aliceblue"
+    }
+})
+
 /**
  * @todo Implements exceptable header styles 
  */
@@ -30,11 +36,11 @@ const messageHeaderBannerStyle = StyleSheet.create({
         paddingBottom: 20,
         paddingLeft: 5,
         paddingRight: 5,
-        width: 300,
+        width: Dimensions.get("window").width / 100 * 90,
         borderWidth: 1,
         borderColor: "black",
-        borderRadius: 20,
-        marginTop: 100,
+        borderRadius: Dimensions.get("window").width / 100 * 12,
+        marginTop: Dimensions.get("window").height / 100 * 10,
         alignSelf: "center",
         backgroundColor: "aliceblue",
         position: "absolute",
@@ -46,7 +52,7 @@ const messageHeaderBannerStyle = StyleSheet.create({
         justifyContent: "center"
     },
     messageText: {
-        fontSize: 15,
+        fontSize: Dimensions.get("window").width / 100 * 4,
         fontWeight: "600",
         textAlign: "center",
     }
@@ -70,8 +76,10 @@ const headerTypesStyles = StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "space-around",
-        height: 80,
-        width: 400,
+        alignSelf: "center",
+
+        height: Dimensions.get("screen").height / 100 * 10,
+        width: Dimensions.get("window").width,
         backgroundColor: "aliceblue",
     },
     headerStack: {
@@ -79,8 +87,10 @@ const headerTypesStyles = StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "space-around",
-        height: 20,
-        width: 200,
+
+        height: Dimensions.get("window").height / 100 * 3.5,
+        width: Dimensions.get("window").width / 100 * 29,
+        marginBottom: Dimensions.get("window").height / 100 * 1,
         backgroundColor: "aliceblue",
     }
 })
@@ -90,17 +100,15 @@ const headerTypesStyles = StyleSheet.create({
  */
 const headerTitleStyles = StyleSheet.create({
     title: {
-        fontSize: 21,
+        marginLeft: Dimensions.get("screen").height / 100 * 2,
+        fontSize: Dimensions.get("screen").height / 100 * 3,
         fontWeight: "bold",
-        padding: 30,
-        marginTop: 10,
     },
     titleContainer: {
-        width: 250,
+        width: Dimensions.get("screen").height / 100 * 30,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        textAlign: "center",
     },
 })
 
@@ -109,22 +117,32 @@ const headerTitleStyles = StyleSheet.create({
  */
 const headerMenuImageStyles = StyleSheet.create({
     menuImage: {
-        width: 20,
-        height: 20,
-        position: "absolute"
+        width: Dimensions.get("window").width / 100 * 6,
+        height: Dimensions.get("window").width / 100 * 6,
     },
 })
 
 
 const stackHeaderStyle = StyleSheet.create({
-    headerStackStyle: { 
-        backgroundColor: "aliceblue", 
-        height: 80 
+    headerStackStyle: {
+        backgroundColor: "aliceblue",
     },
-    headerStackTitleStyle: { 
-        fontSize: 20, 
-        fontWeight: "700", 
-        marginTop: 5 
+    headerStackTitleStyle: {
+        fontSize: 20,
+        fontWeight: "700",
+    }
+})
+
+const avatarStyle = StyleSheet.create({
+    avatarCover: {
+        height: Dimensions.get("screen").height / 100 * 9,
+        borderRadius: 50,
+    },
+    avatar: {
+        alignSelf: "center",
+        width: Dimensions.get("screen").height / 100 * 12,
+        height: Dimensions.get("screen").height / 100 * 12,
+        borderRadius: 50,
     }
 })
 
@@ -136,4 +154,6 @@ export default StyleSheet.create({
     ...headerTitleStyles,
     ...headerMenuImageStyles,
     ...stackHeaderStyle,
+    ...avatarStyle,
+    ...standartHeader
 })

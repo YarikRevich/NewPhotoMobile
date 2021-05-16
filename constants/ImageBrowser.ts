@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native"
+import { Dimensions, StyleSheet } from "react-native"
 
 const PanelStyle = StyleSheet.create({
     panel: {
@@ -18,16 +18,17 @@ const PanelStyle = StyleSheet.create({
 
 const ChosenPhotoStyle = StyleSheet.create({
     chosen: {
-        width: 20,
-        height: 20,
-        marginTop: 90,
-        marginLeft: 95,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        alignSelf: "flex-end",
+        width: Dimensions.get("window").height / 100 * 3,
+        height: Dimensions.get("window").height / 100 * 3,
         borderRadius: 20,
         position: "absolute",
         backgroundColor: "blue",
     },
     text: {
-        marginTop: 1,
         textAlign: "center",
         color: "white",
     },

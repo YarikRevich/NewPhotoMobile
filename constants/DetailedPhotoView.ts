@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native"
+import { Dimensions, StyleSheet } from "react-native"
 
 export default StyleSheet.create({
     detailedPhotoView: {
@@ -12,9 +12,9 @@ export default StyleSheet.create({
         backgroundColor: "rgba(0, 0, 0, 0.8)"
     },
     detailedPhoto: {
-        marginTop: 120,
-        width: 340,
-        height: 340,
+        marginTop: Dimensions.get("window").height / 100 * 13,
+        width: Dimensions.get("window").width / 100 * 90,
+        height: Dimensions.get("window").height / 100 * 55,
         alignSelf: "center",
     },
 })

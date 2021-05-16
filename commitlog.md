@@ -50,3 +50,19 @@ COMMIT: 7
 - Created custom image browser to choose photos to add
 - Implemented the adding of photos to albums
 ```
+
+COMMIT: 8
+
+```
+- Added the oportunity to show your avatar around the app
+- Imlemented the interface for the futher adding of your avatar
+
+```
+
+COMMIT: 9
+
+```
+- Added the oportunity to see your local videos
+- Implemented the backuping of videos
+- Implemented the chosing of that what you'll see at the main screen
+```

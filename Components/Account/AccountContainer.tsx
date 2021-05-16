@@ -11,7 +11,7 @@ import type { AuthReducer } from "./../../types/reducers"
 //Components ...
 
 import { createSignOut } from "./../../redux/auth-reducer"
-import { createGetAccountInfo } from "./../../redux/account-reducer"
+import { createGetAccountInfo, createSetAvatar, createGetAvatar } from "./../../redux/account-reducer"
 import Account from "./Account"
 
 
@@ -26,11 +26,17 @@ const mapStateToProps = (state: State, navigation: DrawerContentComponentProps<D
 
 const mapDispatchToProps = (dispatch: Dispatch<AuthReducer.IAuthAction | any>) => {
     return {
-        signOut: (updater: Function) => {
+        signOut: () => {
             dispatch(createSignOut())
         },
-        getAccountInfo: (updater: Function) => {
-            dispatch(createGetAccountInfo(updater))
+        getAccountInfo: () => {
+            dispatch(createGetAccountInfo())
+        },
+        setAvatar: () => {
+            dispatch(createSetAvatar())
+        },
+        getAvatar: () => {
+            dispatch(createGetAvatar())
         }
     }
 }

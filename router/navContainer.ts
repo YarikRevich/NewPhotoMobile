@@ -11,6 +11,7 @@ import { connect } from "react-redux"
 import { createCheckAuth } from "./../redux/auth-reducer"
 
 import { HeaderReducer, AuthReducer } from "./../types/reducers"
+import { createGetAvatar } from "./../redux/account-reducer"
 
 //Style ...
 
@@ -27,6 +28,9 @@ const mapDispatchToProps = (dispatch: Dispatch<HeaderReducer.IHeaderAction | Aut
         checkAuth: () => {
             dispatch(createCheckAuth())
         },
+        getAvatar: () => {
+            dispatch(createGetAvatar())
+        }
     })
 }
 

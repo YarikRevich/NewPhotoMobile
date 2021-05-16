@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native"
+import { Dimensions, StyleSheet } from "react-native"
 
 export default StyleSheet.create({
     AuthIndicator: {
@@ -7,10 +7,10 @@ export default StyleSheet.create({
     },
     PhotoLoadingIndicator: {
         alignSelf: "center",
-        marginTop: 120
+        marginTop: Dimensions.get("window").height / 100 * 10,
     },
     BackupIndicator: {
-        height: 22,
+        height: Dimensions.get("window").height / 100 * 2,
         backgroundColor: "grey"
     },
 })
