@@ -3,6 +3,7 @@ import * as ImagePicker from "expo-image-picker"
 import * as FileSystem from "expo-file-system"
 
 import messagePublusher from "messagepublisher"
+import { IsAuthError } from "./errors"
 
 export const getAccountInfo = (): Promise<{ ok: boolean, data: any } | void> => {
     return configuredAxios.get("/account")
@@ -20,6 +21,9 @@ export const getAccountInfo = (): Promise<{ ok: boolean, data: any } | void> => 
 export const getAvatar = (): Promise<{ ok: boolean, avatar: any } | void> => {
     return configuredAxios.get("/account/avatar")
         .then(resp => {
+            if (IsAuthError(resp.data.service.error)) {
+                return { ok: false, avatar: {} }
+            }
             if (resp.status === 200) {
                 return { ok: resp.data.service.ok, avatar: resp.data.result.avatar }
             }

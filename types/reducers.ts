@@ -75,15 +75,13 @@ export namespace HeaderReducer {
 export namespace MediaReducer {
     export interface IMediaAction {
         type: string
-        data?: SentData.LocalVideos<SentData.FileInfo> | SentData.LocalPhotos<SentData.FileInfo>
+        data?: [SentData.LocalPhotos<SentData.FileInfo>, SentData.LocalVideos<SentData.FileInfo>]
         // photosNum?: number
     }
 
     export const TOOGLE_FETCHING = "TOOGLE-FETCHING"
-    export const GET_LOCAL_PHOTOS_SUCCESS = "GET-LOCAL-PHOTOS-SUCCESS";
-    export const GET_LOCAL_PHOTOS_ERROR = "GET-LOCAL-PHOTOS-ERROR"
-    export const GET_LOCAL_VIDEOS_SUCCESS = "GET-VIDEOS-SUCCESS";
-    export const GET_LOCAL_VIDEOS_ERROR = "GET-VIDEOS-ERROR";
+    export const GET_LOCAL_MEDIA_SUCCESS = "GET-LOCAL-MEDIA-SUCCESS";
+    export const GET_LOCAL_MEDIA_ERROR = "GET-LOCAL-MEDIA-ERROR"
     export const BACKUP_ERROR = "BACKUP-ERROR"
     export const PHOTOS_NUM = "PHOTOS-NUM"
     export const TOOGLE_BACKUPING = "TOOGLE-BACKUPING"

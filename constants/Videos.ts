@@ -26,5 +26,11 @@ export default StyleSheet.create({
     },
     fullCover: {
         alignSelf: "center",
+    },
+    shareIcon: {
+        width: Dimensions.get("window").width / 100 * 10,
+        height: Dimensions.get("window").height / 100 * 4.5,
+        marginTop: -Dimensions.get("window").height / 100 * 2,
+        marginLeft: Dimensions.get("window").width / 100 * 2,
     }
 })

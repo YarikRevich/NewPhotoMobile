@@ -47,17 +47,17 @@ const photoReducer = (state: initialStateType = initialState, action: MediaReduc
             return { ...state, isListening: true }
         case MediaReducer.TOOGLE_FETCHING:
             return { ...state, isFetching: state.isFetching ? false : true }
-        case MediaReducer.GET_LOCAL_PHOTOS_SUCCESS:
+        case MediaReducer.GET_LOCAL_MEDIA_SUCCESS:
             if (action.data) {
-                return { ...state, photos: { result: action.data, photosNum: action.data.length } }
+                return {
+                    ...state,
+                    photos: { result: action.data[0], photosNum: action.data.length },
+                    videos: { result: action.data[1] }
+                }
             }
             return { ...state }
-        case MediaReducer.GET_LOCAL_PHOTOS_ERROR:
+        case MediaReducer.GET_LOCAL_MEDIA_ERROR:
             messagePublusher.add("Something went wrong!")
-            return { ...state }
-        case MediaReducer.GET_LOCAL_VIDEOS_SUCCESS:
-            return { ...state, videos: { result: action.data } }
-        case MediaReducer.GET_LOCAL_VIDEOS_ERROR:
             return { ...state }
         case MediaReducer.BACKUP_ERROR:
             messagePublusher.add("An error happened during the backuping")
@@ -129,56 +129,6 @@ export const createTurnOnListening = () => {
     return { type: MediaReducer.TURNON_LISTENING }
 }
 
-/**
- * 
- * @returns Dispatch for the futher async call of reducer
- */
-export const createGetLocalPhotos = () => (dispatch: Dispatch<any>) => {
-    dispatch(createToogleFetching())
-    return getLocalMedia("photo")
-        .then(data => {
-            dispatch(createGetPhotosSuccess(data))
-            dispatch(createToogleFetching())
-        })
-}
-
-/**
- * 
- * @param data New photos to save
- * @returns Action
- */
-const createGetPhotosSuccess = (data: any) => {
-    return { type: MediaReducer.GET_LOCAL_PHOTOS_SUCCESS, data: data }
-}
-
-/**
- * 
- * @returns Dispatch action
- */
-export const createGetLocalVideos = () => (dispatch: Dispatch<MediaReducer.IMediaAction>) => {
-    return getLocalMedia("video")
-        .then(r => {
-            dispatch(createGetVideosSuccess(r))
-        })
-}
-
-/**
- * 
- * @param d Data to save
- * @returns Action
- */
-const createGetVideosSuccess = (d: SentData.LocalVideos<SentData.FileInfo>): MediaReducer.IMediaAction => {
-    return { type: MediaReducer.GET_LOCAL_VIDEOS_SUCCESS, data: d }
-}
-
-/**
- * 
- * @param d Data to save
- * @returns Action
- */
-const createGetVideosError = (): MediaReducer.IMediaAction => {
-    return { type: MediaReducer.GET_LOCAL_VIDEOS_ERROR }
-}
 
 /**
  * @todo Creates getPhotosNum async call for the reducer
@@ -187,10 +137,10 @@ const createGetVideosError = (): MediaReducer.IMediaAction => {
 export const createCheckForNewMedia = () => (dispatch: Function, getState: Function) => {
     return getMediaNum("photo")
         .then(photosNum => {
-            if (photosNum) {
+            if (photosNum !== null) {
                 return getMediaNum("video")
                     .then(videosNum => {
-                        if (videosNum) {
+                        if (videosNum !== null) {
                             const mediaPage = getState().mediaPage
                             if (mediaPage.photos.result.length != photosNum || mediaPage.videos.result.length != videosNum) {
                                 dispatch(createStartAnimation())
@@ -207,27 +157,35 @@ export const createCheckForNewMedia = () => (dispatch: Function, getState: Funct
  * 
  * @returns Dispatch for the futher async call of reducer
  */
-export const createBackupMedia = () => (dispatch: Dispatch<any>, getState: Function) => {
+export const createBackupMedia = () => (dispatch: Dispatch<any>) => {
     dispatch(createToogleBackuping())
-    return getMediaToBackup(getState().mediaPage.photos.result)
-        .then((resp) => {
-            return backupLocalMedia("photos", resp)
-                .then(ok => {
-                    if (!ok) {
-                        dispatch(createBackupError())
+    return getLocalMedia("photo")
+        .then(photos => {
+            getMediaToBackup(photos)
+                .then((resp) => {
+                    return backupLocalMedia("photos", resp)
+                        .then(ok => {
+                            if (!ok) {
+                                dispatch(createBackupError())
 
-                    } else {
-                        return getMediaToBackup(getState().mediaPage.videos.result)
-                            .then((resp) => {
-                                return backupLocalMedia("videos", resp)
-                                    .then(ok => {
-                                        if (!ok) {
-                                            dispatch(createBackupError())
-                                        }
-                                        dispatch(createToogleBackuping())
+                            } else {
+                                return getLocalMedia("video")
+                                    .then(videos => {
+                                        return getMediaToBackup(videos)
+                                            .then((resp) => {
+                                                return backupLocalMedia("videos", resp)
+                                                    .then(ok => {
+                                                        if (!ok) {
+                                                            dispatch(createBackupError())
+                                                        }
+                                                        dispatch(createToogleBackuping())
+                                                        dispatch(createGetLocalMediaSuccess([photos, videos]))
+                                                    })
+                                            })
                                     })
-                            })
-                    }
+
+                            }
+                        })
                 })
         })
 }
@@ -240,5 +198,14 @@ const createBackupError = () => {
     return { type: MediaReducer.BACKUP_ERROR }
 }
 
+
+/**
+ * 
+ * @param data New media to save
+ * @returns Action
+ */
+const createGetLocalMediaSuccess = (data: any) => {
+    return { type: MediaReducer.GET_LOCAL_MEDIA_SUCCESS, data: data }
+}
 
 export default photoReducer

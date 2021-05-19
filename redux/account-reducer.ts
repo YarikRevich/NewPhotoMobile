@@ -33,7 +33,6 @@ const accountReducer = (state: initialStateType = initialState, action: AccountR
             if (action.avatar) return { ...state, avatar: action.avatar }
             return { ...state }
         case AccountReducer.GET_AVATAR_ERROR:
-            messagePublusher.add("An error happened during the getting of a new avatar!")
             return { ...state }
         case AccountReducer.GET_ACCOUNT_INFO_SUCCESS:
             if (action.data) return { ...state, result: action.data }

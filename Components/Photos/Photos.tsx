@@ -1,7 +1,7 @@
 /// <reference path="./../../types/components.ts" />
 
 import React, { useEffect, useState } from "react"
-import { Text, View, FlatList, Image, Dimensions, ActivityIndicator, Animated, Alert, Switch, TouchableOpacity } from "react-native"
+import { Text, View, FlatList, Image, Dimensions, ActivityIndicator, Animated, Alert, TouchableOpacity } from "react-native"
 
 import DetailedPhotoView from "./../DetailedPhotoView/DetailedPhotoView"
 
@@ -18,10 +18,6 @@ const Photos = (props: Components.PhotosType) => {
     const [newPhotosTrackerStarted, setNewPhotosTrackerStarted] = useState(false);
 
     useEffect((() => {
-        props.getLocalPhotos()
-
-        props.getLocalVideos()
-
         props.backupMedia()
 
         if (props.mediaPage) {

@@ -27,10 +27,9 @@ export namespace Components {
         getEqualAlbum(albumName: string): void
     }
 
-    export interface PhotosType{
+    export interface PhotosType {
         mediaPage: StateComponents.MediaPage
-        getLocalPhotos(): void
-        getLocalVideos(): void
+        getLocalMedia(): void
         backupMedia(): void
         checkForNewMedia(): void
         stopAnimation(): void

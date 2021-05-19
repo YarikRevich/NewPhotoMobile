@@ -6,7 +6,7 @@ export const getEqualAlbum = (albumName: string): Promise<{ ok: boolean, data: R
     return configuredAxios.get("/albums/detailed", { params: { "name": albumName } })
         .then(resp => {
             if (resp.status === 200) {
-                return { ok: resp.data.service.ok, data: resp.data.result.data }
+                return { ok: resp.data.service.ok, data: resp.data.result.photos }
             }
             messagepublisher.add("Network error!")
         })

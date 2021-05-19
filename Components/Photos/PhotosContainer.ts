@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 //Components ...
 
 import Photos from "./Photos"
-import { createGetLocalPhotos, createGetLocalVideos, createBackupMedia, createCheckForNewMedia, createTurnOffReset, createStartAnimation, createStopAnimation, createTurnOnListening } from "./../../redux/media-reducer"
+import { createBackupMedia, createCheckForNewMedia, createTurnOffReset, createStartAnimation, createStopAnimation, createTurnOnListening } from "./../../redux/media-reducer"
 
 import type { MediaReducer } from "./../../types/reducers"
 
@@ -32,22 +32,6 @@ const mapStateToProps = (state: State) => {
  */
 const mapDispatchToProps = (dispatch: Dispatch<MediaReducer.IMediaAction | any>) => {
     return ({
-
-        /**
-         * 
-         * @todo Gets local photos
-         */
-        getLocalPhotos() {
-            dispatch(createGetLocalPhotos())
-        },
-
-        /**
-        * 
-        * @todo Gets local videos
-        */
-        getLocalVideos: () => {
-            dispatch(createGetLocalVideos())
-        },
 
         /**
          * 

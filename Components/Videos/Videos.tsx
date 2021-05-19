@@ -1,20 +1,27 @@
 import React, { useRef, useState } from "react"
-import { Dimensions, Image, View, TouchableOpacity, FlatList, Modal } from "react-native"
+import { Dimensions, Image, View, TouchableOpacity, FlatList, Modal, Share } from "react-native"
 import { Components } from "../../types/components";
 import { Video } from "expo-av"
 import CloseCross from "./../CloseCross/CloseCross"
 
 import VideoStyles from "./../../constants/Videos"
+import { getRandomFileName } from "../../Helpers/utils";
 
 const EqualVideo = (props: Components.EqualVideoType) => {
     const video: React.MutableRefObject<Video> = useRef(null as any)
     const fullVideo: React.MutableRefObject<Video> = useRef(null as any);
     const [full, setFull] = useState(false);
     const [fullState, setFullState] = useState(false);
+    const [canOpen, setCanOpen] = useState(false);
     const [state, setState] = useState(false);
     const [click, setClick] = useState({ lastClick: Date.now(), clicks: 0 });
 
     if (!props.item.uri) return <></>
+
+    if (canOpen) {
+        setCanOpen(false)
+        Share.share({ url: props.item.uri, title: getRandomFileName() + "." + props.item.extension })
+    }
 
     return (
         <View>
@@ -38,6 +45,9 @@ const EqualVideo = (props: Components.EqualVideoType) => {
                             height={VideoStyles.fullImage.height}
                             source={(fullState ? require("./../../assets/images/pausebutton.png") : require("./../../assets/images/playbutton.png"))} />
                     </View>
+                    <TouchableOpacity onPress={() => setCanOpen(true)}>
+                        <Image style={VideoStyles.shareIcon} source={require("./../../assets/images/share.png")} />
+                    </TouchableOpacity>
 
                 </TouchableOpacity>
             </Modal>
@@ -62,7 +72,7 @@ const EqualVideo = (props: Components.EqualVideoType) => {
                         useNativeControls={false}
                         isLooping={true}
                         resizeMode={"cover"}
-                        style={{ ...VideoStyles.video, width: props.size.width - 10, height: props.size.height - 10 }} 
+                        style={{ ...VideoStyles.video, width: props.size.width - 10, height: props.size.height - 10 }}
                         source={{ uri: props.item.uri }}
                         onPlaybackStatusUpdate={(v: any) => setState(v.isPlaying)}
                     />
