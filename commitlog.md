@@ -75,4 +75,6 @@ COMMIT: 10
 - Implemented the chosing of mediaType you'll see on the equalAlbum page
 - Implemented the checking of new media types
 - Refactored a huge number of code
+- Added the opportunity to share your media
+- Improved the design
 ```
