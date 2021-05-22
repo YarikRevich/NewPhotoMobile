@@ -17,4 +17,10 @@ export default StyleSheet.create({
         height: Dimensions.get("window").height / 100 * 55,
         alignSelf: "center",
     },
+    shareIcon: {
+        width: Dimensions.get("window").width / 100 * 10,
+        height: Dimensions.get("window").height / 100 * 4.5,
+        marginTop: Dimensions.get("window").height / 100 * 14,
+        marginLeft: Dimensions.get("window").width / 100 * 2,
+    }
 })

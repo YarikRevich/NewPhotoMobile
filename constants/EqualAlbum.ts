@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native"
+import { Dimensions, StyleSheet } from "react-native"
 
 const AddPanelStyle = StyleSheet.create({
     panel: {
@@ -8,22 +8,16 @@ const AddPanelStyle = StyleSheet.create({
 
 const AnnouncementStyle = StyleSheet.create({
     announcementContainer: {
-        marginTop: 100,
-        // width: 300,
-        // height: 100,
-        // marginTop: -200,
-        // alignSelf: "center",
-        // justifyContent: "center",
-        // position: "absolute",
+        marginTop: Dimensions.get("window").height / 100 * 20,
     },
     announcementText: {
         textAlign: "center",
-        fontSize: 40,
+        fontSize: Dimensions.get("window").fontScale * 15,
         fontWeight: "600",
     },
 })
 
 export default StyleSheet.create({
-    ...AddPanelStyle,  
+    ...AddPanelStyle,
     ...AnnouncementStyle,
 })

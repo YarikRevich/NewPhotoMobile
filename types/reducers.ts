@@ -55,15 +55,20 @@ export namespace EqualAlbumReducer {
 
     export interface IEqualAlbumAction {
         type: string
-        data?: RecievedData.EqualAlbum
+        data?: [RecievedData.EqualAlbum<RecievedData.EqualAlbumInfoTaged>, RecievedData.EqualAlbum<RecievedData.EqualAlbumInfoTaged>]
+        info?: RecievedData.AlbumInfo
     }
 
     export const GET_EQUAL_ALBUM_SUCCESS = "GET-EQUAL-ALBUM-SUCCESS"
     export const GET_EQUAL_ALBUM_ERROR = "GET-EQUAL-ALBUM-ERROR"
-    export const ADD_PHOTOS_SUCCESS = "ADD_PHOTOS_SUCCESS";
-    export const ADD_PHOTOS_ERROR = "ADD_PHOTOS_ERROR";
+    export const CHANGE_MEDIA_SUCCESS = "CHANGE-MEDIA-SUCCESS"
+    export const CHANGE_MEDIA_ERROR = "CHANGE-MEDIA-ERROR"
     export const CLEAN_EQUAL_ALBUM = "CLEAN-EQUAL-ALBUM";
-    export const DELETE_EQUAL_PHOTO = "DELETE-EQUAL-PHOTO";
+    export const GET_ALBUM_INFO_SUCCESS = "GET-ALBUM-INFO-SUCCESS"
+    export const GET_ALBUM_INFO_ERROR = "GET-ALBUM-INFO-ERROR"
+    export const TOOGLE_FETCHING = "TOOGLE-FETCHING"
+    export const TURN_ON_RESET = "TURN-ON-RESET"
+    export const TURN_OFF_RESET = "TURN-OFF-RESET"
 }
 
 export namespace HeaderReducer {

@@ -1,7 +1,24 @@
 declare namespace RecievedData {
     type Photos = { file: string, id: string }[];
     type Albums = { name: string; latestphoto: string }[];
-    type EqualAlbum = { photo: string }[];
+
+    type EqualAlbumPhotosInfo = {
+        photo: string
+        extension: string
+    }
+    type EqualAlbumVideosInfo = {
+        video: string
+        extension: string
+    }
+    type EqualAlbumInfoTaged = {
+        uri: string
+        extension: string
+    }
+    type EqualAlbum<T> = T[];
+
+    type AlbumInfo = {
+        media_num: number
+    }
 }
 
 declare namespace SentData {
@@ -72,7 +89,15 @@ declare namespace StateComponents {
     }
 
     interface EqualAlbumPage {
-        result: RecievedData.EqualAlbum
+        photos: {
+            result: RecievedData.EqualAlbum<RecievedData.EqualAlbumInfoTaged>
+        }
+        videos: {
+            result: RecievedData.EqualAlbum<RecievedData.EqualAlbumInfoTaged>
+        }
+        info: RecievedData.AlbumInfo
+        isReset: boolean
+        isFetching: boolean
     }
 }
 

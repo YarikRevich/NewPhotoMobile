@@ -25,6 +25,19 @@ export namespace Components {
         equalAlbumPage: StateComponents.EqualAlbumPage
         navigator: StackScreenProps<ParamListBase>
         getEqualAlbum(albumName: string): void
+        getAlbumInfo(albumName: string): void
+        turnOffReset(): void
+    }
+
+    export interface EqualAlbumRendererType {
+        albumViewType: "Photo" | "Video"
+        size: {
+            width: number
+            height: number
+        }
+        uri: string
+        extension: string
+        setDetailed(f: { show: boolean, uri: string, extension: string }): void
     }
 
     export interface PhotosType {
@@ -44,15 +57,12 @@ export namespace Components {
     }
 
     export interface EqualVideoType {
-        item: SentData.FileInfo;
+        uri?: string
+        extension: string
         size: {
             width: number
             height: number
         };
-        fullSize: {
-            width: number
-            height: number
-        }
     }
 
     export interface SignInType {
@@ -87,11 +97,16 @@ export namespace Components {
         getAvatar(): void
     }
 
-    export interface DetailedPhotoViewType {
-        visible: boolean
-        photo: string;
-        onPress: () => void
+    interface DetailedView {
+        visible: boolean;
+        uri: string;
+        extension: string;
+        onPress: () => void;
     }
+
+    export interface DetailedPhotoViewType extends DetailedView { }
+
+    export interface DetailedVideoViewType extends DetailedView { }
 
     export interface AddCrossType {
         onPress: () => void
@@ -109,7 +124,8 @@ export namespace Components {
 
     export interface AddPhotosType {
         albumName: string;
-        addPhotos(albumName: string, data: SentData.LocalPhotos<SentData.FileInfo>, toDelete: string[]): void
+        albumViewType: "Photo" | "Video";
+        changeMedia(t: "photos" | "videos", albumName: string, photos: SentData.LocalPhotos<SentData.FileInfo>, videos: SentData.LocalVideos<SentData.FileInfo>, toDelete: string[]): void
         onClose: () => void
         onUpdate: () => void
     }
@@ -117,11 +133,27 @@ export namespace Components {
     export interface ImageBrowserType {
         mediaPage: StateComponents.MediaPage
         equalAlbumPage: StateComponents.EqualAlbumPage
+        albumViewType: "Photo" | "Video";
         visible: boolean
         onClose: () => void
-        onDone: (data: SentData.LocalPhotos<SentData.FileInfo>, toDelete: string[]) => void
+        onDone: (photos: SentData.LocalPhotos<SentData.FileInfo>, videos: SentData.LocalVideos<SentData.FileInfo>, toDelete: string[]) => void
     }
 
+    export interface ImageBrowserRendererType {
+        albumViewType: "Photo" | "Video"
 
+        chosenMedia: number[]
+        toDelete: string[]
+        size: {
+            width: number,
+            height: number
+        }
+        index: number
+        file: string
+        uri?: string
+        handlePress(index: number): void
+        handlePressOnAddedOne(f: string): void
+        equalAlbumPageHasSuchMedia(f: string): boolean
+    }
 }
 

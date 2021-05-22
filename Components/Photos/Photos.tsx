@@ -14,7 +14,7 @@ import PhotosStyle from "./../../constants/Photos"
 import ActivityIndStyle from "./../../constants/ActivityIndicator"
 
 const Photos = (props: Components.PhotosType) => {
-    const [detailed, setDetailed] = useState({ show: false, photo: "" });
+    const [detailed, setDetailed] = useState({ show: false, uri: "", extension: "" });
     const [newPhotosTrackerStarted, setNewPhotosTrackerStarted] = useState(false);
 
     useEffect((() => {
@@ -84,7 +84,7 @@ const Photos = (props: Components.PhotosType) => {
                 style={{ ...ActivityIndStyle.BackupIndicator, width: backupAnimation }}>
             </Animated.View>
             <Animated.View style={{ marginBottom: (props.mediaPage.isAnimating ? gapAnimation : -22) }}></Animated.View>
-            <DetailedPhotoView visible={detailed.show} photo={detailed.photo} onPress={() => setDetailed({ show: false, photo: "" })} />
+            <DetailedPhotoView visible={detailed.show} uri={detailed.uri} extension={detailed.extension} onPress={() => setDetailed({ show: false, uri: "", extension: "" })} />
             {props.mediaPage.photos.result != undefined ?
                 (<FlatList
                     style={PhotosStyle.photos}
@@ -95,8 +95,8 @@ const Photos = (props: Components.PhotosType) => {
                             <TouchableOpacity
                                 onPress={() => {
                                     const interval = setInterval(() => {
-                                        if (!props.mediaPage.isAnimating) {
-                                            setDetailed({ show: true, photo: item.file })
+                                        if (!props.mediaPage.isAnimating && item.uri) {
+                                            setDetailed({ show: true, uri: item.uri, extension: item.extension })
                                             clearInterval(interval)
                                         }
                                     }, 10)

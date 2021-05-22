@@ -5,59 +5,40 @@ import * as FileSystem from "expo-file-system"
 import messagePublusher from "messagepublisher"
 import { IsAuthError } from "./errors"
 
-export const getAccountInfo = (): Promise<{ ok: boolean, data: any } | void> => {
-    return configuredAxios.get("/account")
-        .then(resp => {
-            if (resp.status === 200) {
-                return { ok: resp.data.service.ok, data: resp.data.result }
-            }
-            messagePublusher.add("Network error!")
-        })
-        .catch((err: Error) => {
-            messagePublusher.add(err.message)
-        })
+export const getAccountInfo = async (): Promise<{ ok: boolean, data: any } | void> => {
+    try {
+        const r = await configuredAxios.get("/account")
+        return { ok: r.data.service.ok, data: r.data.result }
+    } catch (error) {
+        messagePublusher.add(error.message)
+    }
 }
 
-export const getAvatar = (): Promise<{ ok: boolean, avatar: any } | void> => {
-    return configuredAxios.get("/account/avatar")
-        .then(resp => {
-            if (IsAuthError(resp.data.service.error)) {
-                return { ok: false, avatar: {} }
-            }
-            if (resp.status === 200) {
-                return { ok: resp.data.service.ok, avatar: resp.data.result.avatar }
-            }
-            messagePublusher.add("Network error!")
-        })
-        .catch((err: Error) => {
-            messagePublusher.add(err.message)
-        })
+export const getAvatar = async (): Promise<{ ok: boolean, avatar: any } | void> => {
+    try {
+        const r = await configuredAxios.get("/account/avatar")
+        if (IsAuthError(r.data.service.error)) {
+            return { ok: false, avatar: {} }
+        }
+        return { ok: r.data.service.ok, avatar: r.data.result.avatar }
+    } catch (error) {
+        messagePublusher.add(error.message)
+    }
 }
 
-export const setAvatar = (a: string): Promise<boolean | void> => {
-    return configuredAxios.post("/account/avatar", { data: { avatar: a } })
-        .then(resp => {
-            if (resp.status === 200) {
-                return resp.data.service.ok
-            }
-            messagePublusher.add("Network error!")
-        })
-        .catch((err: Error) => {
-            messagePublusher.add(err.message)
-        })
+export const setAvatar = async (a: string): Promise<boolean | void> => {
+    try {
+        const r = await configuredAxios.post("/account/avatar", { data: { avatar: a } })
+        return r.data.service.ok
+    } catch (error) {
+        messagePublusher.add(error.message)
+    }
 }
 
-export const openMediaPicker = () => {
-    return ImagePicker.getMediaLibraryPermissionsAsync()
-        .then(() => {
-            return ImagePicker.launchImageLibraryAsync()
-                .then((r: any) => {
-                    if (r.uri) {
-                        return FileSystem.readAsStringAsync(r.uri, { encoding: "base64" })
-                            .then(f => {
-                                return f
-                            })
-                    }
-                })
-        })
+export const openMediaPicker = async () => {
+    await ImagePicker.getMediaLibraryPermissionsAsync()
+    const r = await ImagePicker.launchImageLibraryAsync() as any
+    if (r.uri) {
+        return await FileSystem.readAsStringAsync(r.uri, { encoding: "base64" })
+    }
 }

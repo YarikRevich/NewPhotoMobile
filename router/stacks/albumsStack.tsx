@@ -6,7 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 //Components ...
 
 import AlbumsContainer from "./../../Components/Albums/AlbumsContainer"
-import EqualAlbumContainer from "./../../Components/EqualAlbum/EqualAlbumContainer"
+import { EqualAlbumTabStack } from "./tab/equalAlbumStack"
 
 
 import HeaderContainer from "../../Components/CustomisedHeader/Header/HeaderContainer"
@@ -44,8 +44,8 @@ export const AlbumsStack = (props: Stack) => {
                         <Banner />
                     </>
                 ),
-               headerStyle: [CustomisedHeaderStyle.headerStackStyle, HeaderStyle.header,], headerTitleStyle: CustomisedHeaderStyle.headerStackTitleStyle
-            }} name={"EqualAlbum"} component={EqualAlbumContainer} />
+                headerStyle: [CustomisedHeaderStyle.headerStackStyle, HeaderStyle.header,], headerTitleStyle: CustomisedHeaderStyle.headerStackTitleStyle
+            }} name={"EqualAlbum"} component={EqualAlbumTabStack} />
         </Stack.Navigator>
     )
 }

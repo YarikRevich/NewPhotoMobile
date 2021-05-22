@@ -15,3 +15,15 @@ export const setMediaTagSaved = (id: string): Promise<void> => {
 export const getMediaTag = (id: string): Promise<string | null> => {
     return AsyncStorage.getItem(id)
 }
+
+export const setServiceImageDataByFile = (file: string, data: { uri: string, extension: string }): Promise<void> => {
+    return AsyncStorage.setItem(file, JSON.stringify(data))
+}
+
+export const getServiceImageDataByFile = (file: string): Promise<{ uri: string, extension: string } | null> => {
+    return AsyncStorage.getItem(file).then(d => d ? JSON.parse(d) : null)
+}
+
+export const deleteServiceImageDataByFile = (file: string) => {
+    AsyncStorage.removeItem(file)
+}

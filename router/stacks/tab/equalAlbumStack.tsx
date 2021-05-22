@@ -3,12 +3,19 @@ import { Image } from "react-native"
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 
-import PhotosContainer from "./../../../Components/EqualAlbum/PhotosContainer"
-import VideosContainer from "./../../../Components/Videos/VideosContainer"
+import EqualAlbumContainer from "./../../../Components/EqualAlbum/EqualAlbumContainer"
+import { StackScreenProps } from "@react-navigation/stack";
+import { ParamListBase } from "@react-navigation/routers";
+// import VideosContainer from "./../../../Components/Videos/VideosContainer"
 
 const Stack = createBottomTabNavigator()
 
-export const EqualAlbumTabStack = () => {
+export const EqualAlbumTabStack = (props: StackScreenProps<ParamListBase>) => {
+
+    if (!props.route.params) return <></>
+
+    const params = Object.assign(props.route.params)
+    const albumName = params["albumName"]
 
     return (
         <Stack.Navigator initialRouteName={"Photo"}>
@@ -18,14 +25,14 @@ export const EqualAlbumTabStack = () => {
                         <Image style={{ width: 45, height: 45 }} source={require("./../../../assets/images/photoicon.png")} />
                     )
                 }
-            }} name={"Photo"} component={PhotosContainer} />
+            }} initialParams={{ albumName, albumViewType: "Photo" }} name={"Photo"} component={EqualAlbumContainer} />
             <Stack.Screen options={{
                 tabBarIcon: () => {
                     return (
                         <Image style={{ width: 35, height: 35 }} source={require("./../../../assets/images/videoicon.png")} />
                     )
                 }
-            }} name={"Video"} component={VideosContainer} />
+            }} initialParams={{ albumName, albumViewType: "Video" }} name={"Video"} component={EqualAlbumContainer} />
         </Stack.Navigator>
     )
 }

@@ -6,7 +6,7 @@ import type { ParamListBase } from "@react-navigation/native"
 import type { StackScreenProps } from "@react-navigation/stack"
 
 import EqualAlbum from "./EqualAlbum"
-import { createGetEqualAlbum } from "./../../redux/equalalbum-reducer"
+import { createGetEqualAlbum, createTurnOffReset, getAlbumInfo } from "./../../redux/equalalbum-reducer"
 
 import type { EqualAlbumReducer } from "./../../types/reducers"
 
@@ -31,6 +31,12 @@ const mapDispatchToProps = (dispatch: Dispatch<EqualAlbumReducer.IEqualAlbumActi
     return {
         getEqualAlbum: (albumName: string) => {
             dispatch(createGetEqualAlbum(albumName))
+        },
+        getAlbumInfo: (albumName: string) => {
+            dispatch(getAlbumInfo(albumName))
+        },
+        turnOffReset: () => {
+            dispatch(createTurnOffReset())
         }
     }
 }

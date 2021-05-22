@@ -66,3 +66,13 @@ COMMIT: 9
 - Implemented the backuping of videos
 - Implemented the chosing of that what you'll see at the main screen
 ```
+
+COMMIT: 10
+
+```
+- Implemented the unified video view
+- Added the opportunity to chose videos in MediaBrowser
+- Implemented the chosing of mediaType you'll see on the equalAlbum page
+- Implemented the checking of new media types
+- Refactored a huge number of code
+```

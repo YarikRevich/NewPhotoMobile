@@ -1,5 +1,19 @@
 import { Dimensions, StyleSheet } from "react-native"
 
+const VideoRender = StyleSheet.create({
+    video: {
+        alignSelf: "center",
+    }
+})
+
+const ListStyle = StyleSheet.create({
+    list: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+    }
+})
+
 const PanelStyle = StyleSheet.create({
     panel: {
         height: 100,
@@ -44,4 +58,6 @@ const ChosenPhotoStyle = StyleSheet.create({
 export default StyleSheet.create({
     ...PanelStyle,
     ...ChosenPhotoStyle,
+    ...VideoRender,
+    ...ListStyle
 })
