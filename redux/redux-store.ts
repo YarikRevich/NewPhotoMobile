@@ -6,6 +6,7 @@ import authReducer from "./auth-reducer"
 import accountReducer from "./account-reducer"
 import albumsReducer from "./albums-reducer";
 import equalAlbumReducer from "./equalalbum-reducer";
+import system from "./system-reducer"
 
 const reducers = combineReducers<any>({
     authentification: authReducer,
@@ -13,6 +14,7 @@ const reducers = combineReducers<any>({
     albumsPage: albumsReducer,
     equalAlbumPage: equalAlbumReducer,
     accountPage: accountReducer,
+    system: system,
 })
 
 const middlewares = applyMiddleware(thunk)

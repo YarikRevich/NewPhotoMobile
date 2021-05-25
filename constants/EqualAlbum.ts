@@ -2,7 +2,16 @@ import { Dimensions, StyleSheet } from "react-native"
 
 const AddPanelStyle = StyleSheet.create({
     panel: {
-        marginTop: -15,
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginTop: -Dimensions.get("window").height / 100 * 4,
+    },
+    menuKebab: {
+        width: Dimensions.get("window").width / 100 * 10,
+        height: Dimensions.get("window").height / 100 * 10,
+        marginTop: Dimensions.get("window").height / 100 * 5,
     }
 })
 

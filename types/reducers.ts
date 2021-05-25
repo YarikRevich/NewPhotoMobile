@@ -11,10 +11,12 @@ export namespace AuthReducer {
     export const TOOGLE_CHECKING = "TOOGLE-CHECKING";
     export const CHECK_AUTH_SUCCESS = "CHECK-AUTH-SUCCESS"
     export const CHECK_AUTH_ERROR = "CHECK-AUTH-ERROR"
-    export const SIGN_IN_SUCCESS = "SIGN_IN_SUCCESS"
-    export const SIGN_IN_ERROR = "SIGN_IN_ERROR"
-    export const SIGN_UP_SUCCESS = "SIGN_UP_SUCCESS"
-    export const SIGN_UP_ERROR = "SIGN_UP_ERROR"
+    export const SIGN_IN_INNER_SUCCESS = "SIGN-IN-INNER-SUCCESS"
+    export const SIGN_IN_INNER_ERROR = "SIGN-IN-INNER-ERROR"
+    export const SIGN_IN_OUTER_SUCCESS = "SIGN_IN_OUTER_SUCCESS"
+    export const SIGN_IN_OUTER_ERROR = "SIGN_IN_OUTER_ERROR"
+    export const SIGN_UP_SUCCESS = "SIGN-UP-SUCCESS"
+    export const SIGN_UP_ERROR = "SIGN-UP-ERROR"
     export const SIGN_OUT_SUCCESS = "SIGN-OUT-SUCCESS"
     export const SIGN_OUT_ERROR = "SIGN-OUT-ERROR"
 }
@@ -69,6 +71,8 @@ export namespace EqualAlbumReducer {
     export const TOOGLE_FETCHING = "TOOGLE-FETCHING"
     export const TURN_ON_RESET = "TURN-ON-RESET"
     export const TURN_OFF_RESET = "TURN-OFF-RESET"
+    export const DELETE_ALBUM_SUCCESS = "DELETE-ALBUM-SUCCESS";
+    export const DELETE_ALBUM_ERROR = "DELETE-ALBUM-ERROR";
 }
 
 export namespace HeaderReducer {
@@ -81,7 +85,6 @@ export namespace MediaReducer {
     export interface IMediaAction {
         type: string
         data?: [SentData.LocalPhotos<SentData.FileInfo>, SentData.LocalVideos<SentData.FileInfo>]
-        // photosNum?: number
     }
 
     export const TOOGLE_FETCHING = "TOOGLE-FETCHING"
@@ -95,4 +98,22 @@ export namespace MediaReducer {
     export const START_ANIMATION = "START-ANIMATION"
     export const TURNON_RESET = "TURNON-RESET"
     export const TURNOFF_RESET = "TURNOFF-RESET"
+}
+
+export namespace SystemReducer {
+    export interface ISystemReducer {
+        type: string
+        localAuthenticationType?: 1 | 2
+    }
+
+    export const TURN_ON_CONNECT = "TURN-ON-CONNECT";
+    export const TURN_OFF_CONNECT = "TURN-OFF-CONNECT";
+    export const SET_APP_ACTIVE = "SET-APP-ACTIVE";
+    export const SET_APP_INACTIVE = "SET-APP-INACTIVE";
+    export const SET_LOCAL_AUTHENTICATION_ACTIVE = "SET-LOCAL-AUTHENTICATION-ACTIVE"
+    export const SET_LOCAL_AUTHENTICATION_INACTIVE = "SET-LOCAL-AUTHENTICATION-INACTIVE"
+    export const SET_LOCAL_AUTHENTICATION_TYPE = "SET-LOCAL-AUTHENTICATION-TYPE"
+    export const SET_LOCAL_AUTHENTICATION_STATUS_TRY_AGAIN = "SET-LOCAL-AUTHENTICATION-STATUS-TRY-AGAIN"
+    export const SET_LOCAL_AUTHENTICATION_STATUS_FAILED = "SET-LOCAL-AUTHENTICATION-STATUS-FAILED"
+    export const SET_LOCAL_AUTHENTICATION_STATUS_NOMINAL = "SET-LOCAL-AUTHENTICATION-STATUS-NOMINAL"
 }

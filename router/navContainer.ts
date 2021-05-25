@@ -5,6 +5,11 @@
 
 import { Dispatch } from "react";
 import { connect } from "react-redux"
+import { compose } from "redux"
+
+//HOC
+
+import withListeners from "./../HOC/WithListeners"
 
 //Reducer ...
 
@@ -20,6 +25,7 @@ import AppDrawer from "./nav"
 const mapStateToProps = (state: State) => {
     return {
         authentification: state.authentification,
+        system: state.system
     }
 }
 
@@ -30,8 +36,8 @@ const mapDispatchToProps = (dispatch: Dispatch<HeaderReducer.IHeaderAction | Aut
         },
         getAvatar: () => {
             dispatch(createGetAvatar())
-        }
+        },
     })
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppDrawer)
+export default withListeners(connect(mapStateToProps, mapDispatchToProps)(AppDrawer))

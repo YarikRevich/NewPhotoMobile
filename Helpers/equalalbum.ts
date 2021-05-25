@@ -39,3 +39,12 @@ export const getDetailedAlbumInfo = async (albumName: string): Promise<RecievedD
         messagepublisher.add(error.message)
     }
 }
+
+export const deleteAlbum = async (albumName: string): Promise<boolean | undefined> => {
+    try {
+        const r = await configuredAxios.delete("/albums", { params: { name: albumName } })
+        return r.data.service.ok
+    } catch (error) {
+        messagepublisher.add(error.message)
+    }
+}

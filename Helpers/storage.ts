@@ -27,3 +27,14 @@ export const getServiceImageDataByFile = (file: string): Promise<{ uri: string, 
 export const deleteServiceImageDataByFile = (file: string) => {
     AsyncStorage.removeItem(file)
 }
+
+export const setUsedCredentials = (d: SentData.SignIn) => {
+    AsyncStorage.setItem("used_creds", JSON.stringify(d))
+}
+
+export const getUsedCredentials = async (): Promise< SentData.SignIn | void> => {
+    const r = await AsyncStorage.getItem("used_creds")
+    if (r) {
+        return JSON.parse(r)
+    }
+}

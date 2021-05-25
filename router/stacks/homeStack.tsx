@@ -6,9 +6,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 
 //Components ...
 
-import PhotosContainer from "./../../Components/Photos/PhotosContainer"
-import HeaderContainer from "../../Components/CustomisedHeader/Header/HeaderContainer"
-import Banner from "./../../Components/CustomisedHeader/Banner/Banner"
+import PhotosContainer from "../../Components/Screens/Home/Photos/PhotosContainer"
+import HeaderContainer from "../../Components/Interface/Header/HeaderContainer"
+import Banner from "../../Components/Interface/Banner/Banner"
 import HeaderStyle from "./../../constants/CustomisedHeader"
 
 import { HomeTabStack } from "./tab/homeStack"

@@ -26,6 +26,7 @@ export namespace Components {
         navigator: StackScreenProps<ParamListBase>
         getEqualAlbum(albumName: string): void
         getAlbumInfo(albumName: string): void
+        deleteAlbum(albumName: string): void
         turnOffReset(): void
     }
 
@@ -40,6 +41,13 @@ export namespace Components {
         setDetailed(f: { show: boolean, uri: string, extension: string }): void
     }
 
+    export interface EqualAlbumTooltipType {
+        albumName: string
+        tooltip: any
+        navigator: StackScreenProps<ParamListBase>
+        deleteAlbum(albumName: string): void
+    }
+
     export interface PhotosType {
         mediaPage: StateComponents.MediaPage
         getLocalMedia(): void
@@ -49,7 +57,6 @@ export namespace Components {
         startAnimation(): void
         turnOffReset(): void
         turnOnListening(): void
-
     }
 
     export interface VideosType {
@@ -69,7 +76,19 @@ export namespace Components {
         readonly navigation: {
             push: Function
         }
-        signIn(d: SentData.SignIn, updater: Function): void
+        signInInner(d: SentData.SignIn): void
+    }
+
+    export interface SignInFormType {
+        readonly navigation?: {
+            push: Function
+        }
+        readonly isLocalAuthentication: boolean
+        readonly LocalAuthenticationType: 1 | 2
+        readonly type: "inner" | "outer"
+        signInInner?(d: SentData.SignIn): void
+        signInOuter?(d: SentData.SignIn): void
+        setLocalAuthenticationStatusTryAgain(): void
     }
 
     export interface SignUpType {
@@ -93,6 +112,7 @@ export namespace Components {
 
     export interface AppDrawerType {
         authentification: StateComponents.Authentification
+        system: StateComponents.System
         checkAuth(): void
         getAvatar(): void
     }
@@ -117,6 +137,7 @@ export namespace Components {
     }
 
     export interface AddAlbumType {
+        albums: RecievedData.Albums
         addAlbum(albumName: string): void
         onClose: () => void
         onUpdate: () => void
@@ -154,6 +175,37 @@ export namespace Components {
         handlePress(index: number): void
         handlePressOnAddedOne(f: string): void
         equalAlbumPageHasSuchMedia(f: string): boolean
+    }
+
+    export interface withListenersType {
+        readonly isAuthed: boolean
+        turnOnConnect(): void
+        turnOffConnect(): void
+        getAvatar(): void
+        setAppActive(): void
+        setAppInActive(): void
+        setLocalAuthenticationActive(): void
+        setLocalAuthenticationInActive(): void
+        setLocalAuthenticationType(l: 1 | 2): void
+    }
+
+    export interface NetLessCoverType {
+        isConnected: boolean
+    }
+
+    export interface ActivityCoverType {
+        isAppActive: boolean
+    }
+
+    export interface LocalAuthCoverType {
+        readonly authentication: StateComponents.Authentification,
+        readonly isLocalAuthentication: boolean
+        readonly localAuthenticationType: 1 | 2
+        readonly LocalAuthenticationStatus: "try_again" | "failed" | "nominal"
+        signInOuter(d: SentData.SignIn): void
+        setLocalAuthenticationStatusFailed(): void
+        setLocalAuthenticationStatusNominal(): void
+
     }
 }
 

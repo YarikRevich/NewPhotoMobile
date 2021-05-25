@@ -6,9 +6,9 @@ import { createStackNavigator } from "@react-navigation/stack"
 
 //Components ...
 
-import AccountContiner from "../../Components/Account/AccountContainer"
-import HeaderContainer from "../../Components/CustomisedHeader/Header/HeaderContainer"
-import Banner from "./../../Components/CustomisedHeader/Banner/Banner"
+import AccountContiner from "../../Components/Screens/Account/AccountContainer"
+import HeaderContainer from "../../Components/Interface/Header/HeaderContainer"
+import Banner from "../../Components/Interface/Banner/Banner"
 import HeaderStyle from "./../../constants/CustomisedHeader"
 
 const Stack = createStackNavigator()

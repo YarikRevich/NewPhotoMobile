@@ -3,7 +3,7 @@ import { Image } from "react-native"
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 
-import EqualAlbumContainer from "./../../../Components/EqualAlbum/EqualAlbumContainer"
+import EqualAlbumContainer from "../../../Components/Screens/Albums/EqualAlbum/EqualAlbumContainer"
 import { StackScreenProps } from "@react-navigation/stack";
 import { ParamListBase } from "@react-navigation/routers";
 // import VideosContainer from "./../../../Components/Videos/VideosContainer"

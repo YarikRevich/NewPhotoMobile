@@ -87,6 +87,12 @@ const formButtonStyles = StyleSheet.create({
             width: 5,
         },
         shadowRadius: 0,
+    },
+    redirectButton: {
+        fontSize: 16,
+        color: "grey",
+        textAlign: "center",
+        marginTop: 10
     }
 })
 

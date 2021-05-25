@@ -53,6 +53,7 @@ declare namespace StateComponents {
 
     interface Authentification {
         isAuthed: boolean;
+        isLocallyAuthed: boolean;
         isChecking: boolean
     }
 
@@ -99,6 +100,14 @@ declare namespace StateComponents {
         isReset: boolean
         isFetching: boolean
     }
+
+    interface System {
+        isConnected: boolean;
+        isAppActive: boolean;
+        isLocalAuthentication: boolean;
+        LocalAuthenticationType: 1 | 2;
+        LocalAuthenticationStatus: "failed" | "try_again" | "nominal"
+    }
 }
 
 declare interface State {
@@ -108,4 +117,5 @@ declare interface State {
     albumsPage: StateComponents.AlbumsPage;
     equalAlbumPage: StateComponents.EqualAlbumPage;
     header: StateComponents.Header;
+    system: StateComponents.System;
 }

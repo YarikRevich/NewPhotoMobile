@@ -4,17 +4,10 @@ export default StyleSheet.create({
     body: {
         height: "100%",
     },
-    // photosCover: {
-    //     zIndex: 3000,
-    //     position: "absolute",
-    //     height: "100%",
-    //     width: "100%",
-    //     backgroundColor: "rgba(0, 0, 0, 0.4)"
-    // },
     photos: {
         zIndex: 1000,
         // position: "relative",
-        marginTop: Dimensions.get("window").height / 100 * 3,
+        marginTop: Dimensions.get("window").height / 100 * 5,
     },
     announcementContainer: {
         width: 300,

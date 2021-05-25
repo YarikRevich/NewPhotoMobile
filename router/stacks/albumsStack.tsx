@@ -5,12 +5,12 @@ import { createStackNavigator } from "@react-navigation/stack"
 
 //Components ...
 
-import AlbumsContainer from "./../../Components/Albums/AlbumsContainer"
+import AlbumsContainer from "../../Components/Screens/Albums/AlbumsContainer"
 import { EqualAlbumTabStack } from "./tab/equalAlbumStack"
 
 
-import HeaderContainer from "../../Components/CustomisedHeader/Header/HeaderContainer"
-import Banner from "./../../Components/CustomisedHeader/Banner/Banner"
+import HeaderContainer from "../../Components/Interface/Header/HeaderContainer"
+import Banner from "../../Components/Interface/Banner/Banner"
 
 import CustomisedHeaderStyle from "./../../constants/CustomisedHeader"
 import HeaderStyle from "./../../constants/CustomisedHeader"

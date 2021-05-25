@@ -5,9 +5,9 @@ import { createStackNavigator } from "@react-navigation/stack"
 
 //Components ...
 
-import About from "./../../Components/About/About"
-import HeaderContainer from "./../../Components/CustomisedHeader/Header/HeaderContainer"
-import Banner from "./../../Components/CustomisedHeader/Banner/Banner"
+import About from "../../Components/Screens/About/About"
+import HeaderContainer from "../../Components/Interface/Header/HeaderContainer"
+import Banner from "../../Components/Interface/Banner/Banner"
 import HeaderStyle from "./../../constants/CustomisedHeader"
 
 

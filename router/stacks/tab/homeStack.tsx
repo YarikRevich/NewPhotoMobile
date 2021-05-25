@@ -3,8 +3,8 @@ import { Image } from "react-native"
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 
-import PhotosContainer from "./../../../Components/Photos/PhotosContainer"
-import VideosContainer from "./../../../Components/Videos/VideosContainer"
+import PhotosContainer from "../../../Components/Screens/Home/Photos/PhotosContainer"
+import VideosContainer from "../../../Components/Screens/Home/Videos/VideosContainer"
 
 const Stack = createBottomTabNavigator()
 

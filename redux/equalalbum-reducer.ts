@@ -4,7 +4,7 @@ import messagepublisher from "messagepublisher"
 import { Dispatch } from "react"
 import { tagMadia } from "../Helpers/media"
 
-import { addMediaToAlbum, getEqualAlbum, deleteMediaFromAlbum, getDetailedAlbumInfo } from "./../Helpers/equalalbum"
+import { addMediaToAlbum, getEqualAlbum, deleteMediaFromAlbum, getDetailedAlbumInfo, deleteAlbum } from "./../Helpers/equalalbum"
 import { EqualAlbumReducer } from "./../types/reducers"
 
 const initialState = {
@@ -54,6 +54,10 @@ const equalAlbumReducer = (state: initialStateType = initialState, action: Equal
             return { ...state, isReset: true }
         case EqualAlbumReducer.TURN_OFF_RESET:
             return { ...state, isReset: false }
+        case EqualAlbumReducer.DELETE_ALBUM_SUCCESS:
+            return { ...state }
+        case EqualAlbumReducer.DELETE_ALBUM_ERROR:
+            return { ...state }
     }
 
     return state
@@ -119,7 +123,7 @@ const createChangeMediaError = (): EqualAlbumReducer.IEqualAlbumAction => {
     return { type: EqualAlbumReducer.CHANGE_MEDIA_ERROR }
 }
 
-export const getAlbumInfo = (albumName: string) => async (dispatch: Dispatch<EqualAlbumReducer.IEqualAlbumAction>, getState: Function) => {
+export const createGetAlbumInfo = (albumName: string) => async (dispatch: Dispatch<EqualAlbumReducer.IEqualAlbumAction>, getState: Function) => {
     const info = await getDetailedAlbumInfo(albumName)
     if (info) {
         const state = getState().equalAlbumPage
@@ -151,5 +155,25 @@ const createTurnOnReset = (): EqualAlbumReducer.IEqualAlbumAction => {
 export const createTurnOffReset = (): EqualAlbumReducer.IEqualAlbumAction => {
     return { type: EqualAlbumReducer.TURN_OFF_RESET }
 }
+
+export const createDeleteAlbum = (albumName: string) => async (dispatch: Dispatch<EqualAlbumReducer.IEqualAlbumAction>) => {
+    const r = await deleteAlbum(albumName)
+    if (r) {
+        dispatch(createDeleteAlbumSuccess())
+    } else {
+        dispatch(createDeleteAlbumError())
+    }
+}
+
+const createDeleteAlbumSuccess = (): EqualAlbumReducer.IEqualAlbumAction => {
+    return { type: EqualAlbumReducer.DELETE_ALBUM_SUCCESS }
+}
+
+const createDeleteAlbumError = (): EqualAlbumReducer.IEqualAlbumAction => {
+    return { type: EqualAlbumReducer.DELETE_ALBUM_ERROR }
+}
+
+
+
 
 export default equalAlbumReducer

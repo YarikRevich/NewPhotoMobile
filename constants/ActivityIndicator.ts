@@ -10,7 +10,7 @@ export default StyleSheet.create({
         marginTop: Dimensions.get("window").height / 100 * 10,
     },
     BackupIndicator: {
-        height: Dimensions.get("window").height / 100 * 2,
+        height: Dimensions.get("window").height / 100 * 2.5,
         backgroundColor: "grey"
     },
 })

@@ -78,3 +78,15 @@ COMMIT: 10
 - Added the opportunity to share your media
 - Improved the design
 ```
+
+COMMIT: 11
+
+```
+- Added the deleting of albums
+- Implemented the checking of network connection
+- Implemented the futher bluring getting app inactive
+- Implemented local authentication
+- Refactored components
+```
+
+

@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { min } from "react-native-reanimated";
-
 export const ForceUpdater = () => {
     const [updater, setUpdater] = useState(0)
     return () => setUpdater(updater + 1)

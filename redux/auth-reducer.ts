@@ -1,6 +1,6 @@
 /// <reference path="./../types/reducers.ts" />
 
-import { setStorageAccountInfo } from "./../Helpers/storage"
+import { getUsedCredentials, setStorageAccountInfo, setUsedCredentials } from "./../Helpers/storage"
 import { checkAuth, signIn, signOut, signUp } from "./../Helpers/auth"
 import { Dispatch } from "react"
 import messagePublusher from "messagepublisher"
@@ -9,6 +9,7 @@ import { AuthReducer } from "./../types/reducers"
 
 const initialState = {
     isAuthed: false,
+    isLocallyAuthed: false,
     isChecking: false
 }
 
@@ -27,11 +28,15 @@ const authReducer = (state = initialState, action: AuthReducer.IAuthAction) => {
         case AuthReducer.SIGN_UP_ERROR:
             messagePublusher.add("User with such login already exists!")
             return { ...state }
-        case AuthReducer.SIGN_IN_SUCCESS:
+        case AuthReducer.SIGN_IN_OUTER_SUCCESS:
             messagePublusher.add("You logged in!")
             return { ...state, isAuthed: true }
-        case AuthReducer.SIGN_IN_ERROR:
+        case AuthReducer.SIGN_IN_OUTER_ERROR:
             messagePublusher.add("User with such credentials does not exist")
+            return { ...state }
+        case AuthReducer.SIGN_IN_INNER_SUCCESS:
+            return { ...state, isLocallyAuthed: true }
+        case AuthReducer.SIGN_IN_INNER_ERROR:
             return { ...state }
         case AuthReducer.SIGN_OUT_SUCCESS:
             messagePublusher.add("Logout is successful!")
@@ -90,23 +95,42 @@ const signUpError = () => {
     return ({ type: AuthReducer.SIGN_UP_ERROR })
 }
 
-export const createSignIn = (d: SentData.SignIn) => (dispatch: Dispatch<any>) => {
-    return signIn(d)
-        .then(ok => {
-            if (ok) {
-                dispatch(signInSuccess())
-            } else {
-                dispatch(signInError())
-            }
-        })
+export const createSignInOuter = (d: SentData.SignIn) => async (dispatch: Dispatch<any>) => {
+    const ok = await signIn(d)
+    if (ok) {
+        await setUsedCredentials(d)
+        dispatch(signInOuterSuccess())
+    } else {
+        dispatch(signInOuterError())
+    }
 }
 
-const signInSuccess = () => {
-    return ({ type: AuthReducer.SIGN_IN_SUCCESS })
+const signInOuterSuccess = () => {
+    return ({ type: AuthReducer.SIGN_IN_OUTER_SUCCESS })
 }
 
-const signInError = () => {
-    return ({ type: AuthReducer.SIGN_IN_ERROR })
+const signInOuterError = () => {
+    return ({ type: AuthReducer.SIGN_IN_OUTER_ERROR })
+}
+
+export const createSignInInner = (d: SentData.SignIn) => async (dispatch: Dispatch<any>) => {
+    const r = await getUsedCredentials()
+
+    if (r) {
+        if (r.data.login === d.data.login && r.data.password === r.data.password) {
+            dispatch(signInInnerSuccess())
+        } else {
+            dispatch(signInInnerError())
+        }
+    }
+}
+
+const signInInnerSuccess = () => {
+    return ({ type: AuthReducer.SIGN_IN_INNER_SUCCESS })
+}
+
+const signInInnerError = () => {
+    return ({ type: AuthReducer.SIGN_IN_INNER_ERROR })
 }
 
 export const createSignOut = () => (dispatch: Dispatch<any>) => {

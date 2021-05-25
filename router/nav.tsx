@@ -1,13 +1,14 @@
 /// <reference path="./../types/components.ts" />
 
-
 //External libraries ...
 
-import React, { useEffect, useState } from "react";
-import { View, Text, ActivityIndicator } from "react-native"
+import React from "react";
+import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native"
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentOptions } from "@react-navigation/drawer"
-import { TouchableOpacity } from "react-native-gesture-handler";
+import NetLessCoverContainer from "./../Components/Interface/NetLessCover/NetLessCoverContainer"
+import ActivityCoverContainer from "./../Components/Interface/ActivityCover/ActivityCoverContainer"
+import LocalAuthCoverContainer from "./../Components/Interface/LocalAuthCover/LocalAuthCoverContainer"
 
 import type { Components } from "./../types/components";
 
@@ -22,16 +23,10 @@ import { AboutStack } from "./stacks/aboutStack"
 import { AccountStack } from "./stacks/accountStack"
 import { AuthStack } from "./stacks/authStack"
 
-//Util ...
-
-import { ForceUpdaterOnce } from "./../Helpers/utils"
-
 //Styles ...
 
 import ActivityIndStyle from "./../constants/ActivityIndicator"
 import { AlbumsStack } from "./stacks/albumsStack";
-
-import { addAuthListener, addAvatarListener } from "./../Helpers/listeners"
 
 const drawer = createDrawerNavigator()
 
@@ -71,34 +66,47 @@ const DrawerContent = (props: { dContainer: DrawerContentComponentProps<DrawerCo
     )
 }
 
-const AppDrawer = (props: Components.AppDrawerType) => {
-    const [redirected, setRedirected] = useState(false);
-    const authListenerUpdater = ForceUpdaterOnce()
+class AppDrawer extends React.Component<Components.AppDrawerType, { redirected: boolean }> {
+    constructor(props: Components.AppDrawerType) {
+        super(props)
+        this.state = {
+            redirected: false
+        }
+    }
 
-    addAuthListener(props.authentification, authListenerUpdater)
+    componentDidMount() {
+        this.props.checkAuth()
+    }
 
-    useEffect(() => {
-        props.checkAuth()
-    }, [])
+    setRedirect() {
+        this.setState({ ...this.state, redirected: true })
+    }
 
-    return (
-        <NavigationContainer>
-            {!props.authentification.isChecking ?
-                <drawer.Navigator initialRouteName={"Photos"} drawerContent={(p) => <DrawerContent dContainer={p} checkAuth={props.checkAuth} authentification={props.authentification} redirected={redirected} setRedirected={setRedirected} />}>
-                    {props.authentification.isAuthed ? (
-                        <>
-                            <drawer.Screen name={"Photos"} component={HomeStack} />
-                            <drawer.Screen name={"Albums"} component={AlbumsStack} />
-                            <drawer.Screen name={"About"} component={AboutStack} />
-                            <drawer.Screen name={"Account"} component={AccountStack} />
-                        </>
-                    ) :
-                        <drawer.Screen options={{ swipeEnabled: props.authentification.isAuthed }} name={"Auth"} component={AuthStack} />
-                    }
-                </drawer.Navigator>
-                : <ActivityIndicator style={ActivityIndStyle.AuthIndicator} size="large" color="#000000" />}
-        </NavigationContainer>
-    )
+    render() {
+        return (
+            <>
+                <LocalAuthCoverContainer />
+                <ActivityCoverContainer />
+                <NetLessCoverContainer />
+                <NavigationContainer>
+                    {!this.props.authentification.isChecking ?
+                        <drawer.Navigator initialRouteName={"Photos"} drawerContent={(p) => <DrawerContent dContainer={p} checkAuth={this.props.checkAuth} authentification={this.props.authentification} redirected={this.state.redirected} setRedirected={this.setRedirect} />}>
+                            {this.props.authentification.isAuthed ? (
+                                <>
+                                    <drawer.Screen name={"Photos"} component={HomeStack} />
+                                    <drawer.Screen name={"Albums"} component={AlbumsStack} />
+                                    <drawer.Screen name={"About"} component={AboutStack} />
+                                    <drawer.Screen name={"Account"} component={AccountStack} />
+                                </>
+                            ) :
+                                <drawer.Screen options={{ swipeEnabled: this.props.authentification.isAuthed }} name={"Auth"} component={AuthStack} />
+                            }
+                        </drawer.Navigator>
+                        : <ActivityIndicator style={ActivityIndStyle.AuthIndicator} size="large" color="#000000" />}
+                </NavigationContainer>
+            </>
+        )
+    }
 }
 
 export default AppDrawer
