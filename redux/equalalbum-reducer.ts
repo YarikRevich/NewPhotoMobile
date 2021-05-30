@@ -4,12 +4,13 @@ import messagepublisher from "messagepublisher"
 import { Dispatch } from "react"
 import { tagMadia } from "../Helpers/media"
 
-import { addMediaToAlbum, getEqualAlbum, deleteMediaFromAlbum, getDetailedAlbumInfo, deleteAlbum } from "./../Helpers/equalalbum"
+import { addMediaToAlbum, getEqualAlbum, deleteMediaFromAlbum, getDetailedAlbumMediaNum, deleteAlbum } from "./../Helpers/equalalbum"
 import { EqualAlbumReducer } from "./../types/reducers"
 
 const initialState = {
     photos: {
-        result: []
+        result: [],
+        last_page: false,
     },
     videos: {
         result: []
@@ -27,10 +28,18 @@ const equalAlbumReducer = (state: initialStateType = initialState, action: Equal
 
     switch (action.type) {
         case EqualAlbumReducer.CLEAN_EQUAL_ALBUM:
-            return { ...initialState, info: state.info, isFetching: state.isFetching, isReset: state.isReset }
+            return { photos: {result: [], last_page: state.photos.last_page}, videos: {result: []}, info: state.info, isFetching: state.isFetching, isReset: state.isReset }
+        case EqualAlbumReducer.GET_LAST_PAGE:
+            if (action.data) {
+                if (action.data[0].length == state.photos.result.length) {
+                    return { ...state, photos: { result: [], last_page: true } }
+                }
+            }
+            return { ...state }
         case EqualAlbumReducer.GET_EQUAL_ALBUM_SUCCESS:
             if (action.data) {
-                return { ...state, photos: { result: action.data[0] }, videos: { result: action.data[1] }, info: { media_num: action.data[0].length + action.data[1].length } }
+                console.log()
+                return { ...state, photos: { result: [...state.photos.result, ...action.data[0]], last_page: state.photos.last_page }, videos: { result: [...state.videos.result, ...action.data[1]] }, info: { media_num: action.data[0].length + action.data[1].length } }
             }
             return { ...state }
         case EqualAlbumReducer.GET_EQUAL_ALBUM_ERROR:
@@ -67,11 +76,16 @@ export const createCleanEqualAlbum = (): EqualAlbumReducer.IEqualAlbumAction => 
     return { type: EqualAlbumReducer.CLEAN_EQUAL_ALBUM }
 }
 
-export const createGetEqualAlbum = (albumName: string) => async (dispatch: Dispatch<EqualAlbumReducer.IEqualAlbumAction>) => {
+const createGetLastPage = (r: [RecievedData.EqualAlbum<RecievedData.EqualAlbumInfoTaged>, RecievedData.EqualAlbum<RecievedData.EqualAlbumInfoTaged>]): EqualAlbumReducer.IEqualAlbumAction => {
+    return { type: EqualAlbumReducer.GET_LAST_PAGE, data: r }
+}
+
+export const createGetEqualAlbum = (albumName: string, offset: number, page: number) => async (dispatch: Dispatch<EqualAlbumReducer.IEqualAlbumAction>) => {
     dispatch(createToogleFetching())
-    const v = await getEqualAlbum(albumName)
+    const v = await getEqualAlbum(albumName, offset, page)
     if (v && v.ok) {
         const r = await tagMadia(v.data)
+        dispatch(createGetLastPage(r))
         dispatch(createCleanEqualAlbum())
         dispatch(getEqualAlbumSuccess(r))
     } else {
@@ -123,8 +137,8 @@ const createChangeMediaError = (): EqualAlbumReducer.IEqualAlbumAction => {
     return { type: EqualAlbumReducer.CHANGE_MEDIA_ERROR }
 }
 
-export const createGetAlbumInfo = (albumName: string) => async (dispatch: Dispatch<EqualAlbumReducer.IEqualAlbumAction>, getState: Function) => {
-    const info = await getDetailedAlbumInfo(albumName)
+export const createGetDetailedAlbumMediaNum = (albumName: string) => async (dispatch: Dispatch<EqualAlbumReducer.IEqualAlbumAction>, getState: Function) => {
+    const info = await getDetailedAlbumMediaNum(albumName)
     if (info) {
         const state = getState().equalAlbumPage
         if (info.media_num !== state.info.media_num && !state.isFetching) {

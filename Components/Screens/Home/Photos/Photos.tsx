@@ -16,10 +16,10 @@ import ActivityIndStyle from "../../../../constants/ActivityIndicator"
 const Photos = (props: Components.PhotosType) => {
     const backupAnimation = useRef(new Animated.Value(0))
     const gapAnimation = useRef(new Animated.Value(0))
+
     const [detailed, setDetailed] = useState({ show: false, uri: "", extension: "" });
     const [newPhotosTrackerStarted, setNewPhotosTrackerStarted] = useState(false);
 
-    const gapDistance = -Dimensions.get("window").height / 100 * 3
 
     useEffect((() => {
         props.backupMedia()
@@ -36,11 +36,15 @@ const Photos = (props: Components.PhotosType) => {
         }
     }), [props.mediaPage.isReset])
 
+    const gapDistance = -Dimensions.get("window").height / 100 * 3
     const numColumns = 3
     const size = {
         width: Dimensions.get("window").width / numColumns,
         height: Dimensions.get("window").height / numColumns
     }
+
+
+   
 
     gapAnimation.current.addListener(({ value }) => {
         if (value == gapDistance) props.stopAnimation()

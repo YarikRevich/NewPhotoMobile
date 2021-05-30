@@ -2,9 +2,9 @@ import messagepublisher from "messagepublisher"
 import configuredAxios from "./common"
 
 
-export const getEqualAlbum = async (albumName: string): Promise<{ ok: boolean, data: [RecievedData.EqualAlbum<RecievedData.EqualAlbumPhotosInfo>, RecievedData.EqualAlbum<RecievedData.EqualAlbumVideosInfo>] } | undefined | void> => {
+export const getEqualAlbum = async (albumName: string, offset: number, page: number): Promise<{ ok: boolean, data: [RecievedData.EqualAlbum<RecievedData.EqualAlbumPhotosInfo>, RecievedData.EqualAlbum<RecievedData.EqualAlbumVideosInfo>] } | undefined | void> => {
     try {
-        const r = await configuredAxios.get("/albums/detailed", { params: { "name": albumName } })
+        const r = await configuredAxios.get("/albums/detailed", { params: { "name": albumName, "offset": Math.round(offset), "page": page } })
         return { ok: r.data.service.ok, data: [r.data.result.photos, r.data.result.videos] as [RecievedData.EqualAlbum<RecievedData.EqualAlbumPhotosInfo>, RecievedData.EqualAlbum<RecievedData.EqualAlbumVideosInfo>] }
     } catch (error) {
         messagepublisher.add(error.message)
@@ -31,7 +31,7 @@ export const deleteMediaFromAlbum = async (t: "photos" | "videos", albumName: st
     }
 }
 
-export const getDetailedAlbumInfo = async (albumName: string): Promise<RecievedData.AlbumInfo | undefined> => {
+export const getDetailedAlbumMediaNum = async (albumName: string): Promise<RecievedData.AlbumInfo | undefined> => {
     try {
         const r = await configuredAxios.get("/albums/detailed/info", { params: { name: albumName } })
         return r.data.result

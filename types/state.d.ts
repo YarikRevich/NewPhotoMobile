@@ -93,6 +93,7 @@ declare namespace StateComponents {
     interface EqualAlbumPage {
         photos: {
             result: RecievedData.EqualAlbum<RecievedData.EqualAlbumInfoTaged>
+            last_page: boolean
         }
         videos: {
             result: RecievedData.EqualAlbum<RecievedData.EqualAlbumInfoTaged>

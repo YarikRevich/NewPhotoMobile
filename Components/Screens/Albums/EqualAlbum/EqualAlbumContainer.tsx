@@ -1,4 +1,4 @@
-/// <reference path="./../../types/reducers.ts" />
+/// <reference path="./../../../../types/reducers.ts" />
 
 import { Dispatch } from "react"
 import { connect } from "react-redux"
@@ -6,7 +6,7 @@ import type { ParamListBase } from "@react-navigation/native"
 import type { StackScreenProps } from "@react-navigation/stack"
 
 import EqualAlbum from "./EqualAlbum"
-import { createGetEqualAlbum, createTurnOffReset, createGetAlbumInfo, createDeleteAlbum } from "../../../../redux/equalalbum-reducer"
+import { createGetEqualAlbum, createTurnOffReset, createGetDetailedAlbumMediaNum, createDeleteAlbum } from "../../../../redux/equalalbum-reducer"
 
 import type { EqualAlbumReducer } from "../../../../types/reducers"
 
@@ -29,11 +29,12 @@ const mapStateToProps = (state: State, navigator: StackScreenProps<ParamListBase
  */
 const mapDispatchToProps = (dispatch: Dispatch<EqualAlbumReducer.IEqualAlbumAction | any>) => {
     return {
-        getEqualAlbum: (albumName: string) => {
-            dispatch(createGetEqualAlbum(albumName))
+        getEqualAlbum: (albumName: string, offset: number, page: number) => {
+            console.log(page, offset)
+            dispatch(createGetEqualAlbum(albumName, offset, page))
         },
-        getAlbumInfo: (albumName: string) => {
-            dispatch(createGetAlbumInfo(albumName))
+        getDetailedAlbumMediaNum: (albumName: string) => {
+            dispatch(createGetDetailedAlbumMediaNum(albumName))
         },
         turnOffReset: () => {
             dispatch(createTurnOffReset())

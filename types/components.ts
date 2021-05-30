@@ -27,8 +27,8 @@ export namespace Components {
     export interface EqualAlbumType {
         equalAlbumPage: StateComponents.EqualAlbumPage
         navigator: StackScreenProps<ParamListBase>
-        getEqualAlbum(albumName: string): void
-        getAlbumInfo(albumName: string): void
+        getEqualAlbum(albumName: string, offset: number, page: number): void
+        getDetailedAlbumMediaNum(albumName: string): void
         deleteAlbum(albumName: string): void
         turnOffReset(): void
     }

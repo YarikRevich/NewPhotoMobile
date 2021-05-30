@@ -61,6 +61,7 @@ export namespace EqualAlbumReducer {
         info?: RecievedData.AlbumInfo
     }
 
+    export const GET_LAST_PAGE="GET-LAST-PAGE"
     export const GET_EQUAL_ALBUM_SUCCESS = "GET-EQUAL-ALBUM-SUCCESS"
     export const GET_EQUAL_ALBUM_ERROR = "GET-EQUAL-ALBUM-ERROR"
     export const CHANGE_MEDIA_SUCCESS = "CHANGE-MEDIA-SUCCESS"

@@ -18,6 +18,14 @@ import DetailedVideoView from "../../../Utils/DetailedVideoView/DetailedVideoVie
 import ActivityIndStyle from "../../../../constants/ActivityIndicator"
 import KebabMenuStyle from "../../../../constants/KebabMenu"
 
+declare global {
+    namespace JSX {
+        interface IntrinsicAttributes extends React.Attributes {
+            ref?: any
+        }
+    }
+}
+
 const TooltipPopover = (props: Components.EqualAlbumTooltipType) => {
     return (
         <TouchableOpacity onPress={() => {
@@ -35,14 +43,14 @@ const TooltipPopover = (props: Components.EqualAlbumTooltipType) => {
 
 const Renderer = (props: Components.EqualAlbumRendererType) => {
     return (
-        <View style={{ width: props.size.width, height: props.size.height}}>
+        <View style={{ width: props.size.width, height: props.size.height }}>
             {
                 props.albumViewType == "Photo" ?
                     (
                         <TouchableOpacity onPress={() => {
                             props.setDetailed({ show: true, uri: props.uri, extension: props.extension })
                         }}>
-                            <Image style={{ width: props.size.width-10, height: props.size.height-10, alignSelf: "center" }} source={{ uri: props.uri }} />
+                            <Image style={{ width: props.size.width - 10, height: props.size.height - 10, alignSelf: "center" }} source={{ uri: props.uri }} />
                         </TouchableOpacity >
                     )
                     :
@@ -57,6 +65,9 @@ const Renderer = (props: Components.EqualAlbumRendererType) => {
 const EqualAlbum = (props: Components.EqualAlbumType) => {
     const [openAddPanel, setOpenAddPanel] = useState(false);
     const [reset, setReset] = useState(0);
+    const [page, setPage] = useState(1);
+    const [pos, setPos] = useState({ x: 0, y: 0 })
+
     const [detailed, setDetailed] = useState({ show: false, uri: "", extension: "" });
     const tooltip = useRef(null)
     const ticker = useRef(0)
@@ -69,35 +80,40 @@ const EqualAlbum = (props: Components.EqualAlbumType) => {
     const albumName = params["albumName"];
     const albumViewType: "Photo" | "Video" = params["albumViewType"]
 
-    useEffect(() => {
-        props.getEqualAlbum(albumName)
-
-        if (props.equalAlbumPage.isReset) {
-            props.turnOffReset()
-        }
-
-    }, [props.equalAlbumPage.isReset])
-
-    useEffect(() => {
-        clearInterval(ticker.current)
-        ticker.current = setInterval(() => {
-
-            if (!props.equalAlbumPage.isFetching) {
-                props.getAlbumInfo(albumName)
-            }
-        }, 100)
-        return () => clearInterval(ticker.current)
-    })
-
     const numColumns = 3
     const size = {
         width: Dimensions.get("window").width / numColumns,
         height: Dimensions.get("window").height / numColumns
     }
 
+    useEffect(() => {
+        props.getEqualAlbum(
+            albumName,
+            Dimensions.get("window").height / 100 * 80 / size.height * numColumns,
+            page,
+        )
+
+        if (props.equalAlbumPage.isReset) {
+            props.turnOffReset()
+        }
+
+    }, [page])
+
+
+    useEffect(() => {
+        clearInterval(ticker.current)
+        ticker.current = setInterval(() => {
+
+            if (!props.equalAlbumPage.isFetching) {
+                props.getDetailedAlbumMediaNum(albumName)
+            }
+        }, 100)
+        return () => clearInterval(ticker.current)
+    })
+
     const data = (albumViewType == "Photo" ? props.equalAlbumPage.photos.result : props.equalAlbumPage.videos.result)
 
-    if (props.equalAlbumPage.isFetching) {
+    if (props.equalAlbumPage.isFetching && page == 1) {
         return <ActivityIndicator style={ActivityIndStyle.PhotoLoadingIndicator} size="large" color="#000000" />
     }
 
@@ -125,6 +141,19 @@ const EqualAlbum = (props: Components.EqualAlbumType) => {
             {
                 data.length !== 0 ?
                     <FlatList
+                        contentOffset={pos}
+                        onScroll={(e) => {
+                            if (e.nativeEvent.contentOffset.y != 0) {
+                                setPos({
+                                    x: e.nativeEvent.contentOffset.x,
+                                    y: e.nativeEvent.contentOffset.y
+                                })
+                            }
+                        }}
+                        onEndReached={(e) => {
+                            if (!props.equalAlbumPage.photos.last_page) setPage(page + 1)
+                        }}
+                        onEndReachedThreshold={0}
                         numColumns={numColumns}
                         keyExtractor={(item, index) => index.toString()}
                         data={data as any}
