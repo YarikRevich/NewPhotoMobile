@@ -157,37 +157,23 @@ export const createCheckForNewMedia = () => (dispatch: Function, getState: Funct
  * 
  * @returns Dispatch for the futher async call of reducer
  */
-export const createBackupMedia = () => (dispatch: Dispatch<any>) => {
+export const createBackupMedia = () => async (dispatch: Dispatch<any>) => {
     dispatch(createToogleBackuping())
-    return getLocalMedia("photo")
-        .then(photos => {
-            getMediaToBackup(photos)
-                .then((resp) => {
-                    return backupLocalMedia("photos", resp)
-                        .then(ok => {
-                            if (!ok) {
-                                dispatch(createBackupError())
+    const photos = await getLocalMedia("photo")
+    let r = await getMediaToBackup(photos)
+    let ok = await backupLocalMedia("photos", r)
+    if (!ok) {
+        return dispatch(createBackupError())
+    }
 
-                            } else {
-                                return getLocalMedia("video")
-                                    .then(videos => {
-                                        return getMediaToBackup(videos)
-                                            .then((resp) => {
-                                                return backupLocalMedia("videos", resp)
-                                                    .then(ok => {
-                                                        if (!ok) {
-                                                            dispatch(createBackupError())
-                                                        }
-                                                        dispatch(createToogleBackuping())
-                                                        dispatch(createGetLocalMediaSuccess([photos, videos]))
-                                                    })
-                                            })
-                                    })
-
-                            }
-                        })
-                })
-        })
+    const videos = await getLocalMedia("video")
+    r = await getMediaToBackup(videos)
+    ok = await backupLocalMedia("videos", r)
+    if (!ok) {
+        return dispatch(createBackupError())
+    }
+    dispatch(createToogleBackuping())
+    dispatch(createGetLocalMediaSuccess([photos, videos]))
 }
 
 /**

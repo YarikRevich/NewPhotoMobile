@@ -2,6 +2,7 @@ import { useRef } from "react"
 import { AppState, AppStateStatus } from "react-native"
 import NetInfo from "@react-native-community/netinfo"
 import * as LocalAuthentication from "expo-local-authentication"
+import { getLocalAuthentication } from "./storage"
 
 export const addAuthListener = (authentification: StateComponents.Authentification, u: () => void) => {
     setInterval(() => {
@@ -57,12 +58,13 @@ export const addLocalAuthenticationListener = (y: Function, n: Function, st: (l:
     localAuthenticationListener.current = setInterval(async () => {
         const r = await LocalAuthentication.supportedAuthenticationTypesAsync()
         const e = await LocalAuthentication.isEnrolledAsync()
-        if (r.includes(LocalAuthentication.AuthenticationType.FINGERPRINT) || r.includes(LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION) && e) {
-            if (r.includes(LocalAuthentication.AuthenticationType.FINGERPRINT)) {
-                st(LocalAuthentication.AuthenticationType.FINGERPRINT)
-            } else if (r.includes(LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION)) {
-                st(LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION)
-            }
+        const q = await getLocalAuthentication()
+        if (r.includes(LocalAuthentication.AuthenticationType.FINGERPRINT)) {
+            st(LocalAuthentication.AuthenticationType.FINGERPRINT)
+        } else if (r.includes(LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION)) {
+            st(LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION)
+        }
+        if (q == "1" && r.includes(LocalAuthentication.AuthenticationType.FINGERPRINT) || r.includes(LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION) && e) {
             y()
         } else {
             n()

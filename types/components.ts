@@ -8,11 +8,14 @@ export namespace Components {
         readonly navigation: DrawerContentComponentProps<DrawerContentOptions>
         readonly authentification: StateComponents.Authentification
         readonly accountPage: StateComponents.AccountPage
+        readonly localAuthenticationType: 1 | 2
+        readonly isLocalAuthentication: boolean
         signIn(d: any, updater: Function): void
         signOut(): void
         getAccountInfo(): void
         setAvatar(): void
         getAvatar(): void
+        setLocalAuthentication(o: "0" | "1"): void
     }
 
     export interface AlbumsType {
@@ -76,7 +79,7 @@ export namespace Components {
         readonly navigation: {
             push: Function
         }
-        signInInner(d: SentData.SignIn): void
+        signInOuter(d: SentData.SignIn): void
     }
 
     export interface SignInFormType {
@@ -95,7 +98,8 @@ export namespace Components {
         readonly navigation: {
             goBack: Function
         }
-        signUp(d: SentData.SignUp, updater: Function): void
+        readonly isSignedUp: boolean;
+        signUp(d: SentData.SignUp): void
     }
 
     export interface HeaderType {

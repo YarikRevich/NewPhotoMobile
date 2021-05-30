@@ -13,12 +13,12 @@ import SignIn from "./SignIn"
 
 //Reducer ...
 
-import { createSignInInner } from "../../../../redux/auth-reducer"
+import { createSignInOuter } from "../../../../redux/auth-reducer"
 
 const mapDispatchToProps = (dispatch: Dispatch<AuthReducer.IAuthAction | any>) => {
     return {
-        signInInner: (d: SentData.SignIn) => {
-            dispatch(createSignInInner(d))
+        signInOuter: (d: SentData.SignIn) => {
+            dispatch(createSignInOuter(d))
         }
     }
 }

@@ -71,10 +71,23 @@ const bodyStyles = StyleSheet.create({
     },
 })
 
+const optionStyles = StyleSheet.create({
+    localAuthentication: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    localAuthenticationText: {
+        marginRight: Dimensions.get("window").width / 100 * 3,
+        fontSize: Dimensions.get("window").fontScale * 18
+    }
+})
+
 export default StyleSheet.create({
     ...avatarStyles,
     ...accountInfoStyles,
     ...bodyStyles,
+    ...optionStyles,
 
     block: {
         width: Dimensions.get("window").width / 100 * 30,

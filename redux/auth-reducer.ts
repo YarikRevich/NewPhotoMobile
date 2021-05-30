@@ -10,7 +10,8 @@ import { AuthReducer } from "./../types/reducers"
 const initialState = {
     isAuthed: false,
     isLocallyAuthed: false,
-    isChecking: false
+    isChecking: false,
+    isSignedUp: false,
 }
 
 const authReducer = (state = initialState, action: AuthReducer.IAuthAction) => {
@@ -24,13 +25,13 @@ const authReducer = (state = initialState, action: AuthReducer.IAuthAction) => {
             return { ...state, isAuthed: false }
         case AuthReducer.SIGN_UP_SUCCESS:
             messagePublusher.add("You signed up!")
-            return { ...state }
+            return { ...state, isSignedUp: true }
         case AuthReducer.SIGN_UP_ERROR:
             messagePublusher.add("User with such login already exists!")
             return { ...state }
         case AuthReducer.SIGN_IN_OUTER_SUCCESS:
             messagePublusher.add("You logged in!")
-            return { ...state, isAuthed: true }
+            return { ...state, isAuthed: true, isSignedUp: false }
         case AuthReducer.SIGN_IN_OUTER_ERROR:
             messagePublusher.add("User with such credentials does not exist")
             return { ...state }

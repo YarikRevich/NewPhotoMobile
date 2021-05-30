@@ -1,4 +1,4 @@
-/// <reference path="./../../types/reducers.ts" />
+/// <reference path="./../../../../types/reducers.ts" />
 
 
 //External libraries

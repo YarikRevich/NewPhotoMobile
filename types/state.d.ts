@@ -54,7 +54,8 @@ declare namespace StateComponents {
     interface Authentification {
         isAuthed: boolean;
         isLocallyAuthed: boolean;
-        isChecking: boolean
+        isChecking: boolean;
+    	isSignedUp: boolean;
     }
 
     interface Header {

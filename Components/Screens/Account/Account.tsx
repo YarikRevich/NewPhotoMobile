@@ -1,7 +1,7 @@
 /// <reference path="./../../../types/components.ts" />
 
 import React, { useEffect, useState } from "react";
-import { Text, View, TouchableOpacity, Animated, Image, Dimensions } from "react-native"
+import { Switch, Text, View, TouchableOpacity, Animated, Image, Dimensions } from "react-native"
 
 import type { Components } from "../../../types/components"
 
@@ -9,6 +9,13 @@ import AccountStyle from "../../../constants/Account"
 
 const Account = (props: Components.AccountType) => {
     const [press, setPress] = useState(false)
+    const [isEnabled, setEnabled] = useState(props.isLocalAuthentication)
+
+    if (isEnabled) {
+        props.setLocalAuthentication("1")
+    } else {
+        props.setLocalAuthentication("0")
+    }
 
     useEffect(() => {
         props.getAccountInfo()
@@ -56,6 +63,13 @@ const Account = (props: Components.AccountType) => {
                 <View style={AccountStyle.accountInfoRow}>
                     <Text style={AccountStyle.accountInfoRowTextPlaceholder}>Storage: </Text>
                     <Text style={AccountStyle.accountInfoRowText}>{props.accountPage.result.storage} gb</Text>
+                </View>
+                <View style={AccountStyle.localAuthentication}>
+                    <Text style={AccountStyle.localAuthenticationText}>Use {props.localAuthenticationType == 1 ? "Touch ID" : "FaceId"}</Text>
+                    <Switch
+                        onValueChange={() => setEnabled(!isEnabled)}
+                        value={isEnabled}
+                    />
                 </View>
                 <View>
                     <TouchableOpacity activeOpacity={1} style={press ? AccountStyle.touchableOpacityPress : null} onPressOut={() => setPress(false)} onPressIn={() => setPress(true)} onPress={() => props.signOut()} >

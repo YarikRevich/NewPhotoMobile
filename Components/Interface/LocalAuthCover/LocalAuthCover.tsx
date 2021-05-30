@@ -9,8 +9,7 @@ const LocalAuthCover = (props: Components.LocalAuthCoverType) => {
 
     useEffect(() => {
         const f = async () => {
-            console.log(props.localAuthenticationType)
-            if (props.isLocalAuthentication && props.authentication.isAuthed && !props.authentication.isChecking) {
+            if (props.isLocalAuthentication) {
                 const r = await LocalAuthentication.authenticateAsync({ cancelLabel: "Be a loser" })
                 if (r.success) {
                     setSize(0)

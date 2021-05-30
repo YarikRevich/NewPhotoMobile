@@ -17,7 +17,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
             dispatch(createSignInInner(d))
         },
         signInOuter: (d: SentData.SignIn) => {
-            console.log("i ")
             dispatch(createSignInOuter(d))
         },
         setLocalAuthenticationStatusTryAgain: () => {

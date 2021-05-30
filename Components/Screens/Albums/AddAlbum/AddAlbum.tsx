@@ -17,20 +17,20 @@ const AddAlbum = (props: Components.AddAlbumType) => {
             validate={(values) => {
                 const errors: any = {}
 
-                const _alreadyHasAlbum = (name: string): boolean => {
-                    for (let i of props.albums) {
-                        if (i.name == name) {
-                            return true
-                        }
-                    }
-                    return false
-                }
+                // const _alreadyHasAlbum = (name: string): boolean => {
+                //     for (let i of props.albums) {
+                //         if (i.name == name) {
+                //             return true
+                //         }
+                //     }
+                //     return false
+                // }
 
-                if (!values.name.length) {
-                    errors.name = "Required"
-                } else if (_alreadyHasAlbum(values.name)) {
-                    errors.name = "The name should be unique"
-                }
+                // if (!values.name.length) {
+                //     errors.name = "Required"
+                // } else if (_alreadyHasAlbum(values.name)) {
+                //     errors.name = "The name should be unique"
+                // }
                 return errors
             }
             }

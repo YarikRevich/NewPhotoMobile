@@ -4,6 +4,7 @@ import * as FileSystem from "expo-file-system"
 
 import messagePublusher from "messagepublisher"
 import { IsAuthError } from "./errors"
+import { API_HOST } from "../constants/credentials"
 
 export const getAccountInfo = async (): Promise<{ ok: boolean, data: any } | void> => {
     try {

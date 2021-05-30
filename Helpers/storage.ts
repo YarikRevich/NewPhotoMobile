@@ -32,9 +32,31 @@ export const setUsedCredentials = (d: SentData.SignIn) => {
     AsyncStorage.setItem("used_creds", JSON.stringify(d))
 }
 
-export const getUsedCredentials = async (): Promise< SentData.SignIn | void> => {
+export const getUsedCredentials = async (): Promise<SentData.SignIn | void> => {
     const r = await AsyncStorage.getItem("used_creds")
     if (r) {
         return JSON.parse(r)
     }
+}
+
+export const getLocalAuthentication = async () => {
+    const r = await AsyncStorage.getItem("local_auth")
+    if (r) {
+        return r
+    }
+}
+
+export const setLocalAuthentication = async (o: "0" | "1") => {
+    await AsyncStorage.setItem("local_auth", o)
+}
+
+export const getTokens = async () => {
+    const r = await AsyncStorage.getItem("tokens")
+    if (r) {
+        return JSON.parse(r)
+    }
+}
+
+export const setTokens = async (at: string, lt: string) => {
+    await AsyncStorage.setItem("tokens", JSON.stringify({ at, lt }))
 }

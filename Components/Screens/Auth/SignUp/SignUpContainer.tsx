@@ -12,9 +12,15 @@ import type { AuthReducer } from "../../../../types/reducers"
 import { createSignUp } from "../../../../redux/auth-reducer"
 import messagePublisher from "messagepublisher";
 
+const mapStateToProps = (state: State) => {
+    return {
+        isSignedUp: state.authentification.isSignedUp
+    }
+}
+
 const mapDispatchToProps = (dispatch: Dispatch<AuthReducer.IAuthAction | any>) => {
     return {
-        signUp: (d: SentData.SignUp, updater: Function) => {
+        signUp: (d: SentData.SignUp) => {
             if (d.data.login.length == 0) {
                 messagePublisher.add("Login is required!")
                 return
@@ -44,4 +50,4 @@ const mapDispatchToProps = (dispatch: Dispatch<AuthReducer.IAuthAction | any>) =
     }
 }
 
-export default connect(null, mapDispatchToProps)(SignUp)
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)

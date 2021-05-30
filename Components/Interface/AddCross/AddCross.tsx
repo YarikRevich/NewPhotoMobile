@@ -40,7 +40,7 @@ const AddCross = (props: Components.AddCrossType) => {
                 duration: 200,
                 useNativeDriver: false,
             }),
-        ]).start(() => console.log("stop"))
+        ]).start()
     }
 
     const rotation = rotationAnimation.current.interpolate({

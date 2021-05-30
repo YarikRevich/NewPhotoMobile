@@ -2,22 +2,6 @@ import configuredAxios from "./common"
 
 import messagePublusher from "messagepublisher"
 
-
-export const retrieveToken = (token: string | null): Promise<string> => {
-    if (!token) new Promise((resolve) => resolve(null))
-
-    return configuredAxios.get("/retrieve_token")
-        .then(resp => {
-            if (resp.status === 200) {
-                return resp.headers["set-cookie"][0].split(";")[0].split("sessionid=")[1]
-            }
-            messagePublusher.add("Network error!")
-        })
-        .catch((err: Error) => {
-            messagePublusher.add(err.message)
-        })
-}
-
 export const checkAuth = (): Promise<boolean | string> => {
     return configuredAxios.get("/check_auth")
         .then(resp => {
